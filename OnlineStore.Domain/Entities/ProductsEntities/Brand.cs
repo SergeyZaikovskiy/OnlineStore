@@ -13,12 +13,19 @@ namespace OnlineStore.Domain.Entities.ProductsEntities
     {
         public int Order { get; set; }
 
-        public ICollection<Category> Categories { get; set; } = new List<Category>();
+        public virtual ICollection<Category> Categories { get; set; }
 
-        public ICollection<Section> Sections { get; set; } = new List<Section>();
+        public virtual ICollection<Section> Sections { get; set; } 
 
         // virtual - указание Entity Framework на то, что Products должно быть навигационным свойством!
-        public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+        public  virtual ICollection<Product> Products { get; set; } 
+
+        public Brand()
+        {
+            Categories = new List<Category>();
+            Sections = new List<Section>();
+            Products = new List<Product>();
+        }
 
     }
 }

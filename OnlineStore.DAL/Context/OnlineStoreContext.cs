@@ -36,5 +36,10 @@ namespace OnlineStore.DAL.Context
         {
 
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Brand>().HasMany(b => b.Sections).WithMany(s => s.Brands);
+        }
     }
 }

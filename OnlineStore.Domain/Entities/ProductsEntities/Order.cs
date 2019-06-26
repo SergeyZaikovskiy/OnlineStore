@@ -19,7 +19,7 @@ namespace OnlineStore.Domain.Entities.ProductsEntities
        
         public DateTime Date { get; set; }
        
-        public ICollection<OrderItem> OrderItems { get; set; }
+        public  ICollection<OrderItem> OrderItems { get; set; }
     }    
 
 }
