@@ -1,4 +1,7 @@
-﻿using System;
+﻿using OnlineStore.Domain.Entities.Base.Classes;
+using OnlineStore.Domain.Entities.Base.Interfeices;
+using OnlineStore.Domain.Entities.ServiceEntity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
@@ -9,23 +12,14 @@ namespace OnlineStore.Domain.Entities.ProductsEntities
     /// Класс прендов товаров
     /// </summary>
     [Table("Brands")]
-    public class Brand
+    public class Brand : NamedEntity, IOrderedEntity
+
     {
         public int Order { get; set; }
 
-        public virtual ICollection<Category> Categories { get; set; }
-
-        public virtual ICollection<Section> Sections { get; set; } 
-
+        public virtual ICollection<CategoryToBrand> BrandToCat { get; set; } = new List<CategoryToBrand>();
         // virtual - указание Entity Framework на то, что Products должно быть навигационным свойством!
-        public  virtual ICollection<Product> Products { get; set; } 
-
-        public Brand()
-        {
-            Categories = new List<Category>();
-            Sections = new List<Section>();
-            Products = new List<Product>();
-        }
+        public  virtual ICollection<Product> Products { get; set; } = new List<Product>();
 
     }
 }

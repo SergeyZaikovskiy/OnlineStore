@@ -13,7 +13,7 @@ namespace OnlineStore.Domain.Entities.Base.Classes
     public abstract class BaseEntity : IBaseEntity
     {
         [Key]// Указание на то, что свойство является первичным ключём таблицы
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]// Требование для БД устанавливать значение данного свойства при добавлении записи в таблицу    
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]// Требование для БД устанавливать значение данного свойства при добавлении записи в таблицу   
         public int id { get; set; }
     }
 }

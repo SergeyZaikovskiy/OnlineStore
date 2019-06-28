@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OnlineStore.Domain.Entities.EmployeesEntities;
 using OnlineStore.Domain.Entities.ProductsEntities;
+using OnlineStore.Domain.Entities.ServiceEntity;
 using OnlineStore.Domain.Entities.UserEntities;
 using System;
 using System.Collections.Generic;
@@ -37,9 +39,65 @@ namespace OnlineStore.DAL.Context
 
         }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+        /// <summary>
+        /// Настройка ключей и сотношения многие ко многим и соотношения один ко многим
+        /// </summary>
+        /// <param name="modelBuilder"></param>
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            builder.Entity<Brand>().HasMany(b => b.Sections).WithMany(s => s.Brands);
+            base.OnModelCreating(modelBuilder);
+
+            //Конфигурация Секции к Категориям много ко многим
+            modelBuilder.Entity<SectionToCategory>()
+            .HasKey(secToCat => new { secToCat.SectionId, secToCat.CategoryId});
+
+            modelBuilder.Entity<SectionToCategory>()
+                .HasOne(secToCat => secToCat.Section)
+                .WithMany(sec => sec.SecTocCat)
+                .HasForeignKey(secToCat => secToCat.CategoryId);
+
+            modelBuilder.Entity<SectionToCategory>()
+                .HasOne(secToCat => secToCat.Category)
+                .WithMany(cat => cat.CatToSec)
+                .HasForeignKey(secToCat => secToCat.SectionId);
+
+            //Конфигурация Бренды к Категориям много ко многим
+            modelBuilder.Entity<CategoryToBrand>()
+           .HasKey(catToBrand => new { catToBrand.CategoryId, catToBrand.BrandId });
+
+            modelBuilder.Entity<CategoryToBrand>()
+                .HasOne(catToBrand => catToBrand.Category)
+                .WithMany(cat => cat.CatToBrand)
+                .HasForeignKey(catToBrand => catToBrand.BrandId);
+
+            modelBuilder.Entity<CategoryToBrand>()
+                .HasOne(brandToCat => brandToCat.Category)
+                .WithMany(brand => brand.CatToBrand)
+                .HasForeignKey(brandToCat => brandToCat.CategoryId);
+
+            ///Конфигурация Секции к Товарам много к одному
+            modelBuilder.Entity<Section>()
+                .HasMany(section => section.Products)
+                .WithOne(product => product.Section)
+                .HasForeignKey(product => product.SectionId);
+
+            ///Конфигурация Категорий к Товарам много к одному
+            modelBuilder.Entity<Category>()
+                .HasMany(category => category.Products)
+                .WithOne(product => product.Category)
+                .HasForeignKey(product => product.CategoryId);
+
+            ///Конфигурация Брендов к Товарам много к одному
+            modelBuilder.Entity<Brand>()
+                .HasMany(brand => brand.Products)
+                .WithOne(product => product.Brand)
+                .HasForeignKey(product => product.BrandId);
+
+            ///Конфигурация Должностей (Position) к Сотрудникам много к одному
+            modelBuilder.Entity<Position>()
+                .HasMany(position => position.Employees)
+                .WithOne(employee => employee.Position)
+                .HasForeignKey(product => product.PositionId);
         }
     }
 }
