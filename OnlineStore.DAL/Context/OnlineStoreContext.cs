@@ -34,14 +34,20 @@ namespace OnlineStore.DAL.Context
 
         public DbSet<FileModel> Files { get; set; }
 
-        //public DbSet<SectionToCategory> SectionToCategory { get; set; }
+        public DbSet<SectionToCategory> SectionToCategory { get; set; }
 
-        //public DbSet<CategoryToBrand> CategoryToBrand { get; set; }
+        public DbSet<CategoryToBrand> CategoryToBrand { get; set; }
 
         public OnlineStoreContext(DbContextOptions<OnlineStoreContext> options) : base(options)
         {
 
         }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
+                optionsBuilder
+                    //Log parameter values
+                    .EnableSensitiveDataLogging();
+                    
 
         /// <summary>
         /// Настройка ключей и сотношения многие ко многим и соотношения один ко многим
@@ -75,8 +81,8 @@ namespace OnlineStore.DAL.Context
                 .HasForeignKey(catToBrand => catToBrand.CategoryId);
 
             modelBuilder.Entity<CategoryToBrand>()
-                .HasOne(brandToCat => brandToCat.Category)
-                .WithMany(brand => brand.CatToBrand)
+                .HasOne(catToBrand => catToBrand.Brand)
+                .WithMany(brand => brand.BrandToCat)
                 .HasForeignKey(brandToCat => brandToCat.BrandId);
 
             ///Конфигурация Секции к Товарам много к одному

@@ -291,7 +291,7 @@ namespace OnlineStore.Data
             new CategoryToBrand{id=130, CategoryId =  12, BrandId=25},
 
             new CategoryToBrand{id=131, CategoryId = 13 , BrandId=16},
-            new CategoryToBrand{id=131, CategoryId = 13, BrandId=17},
+            new CategoryToBrand{id=132, CategoryId = 13, BrandId=17},
             new CategoryToBrand{id=133, CategoryId = 13 , BrandId=18},
             new CategoryToBrand{id=134, CategoryId = 13 , BrandId=19},
             new CategoryToBrand{id=135, CategoryId = 13 , BrandId=20},
@@ -351,7 +351,7 @@ namespace OnlineStore.Data
 
             new CategoryToBrand{id=176, CategoryId =  21, BrandId=15},
             new CategoryToBrand{id=177, CategoryId =  21, BrandId=16},
-            new CategoryToBrand{id=200, CategoryId =  21, BrandId=17},
+            new CategoryToBrand{id=81, CategoryId =  21, BrandId=17},
             new CategoryToBrand{id=178, CategoryId =  21, BrandId=18},
             new CategoryToBrand{id=179, CategoryId =  21, BrandId=19},
 
