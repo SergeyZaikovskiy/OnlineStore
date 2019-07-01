@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OnlineStore.DAL.Context;
+using OnlineStore.Data;
 using OnlineStore.Domain.Entities.UserEntities;
 
 namespace OnlineStore
@@ -27,6 +28,8 @@ namespace OnlineStore
         {
             services.AddDbContext<OnlineStoreContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddTransient<OnlineStoreContextInitializer>();
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<OnlineStoreContext>()
@@ -64,14 +67,14 @@ namespace OnlineStore
                 cfg.SlidingExpiration = true;
             });
 
-
-
             services.AddMvc();
         }
 
        
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, OnlineStoreContextInitializer db)
         {
+            db.InitializeAsync().Wait();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

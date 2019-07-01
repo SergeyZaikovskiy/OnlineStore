@@ -19,8 +19,8 @@ namespace OnlineStore.Data
         public static List<Section> Sections { get; } = new List<Section> {
             new Section {id = 1, Name = "Мужчины", Order = 0},
             new Section {id = 2, Name = "Женщины", Order = 0},          
-            new Section {id = 4, Name = "Спорт", Order = 2},
-            new Section {id = 5, Name = "Аксессуары", Order = 3}                     
+            new Section {id = 3, Name = "Спорт", Order = 2},
+            new Section {id = 4, Name = "Аксессуары", Order = 3}                     
         };
 
         /// <summary>

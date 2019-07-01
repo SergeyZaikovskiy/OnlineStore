@@ -34,6 +34,10 @@ namespace OnlineStore.DAL.Context
 
         public DbSet<FileModel> Files { get; set; }
 
+        //public DbSet<SectionToCategory> SectionToCategory { get; set; }
+
+        //public DbSet<CategoryToBrand> CategoryToBrand { get; set; }
+
         public OnlineStoreContext(DbContextOptions<OnlineStoreContext> options) : base(options)
         {
 
@@ -54,12 +58,12 @@ namespace OnlineStore.DAL.Context
             modelBuilder.Entity<SectionToCategory>()
                 .HasOne(secToCat => secToCat.Section)
                 .WithMany(sec => sec.SecTocCat)
-                .HasForeignKey(secToCat => secToCat.CategoryId);
+                .HasForeignKey(secToCat => secToCat.SectionId);
 
             modelBuilder.Entity<SectionToCategory>()
                 .HasOne(secToCat => secToCat.Category)
                 .WithMany(cat => cat.CatToSec)
-                .HasForeignKey(secToCat => secToCat.SectionId);
+                .HasForeignKey(secToCat => secToCat.CategoryId);
 
             //Конфигурация Бренды к Категориям много ко многим
             modelBuilder.Entity<CategoryToBrand>()
@@ -68,12 +72,12 @@ namespace OnlineStore.DAL.Context
             modelBuilder.Entity<CategoryToBrand>()
                 .HasOne(catToBrand => catToBrand.Category)
                 .WithMany(cat => cat.CatToBrand)
-                .HasForeignKey(catToBrand => catToBrand.BrandId);
+                .HasForeignKey(catToBrand => catToBrand.CategoryId);
 
             modelBuilder.Entity<CategoryToBrand>()
                 .HasOne(brandToCat => brandToCat.Category)
                 .WithMany(brand => brand.CatToBrand)
-                .HasForeignKey(brandToCat => brandToCat.CategoryId);
+                .HasForeignKey(brandToCat => brandToCat.BrandId);
 
             ///Конфигурация Секции к Товарам много к одному
             modelBuilder.Entity<Section>()
