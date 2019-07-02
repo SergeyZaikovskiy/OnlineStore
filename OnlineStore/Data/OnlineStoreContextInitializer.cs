@@ -36,48 +36,48 @@ namespace OnlineStore.Data
                 return;
 
             //заполняем базу Секциями
-            //using (var transaction = _db.Database.BeginTransaction())
-            //{
-            //    await _db.Sections.AddRangeAsync(TestData.Sections);
-            //    await _db.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT [dbo].[Sections] ON");
-            //    await _db.SaveChangesAsync();
-            //    await _db.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT [dbo].[Sections] OFF");
+            using (var transaction = _db.Database.BeginTransaction())
+            {
+                await _db.Sections.AddRangeAsync(TestData.Sections);
+                await _db.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT [dbo].[Sections] ON");
+                await _db.SaveChangesAsync();
+                await _db.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT [dbo].[Sections] OFF");
 
-            //    transaction.Commit();
-            //}
+                transaction.Commit();
+            }
 
             //заполняем базу Категориями
-            //using (var transaction = _db.Database.BeginTransaction())
-            //{
-            //    await _db.Categories.AddRangeAsync(TestData.Categories);
-            //    await _db.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT [dbo].[Categories] ON");
-            //    await _db.SaveChangesAsync();
-            //    await _db.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT [dbo].[Categories] OFF");
+            using (var transaction = _db.Database.BeginTransaction())
+            {
+                await _db.Categories.AddRangeAsync(TestData.Categories);
+                await _db.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT [dbo].[Categories] ON");
+                await _db.SaveChangesAsync();
+                await _db.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT [dbo].[Categories] OFF");
 
-            //    transaction.Commit();
-            //}
+                transaction.Commit();
+            }
 
             //заполняем базу Брендами
-            //using (var transaction = _db.Database.BeginTransaction())
-            //{
-            //    await _db.Brands.AddRangeAsync(TestData.Brands);
-            //    await _db.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT [dbo].[Brands] ON");
-            //    await _db.SaveChangesAsync();
-            //    await _db.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT [dbo].[Brands] OFF");
+            using (var transaction = _db.Database.BeginTransaction())
+            {
+                await _db.Brands.AddRangeAsync(TestData.Brands);
+                await _db.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT [dbo].[Brands] ON");
+                await _db.SaveChangesAsync();
+                await _db.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT [dbo].[Brands] OFF");
 
-            //    transaction.Commit();
-            //}
+                transaction.Commit();
+            }
 
             //заполняем базу соответствями Секции и категорий
-            //using (var transaction = _db.Database.BeginTransaction())
-            //{
-            //    await _db.SectionToCategory.AddRangeAsync(TestData.SectionsToCategories);
-            //    await _db.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT [dbo].[SectionToCategory] ON");
-            //    await _db.SaveChangesAsync();
-            //    await _db.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT [dbo].[SectionToCategory] OFF");
+            using (var transaction = _db.Database.BeginTransaction())
+            {
+                await _db.SectionToCategory.AddRangeAsync(TestData.SectionsToCategories);
+                await _db.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT [dbo].[SectionToCategory] ON");
+                await _db.SaveChangesAsync();
+                await _db.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT [dbo].[SectionToCategory] OFF");
 
-            //    transaction.Commit();
-            //}
+                transaction.Commit();
+            }
 
             //заполняем базу соответствями Категорий и бренов
             using (var transaction = _db.Database.BeginTransaction())

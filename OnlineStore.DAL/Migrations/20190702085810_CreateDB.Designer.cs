@@ -10,7 +10,7 @@ using OnlineStore.DAL.Context;
 namespace OnlineStore.DAL.Migrations
 {
     [DbContext(typeof(OnlineStoreContext))]
-    [Migration("20190701114231_CreateDB")]
+    [Migration("20190702085810_CreateDB")]
     partial class CreateDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

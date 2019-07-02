@@ -44,10 +44,10 @@ namespace OnlineStore.DAL.Context
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
-                optionsBuilder
-                    //Log parameter values
-                    .EnableSensitiveDataLogging();
-                    
+                optionsBuilder.EnableSensitiveDataLogging();
+        //Log parameter values
+
+
 
         /// <summary>
         /// Настройка ключей и сотношения многие ко многим и соотношения один ко многим
