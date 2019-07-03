@@ -12,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using OnlineStore.DAL.Context;
 using OnlineStore.Data;
 using OnlineStore.Domain.Entities.UserEntities;
+using OnlineStore.Infrastructure.Implementations;
+using OnlineStore.Infrastructure.Interfeices;
 
 namespace OnlineStore
 {
@@ -30,6 +32,12 @@ namespace OnlineStore
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddTransient<OnlineStoreContextInitializer>();
+
+            //services.AddSingleton создается на время открытия приложения
+            //services.AddScoped<>() регистрируется на время обработки запроса
+            //services.AddTransient<>() на каждый запрос создается свой объект
+
+            services.AddScoped<IEmployee, SqlEmployeeData>();
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<OnlineStoreContext>()
