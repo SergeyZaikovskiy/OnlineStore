@@ -10,7 +10,7 @@ namespace OnlineStore.Controllers
     {
         public IActionResult Index()
         {
-            return RedirectToAction("Index", "Employee");
+            return View();
         }
     }
 }

@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <Folder Include="Infrastructure\Mappers\" />
+    <Folder Include="Views\Shared\Components\" />
   </ItemGroup>
 
 </Project>
