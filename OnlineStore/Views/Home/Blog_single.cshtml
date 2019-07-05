@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewData["Title"] = "Статья";
+    Layout = "_LayoutBase";
+}
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                @await Html.PartialAsync("Partial/_LeftSideBar")
+            </div>
+            <div class="col-sm-9">
+                @await Html.PartialAsync("Partial/_Blog_Post_Area")
+
+                @await Html.PartialAsync("Partial/_Rating_Area")
+
+                @await Html.PartialAsync("Partial/_Socials_Share")
+
+                @await Html.PartialAsync("Partial/_Media_Comments")
+
+                @await Html.PartialAsync("Partial/_Response_Area")
+
+                @await Html.PartialAsync("Partial/_Replay_Box")
+            </div>
+        </div>
+    </div>
+</section>
