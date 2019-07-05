@@ -14,5 +14,7 @@ namespace OnlineStore.ViewModels
         public int Id { get; set; }
         public int Order { get; set; }
         public int ProductsCount { get; set; }
+
+        List<BrandViewModel> Brands = new List<BrandViewModel>();
     }
 }

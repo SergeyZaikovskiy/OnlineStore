@@ -19,12 +19,7 @@ namespace OnlineStore.ViewModels
         /// <summary>
         /// Вложенные Категории
         /// </summary>
-        public List<CategoryViewModel> Categories = new List<CategoryViewModel>();
-
-        /// <summary>
-        /// Вложенные Бренды
-        /// </summary>
-        public List<BrandViewModel> Brands = new List<BrandViewModel>();       
+        public List<CategoryViewModel> Categories = new List<CategoryViewModel>();          
 
     }
 }
