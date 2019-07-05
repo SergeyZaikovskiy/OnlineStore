@@ -20,7 +20,10 @@ namespace OnlineStore.Infrastructure.Implementations
             this.db = db;
         }
 
-
+        /// <summary>
+        /// Добавить пользователя в базу
+        /// </summary>
+        /// <param name="emp"></param>
         public void AddEmployee(Employee emp)
         {
             if (emp is null) return;
@@ -28,18 +31,40 @@ namespace OnlineStore.Infrastructure.Implementations
             db.SaveChanges();
         }
 
+        /// <summary>
+        /// Получить всех сотрудников из базы
+        /// </summary>
+        /// <returns></returns>
         public IQueryable<Employee> GetAllEmp()=> db.Employees
-                .Include(emp => emp.Position);       
+                .Include(emp => emp.Position);
 
-        public IQueryable<Position> GetAllPositions() => db.Positions;       
+        /// <summary>
+        /// Получить все должности из базы
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<Position> GetAllPositions() => db.Positions;
 
+        /// <summary>
+        /// Получить сотрудника по ID из базы
+        /// </summary>
+        /// <param name="id">ID сотрудника</param>
+        /// <returns></returns>
         public Employee GetById(int? id) => db.Employees.Include(e => e.Position)
             .FirstOrDefault(emp => emp.id == id);
-        
 
+
+        /// <summary>
+        /// Получить должность по ID из базы
+        /// </summary>
+        /// <param name="id">ID должности</param>
+        /// <returns></returns>
         public Position GetPositionById(int? id) => db.Positions.FirstOrDefault(pos => pos.id == id);
 
-
+        /// <summary>
+        /// Удалить сотрудника по ID из базы
+        /// </summary>
+        /// <param name="id">ID сотрудника</param>
+        /// <returns></returns>
         public void RemoveEmployee(int? id)
         {
             var emp = db.Employees.FirstOrDefault(e => e.id == id);
@@ -49,6 +74,11 @@ namespace OnlineStore.Infrastructure.Implementations
             db.SaveChanges();
         }
 
+        /// <summary>
+        /// Обновить данные сотрудника по ID из базы
+        /// </summary>
+        /// <param name="id">ID сотрудника</param>
+        /// <returns></returns>
         public void UpdateInfoEmployee(Employee emp)
         {
             if (emp.id > 0)

@@ -38,6 +38,8 @@ namespace OnlineStore
             //services.AddTransient<>() на каждый запрос создается свой объект
 
             services.AddScoped<IEmployee, SqlEmployeeData>();
+            services.AddScoped<IOrderService,SqlOrdersService>();
+            services.AddScoped<IProductData, SqlProductData>();
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<OnlineStoreContext>()

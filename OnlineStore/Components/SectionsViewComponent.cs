@@ -37,22 +37,22 @@ namespace OnlineStore.Components
 
             var sections = _ProductData.GetSections();
 
-            var parent_sections = sections.Where(section => section.ParentId == null)
-                .Select(SectionViewModelMapper.CreateViewModel).ToList();
+            //var parent_sections = sections.Where(section => section.ParentId == null)
+            //    .Select(SectionViewModelMapper.CreateViewModel).ToList();
 
 
-            foreach (var par_section in parent_sections)
-            {
-                var child_sections = sections.Where(section => section.ParentId == par_section.Id)
-                    .Select(SectionViewModelMapper.CreateViewModel);
-                par_section.ChildrenSections.AddRange(child_sections);
-                par_section.ChildrenSections.Sort((a, b) => Comparer<int>.Default.Compare(a.Order, b.Order));
-            }
+            //foreach (var par_section in parent_sections)
+            //{
+            //    var child_sections = sections.Where(section => section.ParentId == par_section.Id)
+            //        .Select(SectionViewModelMapper.CreateViewModel);
+            //    par_section.ChildrenSections.AddRange(child_sections);
+            //    par_section.ChildrenSections.Sort((a, b) => Comparer<int>.Default.Compare(a.Order, b.Order));
+            //}
 
-            parent_sections.Sort((a, b) => Comparer<int>.Default.Compare(a.Order, b.Order));
-            var sections1 = parent_sections.AsQueryable();
+            //parent_sections.Sort((a, b) => Comparer<int>.Default.Compare(a.Order, b.Order));
+            //var sections1 = parent_sections.AsQueryable();
 
-            return sections1;
+            return sections;
         }
 
     }

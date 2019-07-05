@@ -41,9 +41,9 @@ namespace OnlineStore.Components
 
             //var products = _ProductData.GetProducts(filter);
 
-            var listOfBrands = brands.Select(brand => brand.CreateViewModel(0));
+            //var listOfBrands = brands.Select(brand => brand.CreateViewModel(0));
 
-            return listOfBrands;
+            return brands;
         }
     }
 }
