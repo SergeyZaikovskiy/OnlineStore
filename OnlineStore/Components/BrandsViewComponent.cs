@@ -29,21 +29,21 @@ namespace OnlineStore.Components
         /// <returns></returns>
         public IViewComponentResult Invoke()
         {
-            var brands = GetBrands();
+            Brand brands = new Brand();
             return View(brands);
         }
 
-        private IQueryable<BrandViewModel> GetBrands()
-        {
-            var brands = _ProductData.GetBrands();
+        //private IQueryable<BrandViewModel> GetBrands()
+        //{
+        //    var brands = _ProductData.GetBrands();
 
-            //ProductFilter filter = null;
+        //    //ProductFilter filter = null;
 
-            //var products = _ProductData.GetProducts(filter);
+        //    //var products = _ProductData.GetProducts(filter);
 
-            //var listOfBrands = brands.Select(brand => brand.CreateViewModel(0));
+        //    //var listOfBrands = brands.Select(brand => brand.CreateViewModel(0));
 
-            return brands;
-        }
+        //    return brands;
+        //}
     }
 }

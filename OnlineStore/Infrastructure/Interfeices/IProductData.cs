@@ -1,4 +1,5 @@
 ﻿using OnlineStore.Domain.Entities.ProductsEntities;
+using OnlineStore.Domain.Entities.ServiceEntity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,28 @@ namespace OnlineStore.Infrastructure.Interfeices
         /// <param name="id">id секции</param>
         /// <returns></returns>
         Section GetSectionById(int? id);
+
+
+
+        /// <summary>
+        /// Получаем Категории
+        /// </summary>
+        /// <returns></returns>
+        IQueryable<Category> GetCategories();
+
+        /// <summary>
+        /// Получить Категория по id
+        /// </summary>
+        /// <param name="idCategory">id Категории</param>
+        /// <returns></returns>
+        Category GetCategoryByIdCategory(int? idCategory);
+
+        /// <summary>
+        /// Получить Категория по id Секции для запроса many to many
+        /// </summary>
+        /// <param name="idSection">id Категории</param>
+        /// <returns></returns>
+        IQueryable<SectionToCategory> GetCategoryByIdSection(int? idSection);
 
         /// <summary>
         /// Получаем бренды

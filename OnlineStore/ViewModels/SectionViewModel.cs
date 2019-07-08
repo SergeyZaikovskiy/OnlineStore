@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OnlineStore.Domain.Entities.ProductsEntities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace OnlineStore.ViewModels
         /// <summary>
         /// Вложенные Категории
         /// </summary>
-        public List<CategoryViewModel> Categories = new List<CategoryViewModel>();          
+        public IEnumerable<Category> Categories { get; set; }          
 
     }
 }

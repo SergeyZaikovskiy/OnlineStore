@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineStore.DAL.Context;
 using OnlineStore.Domain.Entities.ProductsEntities;
+using OnlineStore.Domain.Entities.ServiceEntity;
 using OnlineStore.Infrastructure.Interfeices;
 using System;
 using System.Collections.Generic;
@@ -33,7 +34,8 @@ namespace OnlineStore.Infrastructure.Implementations
         /// </summary>
         /// <param name="id">id бренда</param>
         /// <returns></returns>
-        public Brand GetbrandById(int? id) => db.Brands.FirstOrDefault(br => br.id == id);
+        public Brand GetbrandById(int? id) => db.Brands.Include(b => b.Products)
+            .FirstOrDefault(br => br.id == id);
 
         /// <summary>
         /// Список секций
@@ -47,7 +49,33 @@ namespace OnlineStore.Infrastructure.Implementations
         /// </summary>
         /// <param name="id">id бренда</param>
         /// <returns></returns>
-        public Section GetSectionById(int? id) => db.Sections.FirstOrDefault(sec => sec.id == id);
+        public Section GetSectionById(int? id) => db.Sections.Include(b => b.Products)
+            .FirstOrDefault(sec => sec.id == id);
+
+
+        /// <summary>
+        /// Список Категорий
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<Category> GetCategories() => db.Categories
+            .Include(c => c.Products);
+
+        /// <summary>
+        /// Получить Категории по id
+        /// </summary>
+        /// <param name="id">id категории</param>
+        /// <returns></returns>
+        public Category GetCategoryByIdCategory(int? id) => db.Categories.Include(cat => cat.Products)
+            .FirstOrDefault(cat => cat.id == id);
+
+
+        /// <summary>
+        /// Получить Категории по id секции
+        /// </summary>
+        /// <param name="id">id категории</param>
+        /// <returns></returns>
+        public IQueryable<SectionToCategory> GetCategoryByIdSection(int? idSection) => db.SectionToCategory.Where(catToSec=>catToSec.SectionId==idSection).Include(catToSec=>catToSec.Category);
+           
 
         /// <summary>
         /// Получить все изображения из базы
