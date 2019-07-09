@@ -14,11 +14,11 @@ namespace OnlineStore.Components
  /// Компонент для области секции
  /// Вызывает компонент Sections
  /// </summary>
-    public class Section : ViewComponent
+    public class SectionsViewComponent : ViewComponent
     {
         private readonly IProductData _ProductData;
 
-        public Section(IProductData productDate)
+        public SectionsViewComponent(IProductData productDate)
         {
             _ProductData = productDate;
         }
@@ -29,19 +29,28 @@ namespace OnlineStore.Components
         /// <returns></returns>
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var sections = await _ProductData.GetSections().ToListAsync();
-            List<SectionViewModel> Sections = new List<SectionViewModel>();
-            foreach (OnlineStore.Domain.Entities.ProductsEntities.Section sec in sections)
+            var sectionsFromDB = await _ProductData.GetSections().ToListAsync();
+            List<SectionViewModel> sectionsToPassInViewModel = new List<SectionViewModel>();
+
+            foreach (OnlineStore.Domain.Entities.ProductsEntities.Section sec in sectionsFromDB)
             {
                 var catToSec = await _ProductData.GetCategoryByIdSection(sec.id).ToListAsync();
-                List<Category> cat = new List<Category>();
-                foreach (SectionToCategory catSec in catToSec)
+                SectionViewModel sectionViewModel;
+                if (catToSec.Count > 0)
                 {
-                    cat.Add(catSec.Category);
+                    List<Category> cat = new List<Category>();
+                    foreach (SectionToCategory catSec in catToSec)
+                    {
+                        cat.Add(catSec.Category);
+                    }
+                    sectionViewModel = new SectionViewModel { Id = sec.id, Name = sec.Name, Order = sec.Order, Categories = cat.AsEnumerable(), CountNestedCategory = cat.Count };
                 }
-                SectionViewModel sectionViewModel = new SectionViewModel { Id = sec.id, Name = sec.Name, Order = sec.Order, Categories = cat.AsEnumerable()};
+                else
+                    sectionViewModel = new SectionViewModel { Id = sec.id, Name = sec.Name, Order = sec.Order, CountNestedCategory = 0 };
+
+                sectionsToPassInViewModel.Add(sectionViewModel);
             }
-            return View(sections);
+            return View(sectionsToPassInViewModel.AsEnumerable());
         }
 
 

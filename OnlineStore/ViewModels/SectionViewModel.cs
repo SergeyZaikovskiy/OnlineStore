@@ -10,17 +10,20 @@ namespace OnlineStore.ViewModels
     /// Модель представления Секций товаров
     /// </summary>
     public class SectionViewModel
-    {
+    {      
+
         public string Name { get; set; }
 
         public int Id { get; set; }
 
         public int Order { get; set; }
 
+        public int CountNestedCategory { get; set; }
+
         /// <summary>
         /// Вложенные Категории
         /// </summary>
-        public IEnumerable<Category> Categories { get; set; }          
+        public IEnumerable<Category> Categories { get; set; }        
 
     }
 }
