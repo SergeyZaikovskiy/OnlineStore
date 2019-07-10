@@ -108,8 +108,8 @@ namespace OnlineStore.Infrastructure.Implementations
             if (productFilter.SectionId != null)
                 products = products.Where(p => p.SectionId == productFilter.SectionId);
 
-            if (productFilter.BrandId != null)
-                products = products.Where(p => p.BrandId == productFilter.BrandId);
+            //if (productFilter.BrandId != null)
+            //    products = products.Where(p => p.BrandId == productFilter.BrandId);
 
             return products;
         }

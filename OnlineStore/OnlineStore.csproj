@@ -19,7 +19,7 @@
   <ItemGroup>
     <Folder Include="Infrastructure\Mappers\" />
     <Folder Include="Views\Shared\Components\Brands\" />
-    <Folder Include="Views\Shared\Components\UserInfo\" />
+    <Folder Include="Views\Catalog\" />
   </ItemGroup>
 
 </Project>

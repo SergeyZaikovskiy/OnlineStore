@@ -11,7 +11,7 @@ namespace OnlineStore.Domain.Entities.ProductsEntities
     {
         public int? SectionId { get; set; }
 
-        public int? BrandId { get; set; }
+        public List<int?> BrandIdCollection { get; set; } = new List<int?>();
 
         public int? CategoryId { get; set; }
 
