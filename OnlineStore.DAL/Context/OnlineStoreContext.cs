@@ -38,6 +38,8 @@ namespace OnlineStore.DAL.Context
 
         public DbSet<CategoryToBrand> CategoryToBrand { get; set; }
 
+        public DbSet<SectionToBrands> SectionToBrands{ get; set; }
+
         public OnlineStoreContext(DbContextOptions<OnlineStoreContext> options) : base(options)
         {
 
@@ -84,6 +86,21 @@ namespace OnlineStore.DAL.Context
                 .HasOne(catToBrand => catToBrand.Brand)
                 .WithMany(brand => brand.BrandToCat)
                 .HasForeignKey(brandToCat => brandToCat.BrandId);
+
+            //Конфигурация Секций к Брендам много ко многим
+            modelBuilder.Entity<SectionToBrands>()
+           .HasKey(secToBrands => new { secToBrands.SectionId, secToBrands.BrandId });
+
+            modelBuilder.Entity<SectionToBrands>()
+                .HasOne(secToBrands => secToBrands.Section)
+                .WithMany(sec => sec.SecToBrands)
+                .HasForeignKey(secToBrands => secToBrands.SectionId);
+
+            modelBuilder.Entity<SectionToBrands>()
+                 .HasOne(secToBrands => secToBrands.Brand)
+                 .WithMany(sec => sec.SecToBrands)
+                 .HasForeignKey(secToBrands => secToBrands.BrandId);
+
 
             ///Конфигурация Секции к Товарам много к одному
             modelBuilder.Entity<Section>()

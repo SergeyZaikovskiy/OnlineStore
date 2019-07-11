@@ -19,6 +19,8 @@ namespace OnlineStore.Domain.Entities.ProductsEntities
 
         public virtual ICollection<CategoryToBrand> BrandToCat { get; set; } = new List<CategoryToBrand>();
 
+        public virtual ICollection<SectionToBrands> SecToBrands { get; set; } = new List<SectionToBrands>();
+
         // virtual - указание Entity Framework на то, что Products должно быть навигационным свойством!
         public  virtual ICollection<Product> Products { get; set; } = new List<Product>();
 
