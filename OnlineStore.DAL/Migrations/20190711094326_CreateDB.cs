@@ -340,6 +340,33 @@ namespace OnlineStore.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SectionToBrands",
+                columns: table => new
+                {
+                    SectionId = table.Column<int>(nullable: false),
+                    BrandId = table.Column<int>(nullable: false),
+                    id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SectionToBrands", x => new { x.SectionId, x.BrandId });
+                    table.UniqueConstraint("AK_SectionToBrands_id", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_SectionToBrands_Brands_BrandId",
+                        column: x => x.BrandId,
+                        principalTable: "Brands",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SectionToBrands_Sections_SectionId",
+                        column: x => x.SectionId,
+                        principalTable: "Sections",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SectionToCategory",
                 columns: table => new
                 {
@@ -479,6 +506,11 @@ namespace OnlineStore.DAL.Migrations
                 column: "SectionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SectionToBrands_BrandId",
+                table: "SectionToBrands",
+                column: "BrandId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SectionToCategory_CategoryId",
                 table: "SectionToCategory",
                 column: "CategoryId");
@@ -509,6 +541,9 @@ namespace OnlineStore.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "OrderItems");
+
+            migrationBuilder.DropTable(
+                name: "SectionToBrands");
 
             migrationBuilder.DropTable(
                 name: "SectionToCategory");

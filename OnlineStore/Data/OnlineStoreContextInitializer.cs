@@ -79,13 +79,24 @@ namespace OnlineStore.Data
                 transaction.Commit();
             }
 
-            //заполняем базу соответствями Категорий и бренов
+            //заполняем базу соответствями Категорий и брендов
             using (var transaction = _db.Database.BeginTransaction())
             {
                 await _db.CategoryToBrand.AddRangeAsync(TestData.CategoryToBrands);
                 await _db.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT [dbo].[CategoryToBrand] ON");
                 await _db.SaveChangesAsync();
                 await _db.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT [dbo].[CategoryToBrand] OFF");
+
+                transaction.Commit();
+            }
+
+            //заполняем базу соответствями Секций и брендов
+            using (var transaction = _db.Database.BeginTransaction())
+            {
+                await _db.SectionToBrands.AddRangeAsync(TestData.SectionToBrands);
+                await _db.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT [dbo].[SectionToBrands] ON");
+                await _db.SaveChangesAsync();
+                await _db.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT [dbo].[SectionToBrands] OFF");
 
                 transaction.Commit();
             }

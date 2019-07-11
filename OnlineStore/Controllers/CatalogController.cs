@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace OnlineStore.Controllers
 {
+    /// <summary>
+    /// Контроллер для работы с каталогом сайта
+    /// </summary>
     public class CatalogController : Controller
     {
         public IActionResult Index()

@@ -10,8 +10,8 @@ using OnlineStore.DAL.Context;
 namespace OnlineStore.DAL.Migrations
 {
     [DbContext(typeof(OnlineStoreContext))]
-    [Migration("20190711042603_Add SectionToBrad table")]
-    partial class AddSectionToBradtable
+    [Migration("20190711094326_CreateDB")]
+    partial class CreateDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -335,7 +335,13 @@ namespace OnlineStore.DAL.Migrations
 
                     b.Property<int>("BrandId");
 
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.HasKey("SectionId", "BrandId");
+
+                    b.HasAlternateKey("id");
 
                     b.HasIndex("BrandId");
 

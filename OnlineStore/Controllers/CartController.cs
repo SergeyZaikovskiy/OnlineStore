@@ -22,6 +22,10 @@ namespace OnlineStore.Controllers
             this.orderService = orderService;
         }
 
+        /// <summary>
+        /// Показать детали
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Details()
         {
             var model = new CartDetailsViewModel
@@ -33,30 +37,54 @@ namespace OnlineStore.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Уменьшить количество товара в корзине
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public IActionResult DecrementFromCart(int id)
         {
             cartService.DecrementCountItem(id);
             return RedirectToAction("Details");
         }
 
+        /// <summary>
+        /// Удалить товар из корзины
+        /// </summary>
+        /// <param name="id">ID товара</param>
+        /// <returns></returns>
         public IActionResult RemoveFromCart(int id)
         {
             cartService.RemoveFromCart(id);
             return RedirectToAction("Details");
         }
 
+        /// <summary>
+        /// Удалить все товары из корзины
+        /// </summary>
+        /// <returns></returns>
         public IActionResult RemoveAll()
         {
             cartService.RemoveAll();
             return RedirectToAction("Details");
         }
 
+        /// <summary>
+        /// Добавить товар в корзину
+        /// </summary>
+        /// <param name="id">ID товара</param>
+        /// <returns></returns>
         public IActionResult AddtoCart(int id)
         {
             cartService.AddToCart(id);
             return RedirectToAction("Details");
         }
 
+        /// <summary>
+        /// Создать заказ из корзины
+        /// </summary>
+        /// <param name="orderViewModel">Модель представления заказа</param>
+        /// <returns></returns>
         [HttpPost, ValidateAntiForgeryToken]
         public IActionResult CheckOut(OrderViewModel orderViewModel)
         {
@@ -75,6 +103,11 @@ namespace OnlineStore.Controllers
             return RedirectToAction("OrderConfirmed", new { id = order.id });
         }
 
+        /// <summary>
+        /// Подтвердить заказ
+        /// </summary>
+        /// <param name="id">ID заказа</param>
+        /// <returns></returns>
         public IActionResult OrderConfirmed(int id)
         {
             ViewBag.OrderId = id;

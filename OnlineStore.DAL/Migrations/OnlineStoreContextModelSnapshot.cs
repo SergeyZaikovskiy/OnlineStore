@@ -333,7 +333,13 @@ namespace OnlineStore.DAL.Migrations
 
                     b.Property<int>("BrandId");
 
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.HasKey("SectionId", "BrandId");
+
+                    b.HasAlternateKey("id");
 
                     b.HasIndex("BrandId");
 

@@ -84,11 +84,11 @@ namespace OnlineStore.Infrastructure.Implementations
         /// </summary>
         /// <param name="UserName">Имя пользователя</param>
         /// <returns></returns>
-        public IEnumerable<Order> GetUserOrders(string UserName) => db.Order
+        public IQueryable<Order> GetUserOrders(string UserName) => db.Order
                                                                      .Include(order => order.User)
                                                                      .Include(order => order.OrderItems)
-                                                                     .Where(order => order.User.UserName == UserName)
-                                                                     .ToArray();
+                                                                     .Where(order => order.User.UserName == UserName);
+                                                                     
 
 
     }

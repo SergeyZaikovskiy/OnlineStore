@@ -17,7 +17,7 @@ namespace OnlineStore.Infrastructure.Interfeices
         /// </summary>
         /// <param name="UserName">Имя пользователя</param>
         /// <returns></returns>
-        IEnumerable<Order> GetUserOrders(string UserName);
+        IQueryable<Order> GetUserOrders(string UserName);
 
         /// <summary>
         /// Получить заказ

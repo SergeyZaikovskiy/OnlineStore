@@ -18,7 +18,7 @@ namespace OnlineStore.ViewModels
         public string Phone { get; set; }
 
         [Display(Name = "Адрес"), Required]
-        public string Address { get; set; }
+        public string Address { get; set; }        
 
     }
 }

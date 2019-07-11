@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OnlineStore.Infrastructure.Interfeices;
 using OnlineStore.ViewModels;
 
 namespace OnlineStore.Controllers
 {
+    /// <summary>
+    /// Контроллер профиля пользователя
+    /// </summary>
     public class ProfileController : Controller
     {
         private readonly IOrderService orderService;
@@ -19,9 +23,13 @@ namespace OnlineStore.Controllers
 
         public IActionResult Index() => View();
 
-        public IActionResult Orders()
+        /// <summary>
+        /// Получить заказы пользователя
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IActionResult> Orders()
         {
-            var orders = orderService.GetUserOrders(User.Identity.Name);
+            var orders = await orderService.GetUserOrders(User.Identity.Name).ToListAsync();
 
             return View(orders.Select(order => new UserOrderViewModel
             {
