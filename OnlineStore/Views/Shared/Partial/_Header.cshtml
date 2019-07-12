@@ -1,4 +1,6 @@
-﻿<header id="header">
+﻿
+
+<header id="header">
     <!--header-->
     <div class="header_top">
         <!--header_top-->
@@ -27,7 +29,7 @@
         </div>
     </div><!--/header_top-->
 
-    <div class="header-middle">
+    <div class="header-middle">        
         <!--header-middle-->
         <div class="container">
             <div class="row">
@@ -61,9 +63,10 @@
                 </div>
                 <div class="col-sm-8">
                     @*@await Component.InvokeAsync("Userinfo")*@
+
                     @*Таг хелпер для вызова ViewComponent*@
                     <vc:user-info />
-                    
+
                 </div>
             </div>
         </div>
@@ -82,7 +85,8 @@
                             <span class="icon-bar"></span>
                         </button>
                     </div>
-                    <div class="mainmenu pull-left">
+                    @await Component.InvokeAsync("Sections");
+                    @*<div class="mainmenu pull-left">
                         <ul class="nav navbar-nav collapse navbar-collapse">
                             <li><a asp-controller="Home" asp-action="Index" class="active">Главная</a></li>
                             <li class="dropdown">
@@ -102,10 +106,10 @@
                                     <li><a asp-controller="Home" asp-action="Blog_single">Статья</a></li>
                                 </ul>
                             </li>
-                           
-                            <li><a asp-controller="Home" asp-action="Contact_us">Контакты</a></li>                           
+
+                            <li><a asp-controller="Home" asp-action="Contact_us">Контакты</a></li>
                         </ul>
-                    </div>
+                    </div>*@
                 </div>
                 <div class="col-sm-3">
                     <div class="search_box pull-right">

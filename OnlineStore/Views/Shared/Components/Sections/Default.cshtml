@@ -1,45 +1,49 @@
 ﻿@model IEnumerable<OnlineStore.ViewModels.SectionViewModel>
 
-<h2>Категории</h2>
+
 <div class="panel-group category-products" id="accordian">
     <!--category-productsr-->
-
-    @foreach (var sec in Model)
-    {
-        if (sec.CountNestedCategory > 0)
-        {
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordian" href="#@sec.Id">
-                            <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                            @sec.Name
-                        </a>
-                    </h4>
-                </div>
-                <div id="@sec.Id" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        <ul>
+    <div class="mainmenu pull-left">
+        <ul class="nav navbar-nav collapse navbar-collapse">
+            <li><a asp-controller="Home" asp-action="Index" class="active">Главная</a></li>
+            @foreach (var sec in Model)
+            {
+                if (sec.CountNestedCategory > 0)
+                {
+                    <li class="dropdown">
+                        <a href="#">@sec.Name<i class="fa fa-angle-down"></i></a>
+                        <ul role="menu" class="sub-menu">
                             @foreach (var cat in sec.Categories)
                             {
-                                <li><a href="#">@cat.Name</a></li>
+                                <li><a asp-controller="Catalog" asp-action="Shop">@cat.Name</a></li>
                             }
                         </ul>
-                    </div>
-                </div>
-            </div>
-        }
-        else
-        {
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a href="#">
-                            @sec.Name
-                        </a>
-                    </h4>
-                </div>
-            </div>
-        }
-    }
+                    </li>
+                }
+                else
+                {
+                    <li><a asp-controller="Home" asp-action="Contact_us">@sec.Name</a></li>
+                }
+            }
+            <li class="dropdown">
+                <a href="#">Товары<i class="fa fa-angle-down"></i></a>
+                <ul role="menu" class="sub-menu">
+                    <li><a asp-controller="Catalog" asp-action="Shop">Товары</a></li>
+                    <li><a asp-controller="Catalog" asp-action="ProductDetails" asp-route-id="1">Подробно</a></li>
+                    <li><a asp-controller="Home" asp-action="Checkout">Оформить заказ</a></li>
+                    <li><a asp-controller="Cart" asp-action="Details">Корзина</a></li>
+                    <li><a asp-controller="Account" asp-action="Login">Логин</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#">Блог<i class="fa fa-angle-down"></i></a>
+                <ul role="menu" class="sub-menu">
+                    <li><a asp-controller="Home" asp-action="Blog">Блог</a></li>
+                    <li><a asp-controller="Home" asp-action="Blog_single">Статья</a></li>
+                </ul>
+            </li>
+
+            <li><a asp-controller="Home" asp-action="Contact_us">Контакты</a></li>
+        </ul>
+        </div>   
 </div><!--/category-products-->
