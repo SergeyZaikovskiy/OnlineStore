@@ -1,1 +1,34 @@
-﻿<h2>Hello world</h2>
+﻿@{
+    ViewData["Title"] = "Главная страница";
+    Layout = "_LayoutBase";
+}
+
+@await Html.PartialAsync("Partial/_Slider")
+
+<section>
+    <div class="container">
+        <div class="row">            
+
+            <div class="col-sm-12">                
+
+                @await Html.PartialAsync("Partial/_Category_Tab")
+
+                @await Html.PartialAsync("Partial/_Recommended_Items")
+
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script>
+        $("section").click(function () {
+        });
+    </script>
+}
+
+@section Styles
+{
+    <style>
+    </style>
+}

@@ -76,7 +76,7 @@
         <!--header-bottom-->
         <div class="container">
             <div class="row">
-                <div class="col-sm-9">
+                <div class="col-sm-10">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                             <span class="sr-only">Toggle navigation</span>
@@ -85,33 +85,9 @@
                             <span class="icon-bar"></span>
                         </button>
                     </div>
-                    @await Component.InvokeAsync("Sections");
-                    @*<div class="mainmenu pull-left">
-                        <ul class="nav navbar-nav collapse navbar-collapse">
-                            <li><a asp-controller="Home" asp-action="Index" class="active">Главная</a></li>
-                            <li class="dropdown">
-                                <a href="#">Товары<i class="fa fa-angle-down"></i></a>
-                                <ul role="menu" class="sub-menu">
-                                    <li><a asp-controller="Catalog" asp-action="Shop">Товары</a></li>
-                                    <li><a asp-controller="Catalog" asp-action="ProductDetails" asp-route-id="1">Подробно</a></li>
-                                    <li><a asp-controller="Home" asp-action="Checkout">Оформить заказ</a></li>
-                                    <li><a asp-controller="Cart" asp-action="Details">Корзина</a></li>
-                                    <li><a asp-controller="Account" asp-action="Login">Логин</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#">Блог<i class="fa fa-angle-down"></i></a>
-                                <ul role="menu" class="sub-menu">
-                                    <li><a asp-controller="Home" asp-action="Blog">Блог</a></li>
-                                    <li><a asp-controller="Home" asp-action="Blog_single">Статья</a></li>
-                                </ul>
-                            </li>
-
-                            <li><a asp-controller="Home" asp-action="Contact_us">Контакты</a></li>
-                        </ul>
-                    </div>*@
+                    @await Component.InvokeAsync("Sections");                   
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-2" >
                     <div class="search_box pull-right">
                         <input type="text" placeholder="Поиск" />
                     </div>

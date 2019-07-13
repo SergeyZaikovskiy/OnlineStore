@@ -10,11 +10,14 @@ namespace OnlineStore.ViewModels
     /// </summary>
     public class CategoryViewModel
     {
+        public bool Choosen { get; set; }
         public string Name { get; set; }
         public int Id { get; set; }
         public int Order { get; set; }
         public int ProductsCount { get; set; }
 
         List<BrandViewModel> Brands = new List<BrandViewModel>();
+      
+    
     }
 }
