@@ -1,0 +1,30 @@
+﻿@model OnlineStore.ViewModels.RegisterUserViewModel
+
+@{
+    ViewData["Title"] = "Регистрация";
+}
+
+<section id="form">
+    <div class="container">
+        <div class="col-sm-4">
+            <div class="signup-form">
+                <!--sign up form-->
+                <h2>Регистрация пользователя</h2>
+                <form asp-action="Register" method="post" asp-controller="Account" asp-antiforgery="true">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <label asp-for="UserName" class="control-label"></label>
+                    <input asp-for="UserName" />
+
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" />
+
+                    <label asp-for="ConfirmPasswort" class="control-label"></label>
+                    <input asp-for="ConfirmPasswort" />
+
+                    <button type="submit" class="btn btn-default">Регистрация</button>
+                </form>
+            </div><!--/sign up form-->
+        </div>
+    </div>
+</section>

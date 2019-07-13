@@ -7,20 +7,20 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace OnlineStore.Data
-{ 
+{
     /// <summary>
-  /// Класс тестового набора данных
-  /// </summary>
+    /// Класс тестового набора данных
+    /// </summary>
     public class TestData
     {
         /// <summary>
-         /// Тестовый набор Секций товаров
-         /// </summary>
+        /// Тестовый набор Секций товаров
+        /// </summary>
         public static List<Section> Sections { get; } = new List<Section> {
             new Section {id = 1, Name = "Мужчины", Order = 0},
-            new Section {id = 2, Name = "Женщины", Order = 0},          
+            new Section {id = 2, Name = "Женщины", Order = 0},
             new Section {id = 3, Name = "Спорт", Order = 2},
-            new Section {id = 4, Name = "Аксессуары", Order = 3}                     
+            new Section {id = 4, Name = "Аксессуары", Order = 3}
         };
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace OnlineStore.Data
             new Category{id = 22, Name="Шляпы",Order = 0},
             new Category{id = 23, Name="Кепки",Order = 0},
             new Category{id = 24, Name="Перчатки",Order = 0},
-            new Category{id = 25, Name="Бижутерия",Order = 0} 
+            new Category{id = 25, Name="Бижутерия",Order = 0}
         };
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace OnlineStore.Data
         /// </summary>
         public static List<SectionToCategory> SectionsToCategories { get; } = new List<SectionToCategory>
         {
-            new SectionToCategory{id =1 ,SectionId = 1, CategoryId = 1},           
+            new SectionToCategory{id =1 ,SectionId = 1, CategoryId = 1},
             new SectionToCategory{id =2 ,SectionId = 1, CategoryId = 3},
             new SectionToCategory{id =3 ,SectionId = 1, CategoryId = 4},
             new SectionToCategory{id =4 ,SectionId = 1, CategoryId = 5},
@@ -73,7 +73,7 @@ namespace OnlineStore.Data
             new SectionToCategory{id =6 ,SectionId = 1, CategoryId = 7},
             new SectionToCategory{id =7 ,SectionId = 1, CategoryId = 8},
             new SectionToCategory{id =8 ,SectionId = 1, CategoryId = 9},
-            new SectionToCategory{id =9 ,SectionId = 1, CategoryId = 10},            
+            new SectionToCategory{id =9 ,SectionId = 1, CategoryId = 10},
             new SectionToCategory{id =10 ,SectionId = 1, CategoryId = 13},
 
             new SectionToCategory{id =11 ,SectionId = 2, CategoryId = 1},
@@ -141,7 +141,7 @@ namespace OnlineStore.Data
             new Brand {id = 27, Name = "Ronhill", Order = 5},
             new Brand {id = 28, Name = "Albiro", Order = 5},
             new Brand {id = 29, Name = "Grune Erde", Order = 5},
-            new Brand {id = 30, Name = "Acne", Order = 5}            
+            new Brand {id = 30, Name = "Acne", Order = 5}
         };
 
         public static List<CategoryToBrand> CategoryToBrands { get; } = new List<CategoryToBrand>
@@ -200,7 +200,7 @@ namespace OnlineStore.Data
             new CategoryToBrand{id=47, CategoryId = 4 , BrandId=22},
             new CategoryToBrand{id=48, CategoryId = 4 , BrandId=23},
             new CategoryToBrand{id=49, CategoryId = 4 , BrandId=24},
-            new CategoryToBrand{id=50, CategoryId = 4 , BrandId=25},           
+            new CategoryToBrand{id=50, CategoryId = 4 , BrandId=25},
 
             new CategoryToBrand{id=51, CategoryId = 6 , BrandId=6},
             new CategoryToBrand{id=52, CategoryId = 6 , BrandId=7},
@@ -369,6 +369,134 @@ namespace OnlineStore.Data
             new CategoryToBrand{id=199, CategoryId =  25, BrandId=24}
 
 #endregion
+        };
+
+
+        public static List<SectionToBrands> SectionToBrands { get; }=new List<SectionToBrands>
+        {
+            new SectionToBrands{id=1,SectionId=1, BrandId=1},
+            new SectionToBrands{id=2,SectionId=1, BrandId=2},
+            new SectionToBrands{id=3,SectionId=1, BrandId=3},
+            new SectionToBrands{id=4,SectionId=1, BrandId=4},
+            new SectionToBrands{id=5,SectionId=1, BrandId=5},
+            new SectionToBrands{id=6,SectionId=1, BrandId=6},
+            new SectionToBrands{id=7,SectionId=1, BrandId=7},
+            new SectionToBrands{id=8,SectionId=1, BrandId=8},
+            new SectionToBrands{id=9,SectionId=1, BrandId=9},
+            new SectionToBrands{id=10,SectionId=1, BrandId=10},
+            new SectionToBrands{id=11,SectionId=1, BrandId=11},
+            new SectionToBrands{id=12,SectionId=1, BrandId=12},
+            new SectionToBrands{id=13,SectionId=1, BrandId=13},
+            new SectionToBrands{id=14,SectionId=1, BrandId=14},
+            new SectionToBrands{id=15,SectionId=1, BrandId=15},
+            new SectionToBrands{id=16,SectionId=1, BrandId=16},
+            new SectionToBrands{id=17,SectionId=1, BrandId=17},
+            new SectionToBrands{id=18,SectionId=1, BrandId=18},
+            new SectionToBrands{id=19,SectionId=1, BrandId=19},
+            new SectionToBrands{id=20,SectionId=1, BrandId=20},
+            new SectionToBrands{id=21,SectionId=1, BrandId=21},
+            new SectionToBrands{id=22,SectionId=1, BrandId=22},
+            new SectionToBrands{id=23,SectionId=1, BrandId=23},
+            new SectionToBrands{id=24,SectionId=1, BrandId=24},
+            new SectionToBrands{id=25,SectionId=1, BrandId=25},
+            new SectionToBrands{id=26,SectionId=1, BrandId=26},
+            new SectionToBrands{id=27,SectionId=1, BrandId=27},
+            new SectionToBrands{id=28,SectionId=1, BrandId=28},
+            new SectionToBrands{id=29,SectionId=1, BrandId=29},
+            new SectionToBrands{id=30,SectionId=1, BrandId=30},
+
+            new SectionToBrands{id=31,SectionId=2, BrandId=1},
+            new SectionToBrands{id=32,SectionId=2, BrandId=2},
+            new SectionToBrands{id=33,SectionId=2, BrandId=3},
+            new SectionToBrands{id=34,SectionId=2, BrandId=4},
+            new SectionToBrands{id=35,SectionId=2, BrandId=5},
+            new SectionToBrands{id=36,SectionId=2, BrandId=6},
+            new SectionToBrands{id=37,SectionId=2, BrandId=7},
+            new SectionToBrands{id=38,SectionId=2, BrandId=8},
+            new SectionToBrands{id=39,SectionId=2, BrandId=9},
+            new SectionToBrands{id=40,SectionId=2, BrandId=10},
+            new SectionToBrands{id=41,SectionId=2, BrandId=11},
+            new SectionToBrands{id=42,SectionId=2, BrandId=12},
+            new SectionToBrands{id=43,SectionId=2, BrandId=13},
+            new SectionToBrands{id=44,SectionId=2, BrandId=14},
+            new SectionToBrands{id=45,SectionId=2, BrandId=15},
+            new SectionToBrands{id=46,SectionId=2, BrandId=16},
+            new SectionToBrands{id=47,SectionId=2, BrandId=17},
+            new SectionToBrands{id=48,SectionId=2, BrandId=18},
+            new SectionToBrands{id=49,SectionId=2, BrandId=19},
+            new SectionToBrands{id=50,SectionId=2, BrandId=20},
+            new SectionToBrands{id=51,SectionId=2, BrandId=21},
+            new SectionToBrands{id=52,SectionId=2, BrandId=22},
+            new SectionToBrands{id=53,SectionId=2, BrandId=23},
+            new SectionToBrands{id=54,SectionId=2, BrandId=24},
+            new SectionToBrands{id=55,SectionId=2, BrandId=25},
+            new SectionToBrands{id=56,SectionId=2, BrandId=26},
+            new SectionToBrands{id=57,SectionId=2, BrandId=27},
+            new SectionToBrands{id=58,SectionId=2, BrandId=28},
+            new SectionToBrands{id=59,SectionId=2, BrandId=29},
+            new SectionToBrands{id=60,SectionId=2, BrandId=30},
+
+            new SectionToBrands{id=61,SectionId=3, BrandId=1},
+            new SectionToBrands{id=62,SectionId=3, BrandId=2},
+            new SectionToBrands{id=63,SectionId=3, BrandId=3},
+            new SectionToBrands{id=64,SectionId=3, BrandId=4},
+            new SectionToBrands{id=65,SectionId=3, BrandId=5},
+            new SectionToBrands{id=66,SectionId=3, BrandId=6},
+            new SectionToBrands{id=67,SectionId=3, BrandId=7},
+            new SectionToBrands{id=68,SectionId=3, BrandId=8},
+            new SectionToBrands{id=69,SectionId=3, BrandId=9},
+            new SectionToBrands{id=70,SectionId=3, BrandId=10},
+            new SectionToBrands{id=71,SectionId=3, BrandId=11},
+            new SectionToBrands{id=72,SectionId=3, BrandId=12},
+            new SectionToBrands{id=73,SectionId=3, BrandId=13},
+            new SectionToBrands{id=74,SectionId=3, BrandId=14},
+            new SectionToBrands{id=75,SectionId=3, BrandId=15},
+            new SectionToBrands{id=76,SectionId=3, BrandId=16},
+            new SectionToBrands{id=77,SectionId=3, BrandId=17},
+            new SectionToBrands{id=78,SectionId=3, BrandId=18},
+            new SectionToBrands{id=79,SectionId=3, BrandId=19},
+            new SectionToBrands{id=80,SectionId=3, BrandId=20},
+            new SectionToBrands{id=81,SectionId=3, BrandId=21},
+            new SectionToBrands{id=82,SectionId=3, BrandId=22},
+            new SectionToBrands{id=83,SectionId=3, BrandId=23},
+            new SectionToBrands{id=84,SectionId=3, BrandId=24},
+            new SectionToBrands{id=85,SectionId=3, BrandId=25},
+            new SectionToBrands{id=86,SectionId=3, BrandId=26},
+            new SectionToBrands{id=87,SectionId=3, BrandId=27},
+            new SectionToBrands{id=88,SectionId=3, BrandId=28},
+            new SectionToBrands{id=89,SectionId=3, BrandId=29},
+            new SectionToBrands{id=90,SectionId=3, BrandId=30},
+
+             new SectionToBrands{id=91,SectionId=4, BrandId=1},
+            new SectionToBrands{id=92,SectionId=4, BrandId=2},
+            new SectionToBrands{id=93,SectionId=4, BrandId=3},
+            new SectionToBrands{id=94,SectionId=4, BrandId=4},
+            new SectionToBrands{id=95,SectionId=4, BrandId=5},
+            new SectionToBrands{id=96,SectionId=4, BrandId=6},
+            new SectionToBrands{id=97,SectionId=4, BrandId=7},
+            new SectionToBrands{id=98,SectionId=4, BrandId=8},
+            new SectionToBrands{id=99,SectionId=4, BrandId=9},
+            new SectionToBrands{id=100,SectionId=4, BrandId=10},
+            new SectionToBrands{id=101,SectionId=4, BrandId=11},
+            new SectionToBrands{id=102,SectionId=4, BrandId=12},
+            new SectionToBrands{id=103,SectionId=4, BrandId=13},
+            new SectionToBrands{id=104,SectionId=4, BrandId=14},
+            new SectionToBrands{id=105,SectionId=4, BrandId=15},
+            new SectionToBrands{id=106,SectionId=4, BrandId=16},
+            new SectionToBrands{id=107,SectionId=4, BrandId=17},
+            new SectionToBrands{id=108,SectionId=4, BrandId=18},
+            new SectionToBrands{id=109,SectionId=4, BrandId=19},
+            new SectionToBrands{id=110,SectionId=4, BrandId=20},
+            new SectionToBrands{id=111,SectionId=4, BrandId=21},
+            new SectionToBrands{id=112,SectionId=4, BrandId=22},
+            new SectionToBrands{id=113,SectionId=4, BrandId=23},
+            new SectionToBrands{id=114,SectionId=4, BrandId=24},
+            new SectionToBrands{id=115,SectionId=4, BrandId=25},
+            new SectionToBrands{id=116,SectionId=4, BrandId=26},
+            new SectionToBrands{id=117,SectionId=4, BrandId=27},
+            new SectionToBrands{id=118,SectionId=4, BrandId=28},
+            new SectionToBrands{id=119,SectionId=4, BrandId=29},
+            new SectionToBrands{id=120,SectionId=4, BrandId=30}
         };
 
         public static List<FileModel> Files { get; } = new List<FileModel>

@@ -1,0 +1,42 @@
+﻿@model OnlineStore.ViewModels.LoginUserViewModel
+
+@{
+    ViewData["Title"] = "Логин";
+}
+
+<h2>Логин</h2>
+
+<<section id="form">
+    <!--form-->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4 col-sm-offset-1">
+                <div class="login-form">
+                    <!--login form-->
+                    <h2>Войти в аккаунт</h2>
+                    <form asp-controller="Account" asp-action="Login" asp-antiforgery="true" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <label asp-for="UserName" class="control-label"></label>
+                        <input asp-for="UserName" />
+
+                        <label asp-for="Password" class="control-label"></label>
+                        <input asp-for="Password" />
+
+                        <p>
+                            <a asp-controller="Account" asp-action="Register" />
+                            Зарегистрироваться
+                        </p>
+
+                        <span>
+                            <input asp-for="RememberMe" class="checkbox">
+                            Запомнить меня
+                        </span>
+
+                        <button type="submit" class="btn btn-default">Логин</button>
+                    </form>
+                </div><!--/login form-->
+            </div>
+        </div>
+    </div>
+</section><!--/form-->

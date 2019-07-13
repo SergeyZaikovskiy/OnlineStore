@@ -327,6 +327,25 @@ namespace OnlineStore.DAL.Migrations
                     b.ToTable("CategoryToBrand");
                 });
 
+            modelBuilder.Entity("OnlineStore.Domain.Entities.ServiceEntity.SectionToBrands", b =>
+                {
+                    b.Property<int>("SectionId");
+
+                    b.Property<int>("BrandId");
+
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.HasKey("SectionId", "BrandId");
+
+                    b.HasAlternateKey("id");
+
+                    b.HasIndex("BrandId");
+
+                    b.ToTable("SectionToBrands");
+                });
+
             modelBuilder.Entity("OnlineStore.Domain.Entities.ServiceEntity.SectionToCategory", b =>
                 {
                     b.Property<int>("SectionId");
@@ -500,6 +519,19 @@ namespace OnlineStore.DAL.Migrations
                     b.HasOne("OnlineStore.Domain.Entities.ProductsEntities.Category", "Category")
                         .WithMany("CatToBrand")
                         .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("OnlineStore.Domain.Entities.ServiceEntity.SectionToBrands", b =>
+                {
+                    b.HasOne("OnlineStore.Domain.Entities.ProductsEntities.Brand", "Brand")
+                        .WithMany("SecToBrands")
+                        .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("OnlineStore.Domain.Entities.ProductsEntities.Section", "Section")
+                        .WithMany("SecToBrands")
+                        .HasForeignKey("SectionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

@@ -17,7 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ViewModels\" />
+    <Folder Include="Infrastructure\Mappers\" />
+    <Folder Include="Views\Shared\Components\Brands\" />
+    <Folder Include="Views\Catalog\" />
   </ItemGroup>
 
 </Project>
