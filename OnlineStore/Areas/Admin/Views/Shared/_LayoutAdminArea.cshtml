@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title</title>
+    <!-- BOOTSTRAP STYLES-->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <!-- FONTAWESOME STYLES-->
+    <link href="~/css/font-awesome.min.css" rel="stylesheet">
+    <!-- CUSTOM STYLES-->
+    <link href="~/admin/css/custom.css" rel="stylesheet" />
+    <!-- GOOGLE FONTS-->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+
+    @RenderSection("Styles", false)
+</head>
+<body>
+
+    <div id="wrapper">
+        @*Header*@
+        @await Html.PartialAsync("Partial/_HeaderAdminArea")
+        <!-- /. NAV TOP  -->
+        @*<nav class="navbar-default navbar-side" role="navigation">
+                <div class="sidebar-collapse">
+                    <ul class="nav" id="main-menu">
+                        <li>
+                            <a href="#"><i class="fa fa-desktop "></i>Рабочая панель <span class="badge">Included</span></a>
+                        </li>
+                        <li>
+                            <a asp-area="Admin" asp-controller="Home" asp-action="ProductsList"><i class="fa fa-edit "></i>Список продуктов</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>*@
+        <!-- /. NAV SIDE  -->
+        <div id="page-wrapper">
+            <div id="page-inner">
+
+                <div class="container">
+                    @*<div class="row">
+                            <div class="col-lg-12">
+                                <h2>@ViewBag.Title</h2>
+                            </div>
+                        </div>*@
+
+                    @RenderBody()
+                </div>
+
+            </div>
+            <!-- /. PAGE INNER  -->
+        </div>
+        <!-- /. PAGE WRAPPER  -->
+    </div>
+    @*Footer*@
+    @await Html.PartialAsync("Partial/_FooterAdminArea")
+    <!-- /. WRAPPER  -->
+    <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
+    <!-- JQUERY SCRIPTS -->
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <!-- BOOTSTRAP SCRIPTS -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <!-- CUSTOM SCRIPTS -->
+    <script src="~/admin/js/custom.js"></script>
+
+    @RenderSection("Scripts", false)
+
+    <script>
+        $.validator.methods.range = function (value, element, param) {
+            var globalizedValue = value.replace(",", ".");
+            return this.optional(element) || (globalizedValue >= param[0] && globalizedValue <= param[1]);
+        }
+
+        $.validator.methods.number = function (value, element) {
+            return this.optional(element) || /-?(?:\d+|\d{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
+        }
+        //Date dd/MM/yyyy
+        $.validator.methods.date = function (value, element) {
+            var date = value.split("/");
+            return this.optional(element) || !/Invalid|NaN/.test(new Date(date[2], date[1], date[0]).toString());
+        }
+    </script>
+
+</body>
+</html>

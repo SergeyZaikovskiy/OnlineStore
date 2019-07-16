@@ -10,7 +10,7 @@ namespace OnlineStore.ViewModels
 {/// <summary>
  /// Модель представления одного сотрудника
  /// </summary>
-    public class EmployeeViewModel
+    public class EmployeeItemViewModel
     {
         [HiddenInput(DisplayValue = false)]
         public int Id { get; set; }
