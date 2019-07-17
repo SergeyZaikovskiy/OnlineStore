@@ -1,0 +1,35 @@
+﻿
+@model OnlineStore.Areas.Admin.ViewModels.ImagesCatalogViewModel
+
+@{
+    ViewData["Title"] = "Изменить изображение";
+    Layout = "_LayoutAdminArea";
+}
+
+<hr />
+<h3>Выберите файл для загрузки</h3>
+<form asp-action="UploadFiles" asp-route-idproduct="@Model.IdProduct" asp-controller="ProductList" method="post" enctype="multipart/form-data">
+    <input type="file" name="uploadedFile" /><br>
+    @*<a class="btn" asp-area="Admin" asp-controller="ProductList" asp-action="ChangeImageForProduct" asp-route-id="@Model.IdProduct">*@
+    <input type="submit" value="Загрузить" />
+    </a>
+</form>
+<hr />
+
+<div class="container">
+    <b>Все изображение в каталоге</b><br>
+    @foreach (var img in Model.Images)
+    {
+        <div class="col-sm-4">
+            <div class="product-image-wrapper">
+                <div class="single-products">
+                    <div class="productinfo text-center">
+                        <p><a asp-area="Admin" asp-controller="ProductList" asp-action="Edit" asp-route-idimage="@img.id" asp-route-idproduct="@Model.IdProduct"> <img src="@img.Path" alt="@img.Name" /></a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+

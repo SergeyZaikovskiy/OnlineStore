@@ -18,10 +18,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Views\Employee\" />
-    <Folder Include="Areas\Admin\Views\Home\" />
-    <Folder Include="Areas\Admin\Views\ProductList\" />
-    <Folder Include="Areas\Admin\Views\Shared\Partial\" />
     <Folder Include="Views\Catalog\" />
     <Folder Include="TagHelpers\" />
   </ItemGroup>

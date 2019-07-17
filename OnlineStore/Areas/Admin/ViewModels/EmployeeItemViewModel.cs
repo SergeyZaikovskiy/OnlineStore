@@ -6,10 +6,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OnlineStore.ViewModels
-{/// <summary>
- /// Модель представления одного сотрудника
- /// </summary>
+namespace OnlineStore.Areas.Admin.ViewModels
+{   
+    /// <summary>
+    /// Модель представления одного сотрудника
+    /// </summary>
     public class EmployeeItemViewModel
     {
         [HiddenInput(DisplayValue = false)]

@@ -1,0 +1,71 @@
+﻿@model OnlineStore.ViewModels.ProductsEnumerableViewModel
+@{
+    ViewData["Title"] = "Список товаров";
+    Layout = "_LayoutAdminArea";
+}
+
+
+<h2>@ViewData["Title"]</h2>
+
+<hr />
+
+<a asp-area="Admin" asp-controller="ProductList" asp-action="Edit" class="btn btn-default">Добавить товар</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th></th>
+            <th>
+                <sort action-name="Index" controller-name="ProductList" area-name="Admin" up="@Model.SortViewModel.Up" current="@Model.SortViewModel.Current"
+                      property="@Model.SortViewModel.NameSort">
+                    Название
+                </sort>
+            </th>
+            <th>
+                <sort action-name="Index" controller-name="ProductList" area-name="Admin" up="@Model.SortViewModel.Up" current="@Model.SortViewModel.Current"
+                      property="@Model.SortViewModel.BrandSort">
+                    Бренд
+                </sort>
+            </th>
+            <th>
+                <sort action-name="Index" controller-name="ProductList" area-name="Admin" up="@Model.SortViewModel.Up" current="@Model.SortViewModel.Current"
+                      property="@Model.SortViewModel.SectionSort">
+                    Секция
+                </sort>
+            </th>
+            <th>
+                <sort action-name="Index" controller-name="ProductList" area-name="Admin" up="@Model.SortViewModel.Up" current="@Model.SortViewModel.Current"
+                      property="@Model.SortViewModel.PriceSort">
+                    Цена
+                </sort>
+            </th>
+
+            <th>Изображение </th>
+            <th>Просмотреть</th>
+            @if (User.IsInRole("Administrator"))
+            {
+                <th>Удалить из базы</th>
+            }
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model.products)
+        {
+            <tr>
+                <td><a asp-area="Admin" asp-controller="ProductList" asp-action="Edit" asp-route-idproduct="@product.Id"><i class="fa fa-edit"></i></a></td>
+                <td>@product.Name</td>
+                <td>@product.Brand.Name</td>
+                <td>@product.Section.Name</td>
+                <td>@product.Price</td>
+                <td> <img src="@product.Image.Path" height="100" width="100" alt=""></td>
+                <td><a asp-area="Admin" asp-controller="ProductList" asp-action="Details" asp-route-id="@product.Id">Подробно</a></td>
+                @if (User.IsInRole("Administrator"))
+                {
+                    <td><a asp-area="Admin" asp-controller="ProductList" asp-action="Delete" asp-route-id="@product.Id"><i class="fa fa-times text text-danger" /></a></td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+

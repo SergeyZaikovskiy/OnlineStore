@@ -1,4 +1,5 @@
-﻿using OnlineStore.Domain.Entities.EmployeesEntities;
+﻿using OnlineStore.Areas.Admin.ViewModels;
+using OnlineStore.Domain.Entities.EmployeesEntities;
 using OnlineStore.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace OnlineStore.Infrastructure.Mappers
         /// <summary>
         /// Методы расширения для копирования данных из EmployeeViewModel в класс Employee и обратно
         /// </summary>
-        public static void CopyTo(this EmployeeViewModel model, Employee emp)
+        public static void CopyTo(this EmployeeItemViewModel model, Employee emp)
         {
             //var pos = model.Positions.FirstOrDefault(p => p.Name == model.Position);
 
@@ -27,14 +28,14 @@ namespace OnlineStore.Infrastructure.Mappers
             //emp.PositionId = model.PositionId ;
         }
 
-        public static Employee CreateEmployee(this EmployeeViewModel model)
+        public static Employee CreateEmployee(this EmployeeItemViewModel model)
         {
             var emp = new Employee();
             model.CopyTo(emp);
             return emp;
         }
 
-        public static void CopyTo(this Employee emp, EmployeeViewModel model)
+        public static void CopyTo(this Employee emp, EmployeeItemViewModel model)
         {
             model.Id = emp.id;
             model.Name = emp.Name;
@@ -46,9 +47,9 @@ namespace OnlineStore.Infrastructure.Mappers
             //model.PositionId = emp.PositionId;
         }
 
-        public static EmployeeViewModel CreateViewModel(this Employee emp)
+        public static EmployeeItemViewModel CreateViewModel(this Employee emp)
         {
-            var employee_view_model = new EmployeeViewModel();
+            var employee_view_model = new EmployeeItemViewModel();
             emp.CopyTo(employee_view_model);
 
             return employee_view_model;

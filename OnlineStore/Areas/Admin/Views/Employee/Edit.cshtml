@@ -1,0 +1,99 @@
+﻿
+@model OnlineStore.Areas.Admin.ViewModels.EmployeeItemViewModel
+
+@{
+    ViewData["Title"] = "Редактирование";
+    Layout = "_LayoutAdminArea";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        <form method="post" asp-area="Admin" asp-controller="Employee" asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @*@Html.ValidationSummary(false, "Ощибка", new {@class="text-danger"})*@
+
+            <input asp-for="Id" type="hidden" />
+
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+                @*@Html.ValidationMessageFor(n=>Model.Name, "Ощибка!", new {class="text-danger" })*@
+
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Patronimic" class="control-label"></label>
+                <input asp-for="Patronimic" class="form-control" />
+                <span asp-validation-for="Patronimic" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SurName" class="control-label"></label>
+                <input asp-for="SurName" class="form-control" />
+                <span asp-validation-for="SurName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Age" class="control-label"></label>
+                <input asp-for="Age" class="form-control" />
+                <span asp-validation-for="Age" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Position" class="control-label"></label>
+                <p>
+                    <select asp-for="Position.id" class="form-control">
+                        <optgroup label="Должность">
+                            @foreach (var pos in Model.Positions)
+                            {
+                                if (Model.Position != null)
+                                {
+                                    if (pos.id == Model.Position.id)
+                                    {
+                                        <option selected value="@pos.id">@pos.Name</option> }
+                                    else
+                                    {
+                                        <option value="@pos.id">@pos.Name</option>}
+                                }
+                                else
+                                {
+                                    <option value="@pos.id">@pos.Name</option>}
+                            }
+                        </optgroup>
+                    </select>
+                </p>
+                @*<span asp-validation-for="Position" class="text-danger"></span>*@
+            </div>
+
+
+
+            <div class="form-group">
+                <input type="submit" value="Сохранить" class="btn btn-default" />
+            </div>
+        </form>
+
+        <div>
+            <a asp-area="Admin" asp-controller="Employee" asp-action="Index">Вернуться к списку сотрудников</a>
+        </div>
+        <div>
+            <br />
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+
+

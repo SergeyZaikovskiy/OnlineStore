@@ -1,0 +1,87 @@
+﻿@using OnlineStore.Domain.Enums
+@model OnlineStore.Areas.Admin.ViewModels.EmployeeEnumerableViewModel
+<!--Пользовательский TagHelper-->
+@addTagHelper "*, OnlineStore"
+
+@{
+    ViewData["Title"] = "Сотрудники";
+    Layout = "_LayoutAdminArea";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+
+<a asp-controller="Employee" asp-action="Edit" class="btn btn-default">Добавить сотрудника</a>
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th></th>
+            <th>
+                <sort action-name="Index" controller-name="Employee" area-name="Admin" up="@Model.SortViewModel.Up" current="@Model.SortViewModel.Current"
+                      property="@Model.SortViewModel.SurnameSort">
+                    Фамилия
+                </sort>
+            </th>
+            <th>
+                <sort action-name="Index" controller-name="Employee" area-name="Admin" up="@Model.SortViewModel.Up" current="@Model.SortViewModel.Current"
+                      property="@Model.SortViewModel.NameSort">
+                    Имя
+                </sort>
+            </th>
+            <th>
+                <sort action-name="Index" controller-name="Employee" area-name="Admin" up="@Model.SortViewModel.Up" current="@Model.SortViewModel.Current"
+                      property="@Model.SortViewModel.PatronimicSort">
+                    Отчество
+                </sort>
+            </th>
+            <th>
+                <sort action-name="Index" controller-name="Employee" area-name="Admin" up="@Model.SortViewModel.Up" current="@Model.SortViewModel.Current"
+                      property="@Model.SortViewModel.PositionSort">
+                    Должность
+                </sort>
+            </th>
+            <th>
+                <sort action-name="Index" controller-name="Employee" area-name="Admin" up="@Model.SortViewModel.Up" current="@Model.SortViewModel.Current"
+                      property="@Model.SortViewModel.AgeSort">
+                    Возраст
+                </sort>
+            </th>
+
+            @*<th><a asp-controller="Employee" asp-action="Index" asp-route-sortEmployee="@ViewBag.SurnameSort">Фамилия</a></th>
+                <th><a asp-controller="Employee" asp-action="Index" asp-route-sortEmployee="@ViewBag.NameSort">Имя</a></th>
+                <th><a asp-controller="Employee" asp-action="Index" asp-route-sortEmployee="@ViewBag.PatronimicSort">Отчество</a></th>
+                <th><a asp-controller="Employee" asp-action="Index" asp-route-sortEmployee="@ViewBag.PositionSort">Должность</a></th>
+                <th><a asp-controller="Employee" asp-action="Index" asp-route-sortEmployee="@ViewBag.AgeSort">Возраст</a></th>*@
+
+            <th>Просмотреть</th>
+            @if (User.IsInRole("Administrator"))
+            {
+                <th>Удалить из базы</th>
+            }
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var employee in Model.employees)
+        {
+            <tr>
+                <td><a asp-area="Admin" asp-controller="Employee" asp-action="Edit" asp-route-id="@employee.Id"><i class="fa fa-edit"></i></a></td>
+                <td>@employee.SurName</td>
+                <td>@employee.Name</td>
+                <td>@employee.Patronimic</td>
+                <td>@employee.Position.Name</td>
+                <td>@employee.Age</td>
+                <td><a asp-area="Admin" asp-controller="Employee" asp-action="Details" asp-route-id="@employee.Id">Подробно</a></td>
+                @if (User.IsInRole("Administrator"))
+                {
+                    <td><a asp-area="Admin" asp-controller="Employee" asp-action="Delete" asp-route-id="@employee.Id"><i class="fa fa-times text text-danger" /></a></td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+

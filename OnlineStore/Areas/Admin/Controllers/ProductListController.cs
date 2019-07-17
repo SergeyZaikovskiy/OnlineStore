@@ -7,9 +7,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using OnlineStore.Areas.Admin.ViewModels;
 using OnlineStore.Domain.Entities.ProductsEntities;
 using OnlineStore.Domain.Enums;
 using OnlineStore.Infrastructure.Interfeices;
+using OnlineStore.Infrastructure.Mappers;
+using OnlineStore.ViewModels;
 
 namespace OnlineStore.Areas.Admin.Controllers
 {
@@ -108,7 +112,9 @@ namespace OnlineStore.Areas.Admin.Controllers
         [Authorize(Roles = Domain.Entities.UserEntities.User.RoleAdmin)]
         public IActionResult Edit(int? idProduct, int? idImage)
         {
-            ProductViewModel productViewModel;
+            ProductViewModel productViewModel = new ProductViewModel();
+            //было
+            //ProductViewModel productViewModel;
 
             if (idProduct != null)
             {
@@ -121,13 +127,13 @@ namespace OnlineStore.Areas.Admin.Controllers
                 }//товар уже есть в каталоге
                 else
                 {
-                    productViewModel = new ProductViewModel();
-                    productViewModel.Id = 0;
+                    //productViewModel = new ProductViewModel();
+                    //productViewModel.id = 0;
                 }//новый товар, с временным  ID=0, товар уже есть в представлении, но еще нет в базе
 
                 if (idImage != null)
                 {
-                    productViewModel.Image = productData.GetFileById(Convert.ToInt32(idImage));
+                    //productViewModel.Image = productData.GetFileById(Convert.ToInt32(idImage));
                 }//присвоить новое изображение
             }//уже существующий товар
             else
@@ -155,8 +161,8 @@ namespace OnlineStore.Areas.Admin.Controllers
             var product = productView.CreateProduct();
 
             //Если ID у товара уже есть, то делаем изменения в базе, если ID нет, то добавляем в базу новый товар
-            if (productView.Id > 0) { productData.UpdateInfoProduct(product); }
-            else { productData.AddProduct(product); }
+            //if (productView.id > 0) { productData.UpdateInfoProduct(product); }
+            //else { productData.AddProduct(product); }
 
             return RedirectToAction("Index");
 
