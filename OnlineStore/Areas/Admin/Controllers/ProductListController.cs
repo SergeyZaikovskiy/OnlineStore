@@ -41,7 +41,7 @@ namespace OnlineStore.Areas.Admin.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Index(EnumSortForProducts sortValue = EnumSortForProducts.NameAsc)
         {
-            var productList = productData.GetProducts(new Domain.Entities.ProductsEntities.ProductFilter());
+            var productList = productData.GetProducts(new ProductFilter());
 
             //переключение сортировок
             switch (sortValue)
@@ -92,10 +92,10 @@ namespace OnlineStore.Areas.Admin.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize(Roles = Domain.Entities.UserEntities.User.RoleAdmin)]
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
             //ProductViewModel productViewModel = new ProductViewModel();
-            var product = productData.GetProductById(id);
+            var product = await Task.Run(()=> productData.GetProductById(id));
             var productViewModel = product.CreateViewModel();
 
             if (productViewModel is null)
@@ -110,7 +110,7 @@ namespace OnlineStore.Areas.Admin.Controllers
         /// <param name="id">id товара</param>
         /// <returns></returns>
         [Authorize(Roles = Domain.Entities.UserEntities.User.RoleAdmin)]
-        public IActionResult Edit(int? idProduct, int? idImage)
+        public async Task<IActionResult> Edit(int? idProduct, int? idImage)
         {
             ProductViewModel productViewModel = new ProductViewModel();
             //было
@@ -120,7 +120,7 @@ namespace OnlineStore.Areas.Admin.Controllers
             {
                 if (idProduct > 0)
                 {
-                    var product = productData.GetProductById(idProduct);
+                    var product = await Task.Run(() => productData.GetProductById(idProduct));
                     productViewModel = product.CreateViewModel();
                     if (productViewModel is null)
                         return NotFound();
@@ -141,8 +141,9 @@ namespace OnlineStore.Areas.Admin.Controllers
                 productViewModel = new ProductViewModel();
             }//новый товар
 
-            productViewModel.Sections = productData.GetSections();//добавляем список секций
-            productViewModel.Brands = productData.GetBrands();//добавляем список брендов
+            productViewModel.Sections = await productData.GetSections().AsNoTracking().ToListAsync();//добавляем список секций
+            productViewModel.Brands = await productData.GetBrands().AsNoTracking().ToListAsync();//добавляем список брендов
+            productViewModel.Categories = await productData.GetCategories().AsNoTracking().ToListAsync();//добавляем категории
 
             return View(productViewModel);
         }
@@ -174,10 +175,10 @@ namespace OnlineStore.Areas.Admin.Controllers
         /// <param name="id">id товара</param>
         /// <returns></returns>
         [Authorize(Roles = Domain.Entities.UserEntities.User.RoleAdmin)]
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id is null) return NotFound();
-            productData.RemoveProduct(id);
+            await Task.Run(()=> productData.RemoveProduct(id));
             return RedirectToAction("Index");
         }
 
@@ -216,8 +217,7 @@ namespace OnlineStore.Areas.Admin.Controllers
         [Authorize(Roles = Domain.Entities.UserEntities.User.RoleAdmin)]
         public async Task<IActionResult> ChangeImageForProduct(int IdProduct)
         {
-            var imagesFiles = productData.GetFiles();
-            await imagesFiles.AsNoTracking().ToListAsync();
+            var imagesFiles = await productData.GetFiles().AsNoTracking().ToListAsync();          
 
             var imgViewModel = new ImagesCatalogViewModel { Images = imagesFiles, IdProduct = IdProduct };
 

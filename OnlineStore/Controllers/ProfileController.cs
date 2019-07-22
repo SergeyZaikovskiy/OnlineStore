@@ -29,7 +29,7 @@ namespace OnlineStore.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Orders()
         {
-            var orders = await orderService.GetUserOrders(User.Identity.Name).ToListAsync();
+            var orders = await orderService.GetUserOrders(User.Identity.Name).AsNoTracking().ToListAsync();
 
             return View(orders.Select(order => new UserOrderViewModel
             {

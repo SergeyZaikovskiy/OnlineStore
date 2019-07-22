@@ -56,6 +56,7 @@ namespace OnlineStore.Controllers
             }
 
             ModelState.AddModelError("", "Логин или пароль указаны не верно!");
+
             return View(model);
         }
 

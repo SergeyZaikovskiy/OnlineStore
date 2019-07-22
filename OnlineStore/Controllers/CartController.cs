@@ -26,11 +26,11 @@ namespace OnlineStore.Controllers
         /// Показать детали
         /// </summary>
         /// <returns></returns>
-        public IActionResult Details()
+        public async Task<IActionResult> Details()
         {
-            var model = new CartDetailsViewModel
+            var model =  new CartDetailsViewModel
             {
-                CartViewModel = cartService.TransformCart(),
+                CartViewModel = await Task.Run(() => cartService.TransformCart()),
                 OrderViewModel = new OrderViewModel()
             };
 
@@ -42,9 +42,9 @@ namespace OnlineStore.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public IActionResult DecrementFromCart(int id)
+        public async Task<IActionResult> DecrementFromCart(int id)
         {
-            cartService.DecrementCountItem(id);
+            await Task.Run(() => cartService.DecrementCountItem(id));
             return RedirectToAction("Details");
         }
 
@@ -53,9 +53,9 @@ namespace OnlineStore.Controllers
         /// </summary>
         /// <param name="id">ID товара</param>
         /// <returns></returns>
-        public IActionResult RemoveFromCart(int id)
+        public async Task<IActionResult> RemoveFromCart(int id)
         {
-            cartService.RemoveFromCart(id);
+            await Task.Run(() => cartService.RemoveFromCart(id));
             return RedirectToAction("Details");
         }
 
@@ -63,9 +63,9 @@ namespace OnlineStore.Controllers
         /// Удалить все товары из корзины
         /// </summary>
         /// <returns></returns>
-        public IActionResult RemoveAll()
+        public async Task<IActionResult> RemoveAll()
         {
-            cartService.RemoveAll();
+            await Task.Run(() => cartService.RemoveAll());
             return RedirectToAction("Details");
         }
 
@@ -74,9 +74,9 @@ namespace OnlineStore.Controllers
         /// </summary>
         /// <param name="id">ID товара</param>
         /// <returns></returns>
-        public IActionResult AddtoCart(int id)
+        public async Task<IActionResult> AddtoCart(int id)
         {
-            cartService.AddToCart(id);
+            await Task.Run(() => cartService.AddToCart(id));
             return RedirectToAction("Details");
         }
 
@@ -86,19 +86,19 @@ namespace OnlineStore.Controllers
         /// <param name="orderViewModel">Модель представления заказа</param>
         /// <returns></returns>
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult CheckOut(OrderViewModel orderViewModel)
+        public async Task<IActionResult> CheckOut(OrderViewModel orderViewModel)
         {
             if (!ModelState.IsValid)
                 return View(nameof(Details), new CartDetailsViewModel
                 {
-                    CartViewModel = cartService.TransformCart(),
+                    CartViewModel = await Task.Run(() => cartService.TransformCart()),
                     OrderViewModel = orderViewModel
                 });
 
             var order = orderService.CreateNewOrder(orderViewModel, cartService.TransformCart(), User.Identity.Name);
 
 
-            cartService.RemoveAll();
+            await Task.Run(() => cartService.RemoveAll());
 
             return RedirectToAction("OrderConfirmed", new { id = order.id });
         }

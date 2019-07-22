@@ -40,7 +40,7 @@ namespace OnlineStore.Areas.Admin.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Index(EnumSortForEmployee sortValue = EnumSortForEmployee.SurnameAsc)
         {
-            var employees = Employees.GetAllEmp();
+            var employees = await Employees.GetAllEmp().AsNoTracking().ToListAsync();
 
             //Для работы без пользовательского TagHelper
             //ViewData["SurnameSort"] = sortEmployee == SortEnum.SurnameAsc ? SortEnum.SurnameDes : SortEnum.SurnameAsc;
@@ -49,48 +49,49 @@ namespace OnlineStore.Areas.Admin.Controllers
             //ViewData["AgeSort"] = sortEmployee == SortEnum.AgeAsc ? SortEnum.AgeDes : SortEnum.AgeAsc;
             //ViewData["PositionSort"] = sortEmployee == SortEnum.PosAsc ? SortEnum.PosDes : SortEnum.PosAsc;
 
+           
             //переключение сортировок
             switch (sortValue)
             {
                 case EnumSortForEmployee.SurnameDes:
-                    employees = employees.OrderByDescending(s => s.Surname);
+                    employees = employees.OrderByDescending(s => s.Surname).ToList();
                     break;
 
                 case EnumSortForEmployee.NameAsc:
-                    employees = employees.OrderBy(s => s.Name);
+                    employees = employees.OrderBy(s => s.Name).ToList();
                     break;
                 case EnumSortForEmployee.NameDes:
-                    employees = employees.OrderByDescending(s => s.Name);
+                    employees = employees.OrderByDescending(s => s.Name).ToList();
                     break;
 
                 case EnumSortForEmployee.PatronimicAsc:
-                    employees = employees.OrderBy(s => s.Patronimic);
+                    employees = employees.OrderBy(s => s.Patronimic).ToList();
                     break;
                 case EnumSortForEmployee.PatronimicDes:
-                    employees = employees.OrderByDescending(s => s.Patronimic);
+                    employees = employees.OrderByDescending(s => s.Patronimic).ToList();
                     break;
 
                 case EnumSortForEmployee.AgeAsc:
-                    employees = employees.OrderBy(s => s.Age);
+                    employees = employees.OrderBy(s => s.Age).ToList();
                     break;
 
                 case EnumSortForEmployee.AgeDes:
-                    employees = employees.OrderByDescending(s => s.Age);
+                    employees = employees.OrderByDescending(s => s.Age).ToList();
                     break;
 
                 case EnumSortForEmployee.PosAsc:
-                    employees = employees.OrderBy(s => s.Position.Name);
+                    employees = employees.OrderBy(s => s.Position.Name).ToList();
                     break;
                 case EnumSortForEmployee.PosDes:
-                    employees = employees.OrderByDescending(s => s.Position.Name);
+                    employees = employees.OrderByDescending(s => s.Position.Name).ToList();
                     break;
 
                 default:
-                    employees = employees.OrderBy(s => s.Surname);
+                    employees = employees.OrderBy(s => s.Surname).ToList();
                     break;
             }
 
-            await employees.AsNoTracking().ToListAsync();
+            //await employees.AsNoTracking().ToListAsync();
 
             //список сотрудников
             var employess_View_models = employees.Select(EmployeeViewModelMapper.CreateViewModel);
@@ -106,13 +107,13 @@ namespace OnlineStore.Areas.Admin.Controllers
         /// <param name="id">Id сотрудника</param>
         /// <returns></returns>
         [Authorize(Roles = Domain.Entities.UserEntities.User.RoleAdmin)]
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             EmployeeItemViewModel emp_view_model;
 
             if (id != null)
             {
-                var emp = Employees.GetById(id);
+                var emp = await Task.Run(()=>Employees.GetById(id));
                 emp_view_model = emp.CreateViewModel();
                 if (emp_view_model == null) return NotFound();
             }
@@ -123,7 +124,7 @@ namespace OnlineStore.Areas.Admin.Controllers
                 emp_view_model.Position = new Position { id = 1 };
             }
 
-            emp_view_model.Positions = Employees.GetAllPositions();
+            emp_view_model.Positions = await Employees.GetAllPositions().AsNoTracking().ToListAsync();
 
             return View(emp_view_model);
         }
@@ -136,13 +137,13 @@ namespace OnlineStore.Areas.Admin.Controllers
         /// <returns></returns>
         [HttpPost]
         [Authorize(Roles = Domain.Entities.UserEntities.User.RoleAdmin)]
-        public IActionResult Edit(EmployeeItemViewModel emp_model)
+        public async Task<IActionResult> Edit(EmployeeItemViewModel emp_model)
         {
             if (!ModelState.IsValid) return View(emp_model);
             var emp = emp_model.CreateEmployee();
 
-            if (emp_model.Id > 0) { Employees.UpdateInfoEmployee(emp); }
-            else { Employees.AddEmployee(emp); }
+            if (emp_model.Id > 0) { await Task.Run(()=> Employees.UpdateInfoEmployee(emp)); }
+            else { await Task.Run(() => Employees.AddEmployee(emp)); }
 
             return RedirectToAction("Index");
         }
@@ -153,10 +154,10 @@ namespace OnlineStore.Areas.Admin.Controllers
         /// <param name="id">Id сотрудника</param>
         /// <returns></returns>
         [Authorize(Roles = Domain.Entities.UserEntities.User.RoleAdmin)]
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id is null) return NotFound();
-            Employees.RemoveEmployee(id);
+            await Task.Run(()=>Employees.RemoveEmployee(id));
             return RedirectToAction("Index");
         }
 
@@ -165,20 +166,15 @@ namespace OnlineStore.Areas.Admin.Controllers
         /// </summary>
         /// <param name="id">Id сотрудника</param>
         /// <returns></returns>
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
             EmployeeItemViewModel emp_view_model = new EmployeeItemViewModel();
-            var emp = Employees.GetById(id);
+            var emp = await Task.Run(() => Employees.GetById(id));
             emp_view_model = emp.CreateViewModel();
             if (emp_view_model == null) return NotFound();
 
             return View(emp_view_model);
         }
-
-
-
-
-
     }
 
 }
