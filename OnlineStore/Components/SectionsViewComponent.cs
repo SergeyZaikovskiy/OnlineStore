@@ -29,14 +29,23 @@ namespace OnlineStore.Components
         /// <returns></returns>
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var sectionsFromDB = await _ProductData.GetSections().ToListAsync();
+            var sections = await Task.Run(()=>GetSections());
+            return View(sections);            
+        }
+
+        private List<SectionViewModel> GetSections()
+        {
+            var sectionsFromDB = _ProductData.GetSections();
+
             List<SectionViewModel> sectionsToPassInViewModel = new List<SectionViewModel>();
 
-            foreach (OnlineStore.Domain.Entities.ProductsEntities.Section sec in sectionsFromDB)
+            foreach (Section sec in sectionsFromDB)
             {
-                var catToSec = await _ProductData.GetCategoryByIdSection(sec.id).ToListAsync();
+                var catToSec = _ProductData.GetCategoryByIdSection(sec.id);
+
                 SectionViewModel sectionViewModel;
-                if (catToSec.Count > 0)
+
+                if (catToSec.Count() > 0)
                 {
                     List<Category> cat = new List<Category>();
                     foreach (SectionToCategory catSec in catToSec)
@@ -50,33 +59,9 @@ namespace OnlineStore.Components
 
                 sectionsToPassInViewModel.Add(sectionViewModel);
             }
-            return View(sectionsToPassInViewModel.AsEnumerable());
+
+            return sectionsToPassInViewModel;
         }
-
-
-
-        //private IQueryable<SectionViewModel> GetSections()
-        //{
-
-        //    //var sections = _ProductData.GetSections();
-
-        //    //var parent_sections = sections.Where(section => section.ParentId == null)
-        //    //    .Select(SectionViewModelMapper.CreateViewModel).ToList();
-
-
-        //    //foreach (var par_section in parent_sections)
-        //    //{
-        //    //    var child_sections = sections.Where(section => section.ParentId == par_section.Id)
-        //    //        .Select(SectionViewModelMapper.CreateViewModel);
-        //    //    par_section.ChildrenSections.AddRange(child_sections);
-        //    //    par_section.ChildrenSections.Sort((a, b) => Comparer<int>.Default.Compare(a.Order, b.Order));
-        //    //}
-
-        //    //parent_sections.Sort((a, b) => Comparer<int>.Default.Compare(a.Order, b.Order));
-        //    //var sections1 = parent_sections.AsQueryable();
-
-        //    return sections;
-        //}
 
     }
 }

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OnlineStore.Domain.Entities;
 using OnlineStore.Domain.Entities.ProductsEntities;
 using OnlineStore.Infrastructure.Interfeices;
+using OnlineStore.Infrastructure.Mappers;
 using OnlineStore.ViewModels;
 
 namespace OnlineStore.Components
@@ -27,23 +29,23 @@ namespace OnlineStore.Components
         /// Загрузка и отображения представления для Компонента Brands
         /// </summary>
         /// <returns></returns>
-        public IViewComponentResult Invoke()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-            Brand brands = new Brand();
+            var brands =await Task.Run(()=> GetBrands());
             return View(brands);
         }
 
-        //private IQueryable<BrandViewModel> GetBrands()
-        //{
-        //    var brands = _ProductData.GetBrands();
+        private IQueryable<BrandViewModel> GetBrands()
+        {
+            var brands =  _ProductData.GetBrands();
 
-        //    //ProductFilter filter = null;
+            ///ProductFilter filter = null;
 
-        //    //var products = _ProductData.GetProducts(filter);
+            //var products = _ProductData.GetProducts(filter);
 
-        //    //var listOfBrands = brands.Select(brand => brand.CreateViewModel(0));
+            var listOfBrands = brands.Select(brand => brand.CreateViewModel(0));
 
-        //    return brands;
-        //}
+            return listOfBrands;
+        }
     }
 }
