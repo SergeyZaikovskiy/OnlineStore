@@ -9,11 +9,11 @@
     <div class="container">
         <div class="row">            
 
-            <div class="col-sm-12">                
+            <div class="col-sm-12">
 
-                @await Html.PartialAsync("Partial/_Category_Tab")
+                @await Component.InvokeAsync("CategoryTab");
 
-                @await Html.PartialAsync("Partial/_Recommended_Items")
+                @await Component.InvokeAsync("RecommendedItems");               
 
             </div>
         </div>

@@ -78,7 +78,7 @@ namespace OnlineStore.Infrastructure.Interfeices
         /// </summary>
         /// <param name="productFilter"></param>
         /// <returns></returns>
-        IQueryable<Product> GetProducts(ProductFilter productFilter);
+        IQueryable<Product> GetProducts(ProductFilter productFilter, int countProducts = 0);
 
         /// <summary>
         /// Получаем товар по Id

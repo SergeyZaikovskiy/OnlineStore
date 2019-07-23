@@ -95,12 +95,26 @@ namespace OnlineStore.Infrastructure.Implementations
         /// </summary>
         /// <param name="productFilter">Фильтр для товаров</param>
         /// <returns></returns>
-        public IQueryable<Product> GetProducts(ProductFilter productFilter)
+        public IQueryable<Product> GetProducts(ProductFilter productFilter, int countProducts = 0)
         {
-            IQueryable<Product> products = db.Products
+            IQueryable<Product> products;
+
+            if (countProducts > 0)
+            {
+               products = db.Products
                 .Include(prod => prod.Brand)
                 .Include(prod => prod.Section)
-                .Include(prod => prod.FileModel);
+                .Include(prod=>prod.Category)
+                .Include(prod => prod.FileModel).Take(countProducts);
+            }
+            else {
+               products = db.Products
+              .Include(prod => prod.Brand)
+              .Include(prod => prod.Section)
+              .Include(prod => prod.Category)
+              .Include(prod => prod.FileModel);
+            }
+            
 
             if (productFilter is null)
                 return products;
@@ -108,8 +122,11 @@ namespace OnlineStore.Infrastructure.Implementations
             if (productFilter.SectionId != null)
                 products = products.Where(p => p.SectionId == productFilter.SectionId);
 
-            //if (productFilter.BrandId != null)
-            //    products = products.Where(p => p.BrandId == productFilter.BrandId);
+            if (productFilter.CategoryId != null)
+                products = products.Where(p => p.CategoryId == productFilter.CategoryId);
+
+            //if (productFilter.BrandIdCollection != null)
+            //    products = products.Where(p => p.BrandId == productFilter.BrandIdCollection.Any());
 
             return products;
         }
