@@ -30,6 +30,7 @@ namespace OnlineStore.Components
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var sections = await Task.Run(()=>GetSections());
+
             return View(sections);            
         }
 

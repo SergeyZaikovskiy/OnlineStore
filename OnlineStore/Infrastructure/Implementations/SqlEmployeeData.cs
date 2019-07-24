@@ -42,7 +42,7 @@ namespace OnlineStore.Infrastructure.Implementations
         /// Получить все должности из базы
         /// </summary>
         /// <returns></returns>
-        public IQueryable<Position> GetAllPositions() => db.Positions;
+        public IQueryable<Position> GetAllPositions() => db.Positions.Include(pos=>pos.Employees);
 
         /// <summary>
         /// Получить сотрудника по ID из базы

@@ -32,6 +32,7 @@ namespace OnlineStore.Components
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var brands =await Task.Run(()=> GetBrands());
+            
             return View(brands);
         }
 

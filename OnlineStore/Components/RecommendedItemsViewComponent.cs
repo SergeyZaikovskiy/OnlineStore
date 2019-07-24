@@ -19,9 +19,9 @@ namespace OnlineStore.Components
             _ProductData = ProductData;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public IViewComponentResult Invoke()
         {
-            var productViewModels = await Task.Run(() => GetProducts());
+            var productViewModels = GetProducts();         
 
             return View(productViewModels.ToList());
         }
@@ -29,7 +29,7 @@ namespace OnlineStore.Components
         private IQueryable<ProductViewModel> GetProducts()
         {
             ProductFilter productFilter = null;
-            var products = _ProductData.GetProducts(productFilter, 9);           
+            var products = _ProductData.GetProducts(productFilter, 5);           
 
             var listOfProducts = products.Select(product => product.CreateViewModel());
 
