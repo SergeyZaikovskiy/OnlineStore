@@ -29,7 +29,7 @@ namespace OnlineStore.Components
         private IQueryable<ProductViewModel> GetProducts()
         {
             ProductFilter productFilter = null;
-            var products = _ProductData.GetProducts(productFilter, 5);           
+            var products = _ProductData.GetProducts(productFilter, 6);           
 
             var listOfProducts = products.Select(product => product.CreateViewModel());
 
