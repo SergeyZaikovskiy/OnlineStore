@@ -33,7 +33,12 @@
                                         <img src="@prod.Image.Path" alt="@prod.Name" />
                                         <h2>@prod.Price.ToString("C")</h2>
                                         <p>>@prod.Name</p>
-                                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>В корзину</a>
+                                        <a asp-controller="Cart" asp-action="AddtoCart" asp-route-id="@prod.Id"
+                                           class="btn btn-default add-to-cart">
+                                            <i class="fa fa-shopping-cart">
+                                            </i>
+                                            В корзину
+                                        </a>
                                     </div>
 
                                 </div>
@@ -55,7 +60,12 @@
                                     <img src="@prod.Image.Path" alt="@prod.Name" />
                                     <h2>@prod.Price.ToString("C")</h2>
                                     <p>>@prod.Name</p>
-                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>В корзину</a>
+                                    <a asp-controller="Cart" asp-action="AddtoCart" asp-route-id="@prod.Id"
+                                       class="btn btn-default add-to-cart">
+                                        <i class="fa fa-shopping-cart">
+                                        </i>
+                                        В корзину
+                                    </a>
                                 </div>
 
                             </div>

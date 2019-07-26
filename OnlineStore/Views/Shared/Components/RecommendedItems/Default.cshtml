@@ -20,7 +20,12 @@
                                                 <img src="@Model[j].Image.Path" alt="@Model[j].Name" />
                                                 <h2>@(Model[j].Price.ToString("C"))</h2>
                                                 <p>@Model[j].Name</p>
-                                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>В корзину</a>
+                                                <a asp-controller="Cart" asp-action="AddtoCart" asp-route-id="@Model[j].Id"
+                                                   class="btn btn-default add-to-cart">
+                                                    <i class="fa fa-shopping-cart">
+                                                    </i>
+                                                    В корзину
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
@@ -38,7 +43,12 @@
                                                 <img src="@Model[k].Image.Path" alt="" />
                                                 <h2>@(Model[k].Price.ToString("C"))</h2>
                                                 <p>@Model[k].Name</p>
-                                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>В корзину</a>
+                                                <a asp-controller="Cart" asp-action="AddtoCart" asp-route-id="@Model[k].Id"
+                                                   class="btn btn-default add-to-cart">
+                                                    <i class="fa fa-shopping-cart">
+                                                    </i>
+                                                    В корзину
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
