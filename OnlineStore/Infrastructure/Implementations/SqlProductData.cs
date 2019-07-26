@@ -113,8 +113,8 @@ namespace OnlineStore.Infrastructure.Implementations
             if (productFilter.CategoryId != null)
                 products = products.Where(p => p.CategoryId == productFilter.CategoryId);
 
-            //if (productFilter.BrandIdCollection != null)
-            //    products = products.Where(p => p.BrandId == productFilter.BrandIdCollection.Any());
+            if (productFilter.BrandIdCollection != null)
+                products = products.Where(p => productFilter.BrandIdCollection.Contains(p.BrandId));
 
             if (countProducts > 0)
                 return products.Take(countProducts);
