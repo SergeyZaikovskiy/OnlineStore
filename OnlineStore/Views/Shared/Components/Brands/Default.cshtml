@@ -1,4 +1,15 @@
 ﻿
-@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
+@model IEnumerable<OnlineStore.ViewModels.BrandViewModel>
+
+<div class="brands_products">
+    <!--brands_products-->
+    <h2>Брэнды</h2>
+    <div class="brands-name">
+        <ul class="nav nav-pills nav-stacked">
+            @foreach (var brand in Model)
+            {
+                <li><a href="#"> <span class="pull-right">(@brand.ProductsCount)</span>@brand.Name</a></li>
+            }
+        </ul>
+    </div>
+</div><!--/brands_products-->

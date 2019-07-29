@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<OnlineStore.ViewModels.SectionViewModel>
 
+@using OnlineStore.Domain.Entities.ProductsEntities;
+
 @*  *@
 <div class="panel-group category-products" id="accordian">
     <!--category-productsr-->
@@ -14,15 +16,15 @@
                         <a href="#">@sec.Name<i class="fa fa-angle-down"></i></a>
                         <ul role="menu" class="sub-menu">
                             @foreach (var cat in sec.Categories)
-                            {
-                                <li><a asp-controller="Catalog" asp-action="Shop">@cat.Name</a></li>
+                            {                                                      
+                               <li><a asp-controller="Catalog" asp-action="Shop" asp-route-secid="@sec.Id" asp-route-catid="@cat.id">@cat.Name</a></li>
                             }
                         </ul>
                     </li>
                 }
                 else
                 {
-                    <li><a asp-controller="Home" asp-action="Contact_us">@sec.Name</a></li>
+                    <li><a asp-controller="Catalog" asp-action="Shop">@sec.Name</a></li>
                 }
             }
             @*<li class="dropdown">

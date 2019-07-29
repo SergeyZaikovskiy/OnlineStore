@@ -1,7 +1,8 @@
 ﻿@model List<OnlineStore.ViewModels.Product.CategoryTabViewModel>
 
 <div class="category-tab">
-    <!--category-tab-->
+    <!--category-tab-->  
+    
     <div class="col-sm-12">
         <ul class="nav nav-tabs">
             @for (int i = 0; i < Model.Count; i++)
@@ -14,8 +15,7 @@
                 {
                     <li><a href="#@Model[i].Section.Name" data-toggle="tab">@Model[i].Section.Name</a></li>
                 }
-            }
-            
+            }            
         </ul>
     </div>
     <div class="tab-content">
@@ -32,7 +32,7 @@
                                     <div class="productinfo text-center">
                                         <img src="@prod.Image.Path" alt="@prod.Name" />
                                         <h2>@prod.Price.ToString("C")</h2>
-                                        <p>>@prod.Name</p>
+                                        <p>@prod.Name</p>
                                         <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>В корзину</a>
                                     </div>
 

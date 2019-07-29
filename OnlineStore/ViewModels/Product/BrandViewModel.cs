@@ -10,6 +10,7 @@ namespace OnlineStore.ViewModels
     /// </summary>
     public class BrandViewModel
     {
+        public bool Choosen { get; set; }
         public string Name { get; set; }
         public int Id { get; set; }
         public int Order { get; set; }

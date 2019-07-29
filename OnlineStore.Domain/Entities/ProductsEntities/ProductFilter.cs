@@ -11,9 +11,13 @@ namespace OnlineStore.Domain.Entities.ProductsEntities
     {
         public int? SectionId { get; set; }
 
-        public List<int?> BrandIdCollection { get; set; } = new List<int?>();
+        public List<int?> BrandIdCollection { get; set; }
 
         public int? CategoryId { get; set; }
+
+        public decimal? MinPrice { get;set; }
+
+        public decimal? MaxPrice { get; set; }
 
         public List<int> Identifocators { get; set; }
     }

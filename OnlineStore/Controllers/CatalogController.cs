@@ -26,23 +26,19 @@ namespace OnlineStore.Controllers
         /// <summary>
         /// Вызов представления Shop (Набор товаров)
         /// </summary>
-        /// <param name="_SectionId">Id секции товара</param>
-        /// <param name="_BrandId">Id бренда товара</param>
-        /// <returns></returns>
-        public async Task<IActionResult> Shop(int? _SectionId, List<int?> _BrandIdCollection, int? _CategoryId)
+        /// <param name="productFilter">Фильтр товаров</param>
+        /// <returns></returns>       
+        public async Task<IActionResult> Shop(int? SecID, int? CatID, List<int?> BrIDCol, decimal? MinP, decimal? MaxP )
         {
-            var products = await _productData.GetProducts(new ProductFilter
-            {
-                SectionId = _SectionId,
-                BrandIdCollection = _BrandIdCollection,
-                CategoryId = _CategoryId
-            }).AsNoTracking().ToListAsync();
+        ProductFilter productFilter = new ProductFilter {SectionId = SecID, CategoryId=CatID, BrandIdCollection = BrIDCol, MinPrice = MinP, MaxPrice = MaxP};
+
+        var products = await _productData.GetProducts(productFilter).AsNoTracking().ToListAsync();
 
             var catalog_model = new CatalogViewModel
             {
-                BrandIdCollection = _BrandIdCollection,
-                SectionId = _SectionId,
-                CategoryId = _CategoryId,
+                BrandIdCollection = productFilter.BrandIdCollection,
+                SectionId = productFilter.SectionId,
+                CategoryId = productFilter.CategoryId,
                 Products = products.Select(ProductViewModelMapper.CreateViewModel)
             };
             return View(catalog_model);

@@ -1,0 +1,27 @@
+﻿@model List<OnlineStore.ViewModels.CategoryViewModel>
+
+<h2>Категории</h2>
+<div class="panel-group category-products" id="accordian">
+    <!--category-productsr-->
+
+    @foreach (var category in Model)
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    
+                        @if (category.Choosen)
+                        {
+                    <a href="#">
+                        <b>@category.Name</b>@category.Name
+                    </a>
+                        }
+                        else {<a href="#">
+                                @category.Name
+                            </a> }
+                    
+                </h4>
+            </div>
+        </div>        
+    }
+</div><!--/category-products-->

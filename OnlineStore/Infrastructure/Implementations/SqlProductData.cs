@@ -116,6 +116,10 @@ namespace OnlineStore.Infrastructure.Implementations
             if (productFilter.BrandIdCollection != null)
                 products = products.Where(p => productFilter.BrandIdCollection.Contains(p.BrandId));
 
+            if (productFilter.MinPrice!=null && productFilter.MaxPrice!=null && (productFilter.MinPrice <productFilter.MaxPrice))
+                products = products.Where(p => (p.Price > productFilter.MinPrice && p.Price < productFilter.MaxPrice));
+            
+
             if (countProducts > 0)
                 return products.Take(countProducts);
 
