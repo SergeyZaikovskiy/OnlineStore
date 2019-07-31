@@ -143,7 +143,12 @@ namespace OnlineStore.Areas.Admin.Controllers
 
             productViewModel.Sections = await productData.GetSections().AsNoTracking().ToListAsync();//добавляем список секций
             productViewModel.Brands = await productData.GetBrands().AsNoTracking().ToListAsync();//добавляем список брендов
-            productViewModel.Categories = await productData.GetCategories().AsNoTracking().ToListAsync();//добавляем категории
+
+            //Пока передаем пустой как заглушку
+            ProductFilter productFilter = new ProductFilter();
+
+
+            productViewModel.Categories = await productData.GetCategories(productFilter).AsNoTracking().ToListAsync();//добавляем категории
 
             return View(productViewModel);
         }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineStore.Domain.Entities.ProductsEntities;
 using OnlineStore.Infrastructure.Interfeices;
 using OnlineStore.Infrastructure.Mappers;
 using System;
@@ -20,15 +21,16 @@ namespace OnlineStore.Components
             _ProductData = productDate;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(int choosenCategoryID)        {
+        public async Task<IViewComponentResult> InvokeAsync(ProductFilter productFilter)
+        {         
 
-            var categories = await Task.Run(() => _ProductData.GetCategories());
+            var categories = await Task.Run(() => _ProductData.GetCategories(productFilter));
 
             var cats = categories.Select(cat => cat.CreateViewModel()).ToList();
 
             for (int i = 0; i < cats.Count; i++)
             {
-                if (cats[i].Id == choosenCategoryID) cats[i].Choosen = true;
+                if (cats[i].Id == productFilter.CategoryId) cats[i].Choosen = true;
                 else  cats[i].Choosen = false; 
                
             }

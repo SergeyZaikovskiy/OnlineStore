@@ -57,8 +57,20 @@ namespace OnlineStore.Infrastructure.Implementations
         /// Список Категорий
         /// </summary>
         /// <returns></returns>
-        public IQueryable<Category> GetCategories() => db.Categories
-            .Include(c => c.Products);
+        public IQueryable<Category> GetCategories(ProductFilter productFilter)
+        {          
+
+            if (productFilter is null)
+            {
+                var categories = db.Categories;                
+                return categories;
+            }
+
+            var cats = db.SectionToCategory.Where(sc => sc.SectionId == productFilter.SectionId).Select(c => c.Category);        
+                                     
+            return cats;
+
+        }
 
         /// <summary>
         /// Получить Категории по id
@@ -113,7 +125,7 @@ namespace OnlineStore.Infrastructure.Implementations
             if (productFilter.CategoryId != null)
                 products = products.Where(p => p.CategoryId == productFilter.CategoryId);
 
-            if (productFilter.BrandIdCollection != null)
+            if (productFilter.BrandIdCollection != null && productFilter.BrandIdCollection.Count > 0)
                 products = products.Where(p => productFilter.BrandIdCollection.Contains(p.BrandId));
 
             if (productFilter.MinPrice!=null && productFilter.MaxPrice!=null && (productFilter.MinPrice <productFilter.MaxPrice))

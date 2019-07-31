@@ -36,8 +36,9 @@ namespace OnlineStore.Components
                         
             foreach(var sec in sections)
             {
-                List<int?> brandIDlist = new List<int?> { 12,13,14,1};
-                ProductFilter productFilter = new ProductFilter { SectionId = sec.id, BrandIdCollection = brandIDlist };
+                
+
+                ProductFilter productFilter = new ProductFilter { SectionId = sec.id};
 
                 IEnumerable<ProductViewModel> productViewModel = _ProductData.GetProducts(productFilter, 4)
                     .Select(product => product.CreateViewModel())

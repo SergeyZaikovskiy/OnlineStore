@@ -32,7 +32,7 @@ namespace OnlineStore.Infrastructure.Interfeices
         /// Получаем Категории
         /// </summary>
         /// <returns></returns>
-        IQueryable<Category> GetCategories();
+        IQueryable<Category> GetCategories(ProductFilter productFilter);
 
         /// <summary>
         /// Получить Категория по id

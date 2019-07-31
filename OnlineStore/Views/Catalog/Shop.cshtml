@@ -16,11 +16,11 @@
 <section>
     <div class="container">
         <div class="row">
-            <div class="col-sm-3">
+            <div class="col-sm-3">               
                 @{
-                    ProductFilter productFilter = new ProductFilter { SectionId = Model.SectionId, CategoryId = Model.CategoryId};
-                    await Html.PartialAsync("Partial/_LeftSideBar", productFilter);
-                    }
+                    ProductFilter productFilter = new ProductFilter { SectionId = Model.SectionId, CategoryId = Model.CategoryId };
+                    @await Html.PartialAsync("Partial/_LeftSideBar", productFilter)
+                }
             </div>
 
             <div class="col-sm-9 padding-right">

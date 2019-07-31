@@ -1,23 +1,22 @@
-﻿@model OnlineStore.Domain.Entities.ProductsEntities.ProductFilter;
-<div class="left-sidebar">
+﻿@model OnlineStore.Domain.Entities.ProductsEntities.ProductFilter
 
-    <div class="col-sm-12">
-        <h3>Название секции</h3>
-    </div>
+    <div class="left-sidebar">
+        
+        <h2>@Model.SectionId/h2>
 
-    @await Component.InvokeAsync("Category", Model.CategoryId);
-    @await Component.InvokeAsync("Brands", Model.BrandIdCollection);
+        @await Component.InvokeAsync("Category", Model)
+
+        @await Component.InvokeAsync("Brands", Model)
 
 
-
-    @*<div class="price-range">
+        <div class="price-range">
             <!--price-range-->
             <h2>Цена</h2>
             <div class="well text-center">
                 <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]" id="sl2"><br />
                 <b class="pull-left">$ 0</b> <b class="pull-right">$ 600</b>
             </div>
-        </div><!--/price-range-->*@
+        </div><!--/price-range-->
 
 
-</div>
+    </div>

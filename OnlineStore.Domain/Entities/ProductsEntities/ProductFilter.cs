@@ -9,7 +9,7 @@ namespace OnlineStore.Domain.Entities.ProductsEntities
     /// </summary>
     public class ProductFilter
     {
-        public int? SectionId { get; set; }
+        public int? SectionId { get; set; }       
 
         public List<int?> BrandIdCollection { get; set; }
 

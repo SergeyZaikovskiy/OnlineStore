@@ -1,6 +1,7 @@
 ﻿@model List<OnlineStore.ViewModels.CategoryViewModel>
 
 <h2>Категории</h2>
+
 <div class="panel-group category-products" id="accordian">
     <!--category-productsr-->
 
@@ -12,9 +13,9 @@
                     
                         @if (category.Choosen)
                         {
-                    <a href="#">
-                        <b>@category.Name</b>@category.Name
-                    </a>
+                            <a href="#">
+                                <b>@category.Name</b>
+                            </a>
                         }
                         else {<a href="#">
                                 @category.Name
