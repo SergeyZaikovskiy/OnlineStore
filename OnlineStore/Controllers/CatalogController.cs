@@ -42,7 +42,7 @@ namespace OnlineStore.Controllers
 
             var catalog_model = new CatalogViewModel
             {
-                BrandIdCollection = productFilter.BrandIdCollection,
+                BrandCollection = brands,
                 SectionId = productFilter.SectionId,
                 Products = products.Select(ProductViewModelMapper.CreateViewModel)
             };

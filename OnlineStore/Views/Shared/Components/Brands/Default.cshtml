@@ -4,12 +4,19 @@
     <!--brands_products-->
     <h2>Брэнды</h2>
     <div class="brands-name">        
-        <form asp-controller="Catalog" asp-action="Shop" asp-route-secid="@Model.SectionID" asp-route-catid="@Model.CategoryID" asp-route-bridcol="@Model.Brands.">
+        <form asp-controller="Catalog" asp-action="Shop" asp-route-secid="@Model.SectionID" asp-route-catid="@Model.CategoryID" asp-route-brands="@Model.Brands.">
             <ul class="nav nav-pills nav-stacked">
                 @foreach (var brand in Model.Brands)
                 {
-                    <li>
-                        <input asp-for="@brand.Choosen" type="checkbox" />
+                <li>
+                    @{ if (brand.Choosen)
+                        {
+                            <input asp-for="@brand.Choosen" type="checkbox" checked/>
+                        }
+
+                        else { <input asp-for="@brand.Choosen" type="checkbox"/>}
+                        }
+
                         <label asp-for="@brand.Name">@brand.Name (@brand.ProductsCount)</label>
                     </li>
                 }
