@@ -26,18 +26,18 @@ namespace OnlineStore.Infrastructure.Mappers
             return brand;
         }
 
-        public static void CopyTo(this Brand brand, BrandViewModel model, int ProductCount = 0)
+        public static void CopyTo(this Brand brand, BrandViewModel model)
         {
             model.Id = brand.id;
             model.Name = brand.Name;
             model.Order = brand.Order;
-            model.ProductsCount = ProductCount;
+            model.ProductsCount = brand.Products.Count;
         }
 
-        public static BrandViewModel CreateViewModel(this Brand brand, int ProductCount = 0)
+        public static BrandViewModel CreateViewModel(this Brand brand)
         {
             var brandViewModel = new BrandViewModel();
-            brand.CopyTo(brandViewModel, ProductCount);
+            brand.CopyTo(brandViewModel);
             return brandViewModel;
         }
     }

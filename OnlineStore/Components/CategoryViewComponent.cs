@@ -9,7 +9,8 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace OnlineStore.Components
-{/// <summary>
+{
+    /// <summary>
  /// Компонент для области Категорий
  /// Вызывает компонент Category
  /// </summary>

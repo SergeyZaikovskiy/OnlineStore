@@ -30,7 +30,8 @@ namespace OnlineStore.Infrastructure.Mappers
         {
             model.Id = category.id;
             model.Name = category.Name;
-            model.Order = category.Order;            
+            model.Order = category.Order;
+            model.ProductsCount = category.Products.Count;
         }
 
         public static CategoryViewModel CreateViewModel(this Category category)

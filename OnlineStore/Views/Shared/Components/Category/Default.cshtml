@@ -13,10 +13,10 @@
 
                     @if (category.Choosen)
                     {
-                        <a asp-controller="Catalog" asp-action="Shop" asp-route-secid="@category.SectionID" asp-route-catid="@category.Id"><b>@category.Name</b></a>
+                        <a asp-controller="Catalog" asp-action="Shop" asp-route-secid="@category.SectionID" asp-route-catid="@category.Id"><b>@category.Name (@category.ProductsCount)</b></a>
                     }
                     else
-                    {<a asp-controller="Catalog" asp-action="Shop" asp-route-secid="@category.SectionID" asp-route-catid="@category.Id">@category.Name</a>}
+                    {<a asp-controller="Catalog" asp-action="Shop" asp-route-secid="@category.SectionID" asp-route-catid="@category.Id">@category.Name (@category.ProductsCount)</a>}
 
                 </h4>
             </div>

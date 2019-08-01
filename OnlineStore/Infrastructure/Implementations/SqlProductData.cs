@@ -26,8 +26,16 @@ namespace OnlineStore.Infrastructure.Implementations
         /// Список брендов
         /// </summary>
         /// <returns></returns>
-        public IQueryable<Brand> GetBrands() => db.Brands
-            .Include(b => b.Products);
+        public IQueryable<Brand> GetBrands(ProductFilter productFilter)
+        {
+            var brandsOne = db.CategoryToBrand.Where(br => br.CategoryId == productFilter.CategoryId).Select(c => c.Brand);
+            var brandsTwo = db.SectionToBrands.Where(br => br.SectionId == productFilter.SectionId).Select(c => c.Brand);
+
+            var brandResult = brandsOne.Intersect(brandsTwo).Include(p=>p.Products);
+
+            return brandResult;
+        }
+
 
         /// <summary>
         /// Получить бренд по id
@@ -62,11 +70,11 @@ namespace OnlineStore.Infrastructure.Implementations
 
             if (productFilter is null)
             {
-                var categories = db.Categories;                
+                var categories = db.Categories.Include(p => p.Products);                
                 return categories;
             }
 
-            var cats = db.SectionToCategory.Where(sc => sc.SectionId == productFilter.SectionId).Select(c => c.Category);        
+            var cats = db.SectionToCategory.Where(sc => sc.SectionId == productFilter.SectionId).Select(c => c.Category).Include(p=>p.Products);        
                                      
             return cats;
 
@@ -125,7 +133,7 @@ namespace OnlineStore.Infrastructure.Implementations
             if (productFilter.CategoryId != null)
                 products = products.Where(p => p.CategoryId == productFilter.CategoryId);
 
-            if (productFilter.BrandIdCollection != null && productFilter.BrandIdCollection.Count > 0)
+            if (productFilter.BrandIdCollection != null && productFilter.BrandIdCollection.Count() > 0)
                 products = products.Where(p => productFilter.BrandIdCollection.Contains(p.BrandId));
 
             if (productFilter.MinPrice!=null && productFilter.MaxPrice!=null && (productFilter.MinPrice <productFilter.MaxPrice))

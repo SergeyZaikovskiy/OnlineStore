@@ -1,15 +1,21 @@
-﻿
-@model IEnumerable<OnlineStore.ViewModels.BrandViewModel>
+﻿@model OnlineStore.ViewModels.Product.BrandsEnumerableViewModel
 
 <div class="brands_products">
     <!--brands_products-->
     <h2>Брэнды</h2>
-    <div class="brands-name">
-        <ul class="nav nav-pills nav-stacked">
-            @foreach (var brand in Model)
-            {
-                <li><a href="#"> <span class="pull-right">(@brand.ProductsCount)</span>@brand.Name</a></li>
-            }
-        </ul>
+    <div class="brands-name">        
+        <form asp-controller="Catalog" asp-action="Shop" asp-route-secid="@Model.SectionID" asp-route-catid="@Model.CategoryID" asp-route-bridcol="@Model.Brands.">
+            <ul class="nav nav-pills nav-stacked">
+                @foreach (var brand in Model.Brands)
+                {
+                    <li>
+                        <input asp-for="@brand.Choosen" type="checkbox" />
+                        <label asp-for="@brand.Name">@brand.Name (@brand.ProductsCount)</label>
+                    </li>
+                }
+            </ul>
+            <button type="submit" class="btn btn-primary">Применить</button>
+        </form>            
     </div>
 </div><!--/brands_products-->
+

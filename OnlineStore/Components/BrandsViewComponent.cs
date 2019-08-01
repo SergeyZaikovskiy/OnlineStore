@@ -9,6 +9,7 @@ using OnlineStore.Domain.Entities.ProductsEntities;
 using OnlineStore.Infrastructure.Interfeices;
 using OnlineStore.Infrastructure.Mappers;
 using OnlineStore.ViewModels;
+using OnlineStore.ViewModels.Product;
 
 namespace OnlineStore.Components
 {
@@ -29,22 +30,20 @@ namespace OnlineStore.Components
         /// Загрузка и отображения представления для Компонента Brands
         /// </summary>
         /// <returns></returns>
-        public async Task<IViewComponentResult> InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync(ProductFilter productFilter)
         {
-            var brands =await Task.Run(()=> GetBrands());
-            
-            return View(brands);
+            var brands =await Task.Run(()=> GetBrands(productFilter));
+
+            var brandsEnumerable = new BrandsEnumerableViewModel {SectionID = productFilter.SectionId, CategoryID = productFilter.CategoryId, Brands=brands };
+
+            return View(brandsEnumerable);
         }
 
-        private IQueryable<BrandViewModel> GetBrands()
+        private IQueryable<BrandViewModel> GetBrands(ProductFilter productFilter)
         {
-            var brands =  _ProductData.GetBrands();
+            var brands =  _ProductData.GetBrands(productFilter);                       
 
-            ///ProductFilter filter = null;
-
-            //var products = _ProductData.GetProducts(filter);
-
-            var listOfBrands = brands.Select(brand => brand.CreateViewModel(0));
+            var listOfBrands = brands.Select(brand => brand.CreateViewModel());
 
             return listOfBrands;
         }

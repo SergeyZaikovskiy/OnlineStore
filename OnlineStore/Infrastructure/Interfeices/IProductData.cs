@@ -52,7 +52,7 @@ namespace OnlineStore.Infrastructure.Interfeices
         /// Получаем бренды
         /// </summary>
         /// <returns></returns>
-        IQueryable<Brand> GetBrands();
+        IQueryable<Brand> GetBrands(ProductFilter productFilter);
 
         /// <summary>
         /// Получить Бренд по id

@@ -28,9 +28,15 @@ namespace OnlineStore.Controllers
         /// </summary>
         /// <param name="productFilter">Фильтр товаров</param>
         /// <returns></returns>       
-        public async Task<IActionResult> Shop(int? SecID, List<int?> BrIDCol, decimal? MinP, decimal? MaxP, int? CatID)
+        public async Task<IActionResult> Shop(int? SecID, IEnumerable<BrandViewModel> brands, decimal? MinP, decimal? MaxP, int? CatID)
         {
-            ProductFilter productFilter = new ProductFilter { SectionId = SecID, CategoryId = CatID, BrandIdCollection = BrIDCol, MinPrice = MinP, MaxPrice = MaxP };
+            var brandsID = new List<int?>();
+
+            foreach (var br in brands)
+                if (br.Choosen)
+                    brandsID.Add(br.Id);
+
+            ProductFilter productFilter = new ProductFilter { SectionId = SecID, CategoryId = CatID, BrandIdCollection = brandsID, MinPrice = MinP, MaxPrice = MaxP };
 
             var products = await _productData.GetProducts(productFilter).AsNoTracking().ToListAsync();
 
