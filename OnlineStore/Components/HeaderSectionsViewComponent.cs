@@ -10,9 +10,11 @@ using System.Threading.Tasks;
 using OnlineStore.Domain.Entities.ServiceEntity;
 
 namespace OnlineStore.Components
-{/// <summary>
- /// Компонент для области секции
- /// Вызывает компонент Sections
+{
+    
+    /// <summary>
+ /// Компонент для области навигации в Header
+ /// Вызывает секции и категории
  /// </summary>
     public class HeaderSectionsViewComponent : ViewComponent
     {
@@ -24,7 +26,7 @@ namespace OnlineStore.Components
         }
 
         /// <summary>
-        /// Загрузка и отображения представления для Компонента Sections
+        /// Загрузка и отображения представления для Компонента HeaderSections
         /// </summary>
         /// <returns></returns>
         public async Task<IViewComponentResult> InvokeAsync()

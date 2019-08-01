@@ -1,0 +1,22 @@
+﻿@model List<OnlineStore.ViewModels.SectionViewModel>
+
+<h2>Секции</h2>
+
+<div class="panel-group category-products" id="accordian">
+   
+
+    @foreach (var sec in Model)
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">                 
+                    @if (sec.Choosen)
+                    {
+                        <a asp-route-secid="@sec.Id" asp-controller="Catalog" asp-action="Shop" ><b>@sec.Name</b></a>
+                    }
+                    else { <a asp-route-secid="@sec.Id" asp-controller="Catalog" asp-action="Shop">@sec.Name</a>}
+                </h4>
+            </div>
+        </div>
+    }
+</div>

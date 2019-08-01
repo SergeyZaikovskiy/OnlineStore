@@ -11,6 +11,10 @@ using System.Threading.Tasks;
 
 namespace OnlineStore.Components
 {
+    /// <summary>
+    /// Компонент для предстваления товаров на главном экране
+    /// Вызывает часть товаров для представления
+    /// </summary>
     public class CategoryTabViewComponent : ViewComponent
     {
 

@@ -28,38 +28,46 @@ namespace OnlineStore.Controllers
         /// </summary>
         /// <param name="productFilter">Фильтр товаров</param>
         /// <returns></returns>       
-        public async Task<IActionResult> Shop(int? SecID, int? CatID, List<int?> BrIDCol, decimal? MinP, decimal? MaxP )
+        public async Task<IActionResult> Shop(int? SecID, List<int?> BrIDCol, decimal? MinP, decimal? MaxP, int? CatID)
         {
-        ProductFilter productFilter = new ProductFilter {SectionId = SecID, CategoryId=CatID, BrandIdCollection = BrIDCol, MinPrice = MinP, MaxPrice = MaxP};
+            ProductFilter productFilter = new ProductFilter { SectionId = SecID, CategoryId = CatID, BrandIdCollection = BrIDCol, MinPrice = MinP, MaxPrice = MaxP };
 
-        var products = await _productData.GetProducts(productFilter).AsNoTracking().ToListAsync();       
+            var products = await _productData.GetProducts(productFilter).AsNoTracking().ToListAsync();
 
-        var catalog_model = new CatalogViewModel
-        {
-            BrandIdCollection = productFilter.BrandIdCollection,
-            SectionId = productFilter.SectionId,
-            CategoryId = productFilter.CategoryId,
-            Products = products.Select(ProductViewModelMapper.CreateViewModel)
-        };           
+            var catalog_model = new CatalogViewModel
+            {
+                BrandIdCollection = productFilter.BrandIdCollection,
+                SectionId = productFilter.SectionId,
+                Products = products.Select(ProductViewModelMapper.CreateViewModel)
+            };
 
-         return View(catalog_model);
+            if (productFilter.CategoryId is null)
+            {
+                catalog_model.CategoryId = _productData.GetCategories(productFilter).FirstOrDefault().id;
+                catalog_model.Products = catalog_model.Products.Where(p => p.Category.id == catalog_model.CategoryId);
+            }
+            else
+            {
+                catalog_model.CategoryId = productFilter.CategoryId;               
+            }
+            return View(catalog_model);
         }
 
-        /// <summary>
-        /// Вызов представления деталей товара
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public async Task<IActionResult> ProductDetails(int id)
-        {
-            var product = await Task.Run(() => _productData.GetProductById(id));
+            /// <summary>
+            /// Вызов представления деталей товара
+            /// </summary>
+            /// <param name="id"></param>
+            /// <returns></returns>
+            public async Task<IActionResult> ProductDetails(int id)
+            {
+                var product = await Task.Run(() => _productData.GetProductById(id));
 
-            if (product is null)
-                return NotFound();
+                if (product is null)
+                    return NotFound();
 
-            return View(product.CreateViewModel());
+                return View(product.CreateViewModel());
+
+            }
 
         }
-
     }
-}

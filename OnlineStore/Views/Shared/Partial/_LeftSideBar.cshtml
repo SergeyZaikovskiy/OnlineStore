@@ -1,7 +1,9 @@
 ﻿@model OnlineStore.Domain.Entities.ProductsEntities.ProductFilter
 
-    <div class="left-sidebar">     
-        
+    <div class="left-sidebar">
+
+        @await Component.InvokeAsync("Section", Model)
+
         @await Component.InvokeAsync("Category", Model)
 
         @await Component.InvokeAsync("Brands", Model)

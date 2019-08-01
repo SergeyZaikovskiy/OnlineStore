@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 
 namespace OnlineStore.Components
 {
+    /// <summary>
+    /// Компонент для вызова рекоммендованных товаров
+    /// Выводит торары в область рекомедаций
+    /// </summary>
     public class RecommendedItemsViewComponent : ViewComponent
     {
         private readonly IProductData _ProductData;
@@ -19,9 +23,9 @@ namespace OnlineStore.Components
             _ProductData = ProductData;
         }
 
-        public IViewComponentResult Invoke()
-        {
-            var productViewModels = GetProducts();         
+        public async Task<IViewComponentResult> InvokeAsync()
+        {           
+            var productViewModels = await Task.Run(()=> GetProducts());         
 
             return View(productViewModels.ToList());
         }

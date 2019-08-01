@@ -20,6 +20,8 @@ namespace OnlineStore.ViewModels
 
         public int CountNestedCategory { get; set; }
 
+        public bool Choosen { get; set; }
+
         /// <summary>
         /// Вложенные Категории
         /// </summary>
