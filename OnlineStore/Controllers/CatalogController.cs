@@ -32,16 +32,17 @@ namespace OnlineStore.Controllers
         {
         ProductFilter productFilter = new ProductFilter {SectionId = SecID, CategoryId=CatID, BrandIdCollection = BrIDCol, MinPrice = MinP, MaxPrice = MaxP};
 
-        var products = await _productData.GetProducts(productFilter).AsNoTracking().ToListAsync();
+        var products = await _productData.GetProducts(productFilter).AsNoTracking().ToListAsync();       
 
-            var catalog_model = new CatalogViewModel
-            {
-                BrandIdCollection = productFilter.BrandIdCollection,
-                SectionId = productFilter.SectionId,
-                CategoryId = productFilter.CategoryId,
-                Products = products.Select(ProductViewModelMapper.CreateViewModel)
-            };
-            return View(catalog_model);
+        var catalog_model = new CatalogViewModel
+        {
+            BrandIdCollection = productFilter.BrandIdCollection,
+            SectionId = productFilter.SectionId,
+            CategoryId = productFilter.CategoryId,
+            Products = products.Select(ProductViewModelMapper.CreateViewModel)
+        };           
+
+         return View(catalog_model);
         }
 
         /// <summary>

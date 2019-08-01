@@ -14,11 +14,11 @@ namespace OnlineStore.Components
  /// Компонент для области секции
  /// Вызывает компонент Sections
  /// </summary>
-    public class SectionsViewComponent : ViewComponent
+    public class HeaderSectionsViewComponent : ViewComponent
     {
         private readonly IProductData _ProductData;
 
-        public SectionsViewComponent(IProductData productDate)
+        public HeaderSectionsViewComponent(IProductData productDate)
         {
             _ProductData = productDate;
         }

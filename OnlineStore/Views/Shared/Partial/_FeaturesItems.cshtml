@@ -2,7 +2,7 @@
 
 <div class="features_items">
     <!--features_items-->
-    <h2 class="title text-center">Товары</h2>
+    <h2 class="title text-center">@Model.First().Section.Name</h2>
 
     @foreach (var product in Model)
     {
@@ -37,5 +37,4 @@
             </div>
         </div>
     }
-
 </div>

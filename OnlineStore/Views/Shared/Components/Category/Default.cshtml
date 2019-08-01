@@ -10,17 +10,14 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    
-                        @if (category.Choosen)
-                        {
-                            <a href="#">
-                                <b>@category.Name</b>
-                            </a>
-                        }
-                        else {<a href="#">
-                                @category.Name
-                            </a> }
-                    
+
+                    @if (category.Choosen)
+                    {
+                        <a asp-controller="Catalog" asp-action="Shop" asp-route-secid="@category.SectionID" asp-route-catid="@category.Id"><b>@category.Name</b></a>
+                    }
+                    else
+                    {<a asp-controller="Catalog" asp-action="Shop" asp-route-secid="@category.SectionID" asp-route-catid="@category.Id">@category.Name</a>}
+
                 </h4>
             </div>
         </div>        

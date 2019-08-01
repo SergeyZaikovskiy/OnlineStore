@@ -14,10 +14,8 @@ namespace OnlineStore.ViewModels
         public string Name { get; set; }
         public int Id { get; set; }
         public int Order { get; set; }
-        public int ProductsCount { get; set; }
-
-        List<BrandViewModel> Brands = new List<BrandViewModel>();
-      
-    
+        public int SectionID { get; set; }
+        public int ProductsCount { get; set; }        
+          
     }
 }

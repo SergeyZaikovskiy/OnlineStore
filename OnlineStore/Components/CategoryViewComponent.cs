@@ -31,9 +31,10 @@ namespace OnlineStore.Components
             for (int i = 0; i < cats.Count; i++)
             {
                 if (cats[i].Id == productFilter.CategoryId) cats[i].Choosen = true;
-                else  cats[i].Choosen = false; 
-               
+                else  cats[i].Choosen = false;
+                cats[i].SectionID = (int)productFilter.SectionId;               
             }
+
             return View(cats);
         }
     }

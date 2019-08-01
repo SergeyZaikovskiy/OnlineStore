@@ -12,8 +12,7 @@ namespace OnlineStore.ViewModels
     {
         public int? SectionId { get; set; }
 
-        public int? CategoryId { get; set; }
-        
+        public int? CategoryId { get; set; }        
 
         public List<int?> BrandIdCollection { get; set; } = new List<int?>();
 
