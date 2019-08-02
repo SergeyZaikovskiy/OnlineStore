@@ -200,7 +200,8 @@ namespace OnlineStore.Data
             new CategoryToBrand{id=47, CategoryId = 4 , BrandId=22},
             new CategoryToBrand{id=48, CategoryId = 4 , BrandId=23},
             new CategoryToBrand{id=49, CategoryId = 4 , BrandId=24},
-            new CategoryToBrand{id=50, CategoryId = 4 , BrandId=25},
+            new CategoryToBrand{id=50, CategoryId = 4 , BrandId=25},             
+
 
             new CategoryToBrand{id=51, CategoryId = 6 , BrandId=6},
             new CategoryToBrand{id=52, CategoryId = 6 , BrandId=7},
@@ -208,7 +209,7 @@ namespace OnlineStore.Data
             new CategoryToBrand{id=54, CategoryId = 6 , BrandId=9},
             new CategoryToBrand{id=55, CategoryId = 6 , BrandId=10},
             new CategoryToBrand{id=56, CategoryId = 6 , BrandId=11},
-            new CategoryToBrand{id=57, CategoryId = 6 , BrandId=21 },
+            new CategoryToBrand{id=57, CategoryId = 6 , BrandId=21},
             new CategoryToBrand{id=58, CategoryId = 6 , BrandId=12},
             new CategoryToBrand{id=59, CategoryId = 6 , BrandId=14},
             new CategoryToBrand{id=60, CategoryId = 6 , BrandId=15},
@@ -289,6 +290,17 @@ namespace OnlineStore.Data
             new CategoryToBrand{id=138, CategoryId = 13 , BrandId=23},
             new CategoryToBrand{id=139, CategoryId = 13 , BrandId=24},
             new CategoryToBrand{id=140, CategoryId =  13, BrandId=25},
+
+            new CategoryToBrand{id=141, CategoryId = 5 , BrandId=16},
+            new CategoryToBrand{id=142, CategoryId = 5 , BrandId=17},
+            new CategoryToBrand{id=143, CategoryId = 5 , BrandId=18},
+            new CategoryToBrand{id=144, CategoryId = 5 , BrandId=19},
+            new CategoryToBrand{id=145, CategoryId = 5 , BrandId=20},
+            new CategoryToBrand{id=146, CategoryId = 5 , BrandId=21},
+            new CategoryToBrand{id=147, CategoryId = 5 , BrandId=22 },
+            new CategoryToBrand{id=148, CategoryId = 5 , BrandId=23},
+            new CategoryToBrand{id=149, CategoryId = 5 , BrandId=24},
+            new CategoryToBrand{id=150, CategoryId = 5 , BrandId=25},
             #endregion
 
 #region Категории спорта

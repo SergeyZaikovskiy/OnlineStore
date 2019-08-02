@@ -43,9 +43,18 @@ namespace OnlineStore.Components
         {
             var brands =  _ProductData.GetBrands(productFilter);                       
 
-            var listOfBrands = brands.Select(brand => brand.CreateViewModel());
+            var BrandsViewModels = brands.Select(brand => brand.CreateViewModel()).ToList();
 
-            return listOfBrands;
+            //Для заполнения количества товара по брендам
+            for (int i = 0; i < BrandsViewModels.Count; i++)
+            {
+                List<int?> brand = new List<int?> { (int?)BrandsViewModels[i].Id };
+                ProductFilter pf = new ProductFilter { SectionId = productFilter.SectionId, CategoryId = productFilter.CategoryId, BrandIdCollection = brand };
+                var countGoods = _ProductData.GetProducts(pf).Count();
+                BrandsViewModels[i].ProductsCount = countGoods;
+            }                             
+
+            return BrandsViewModels.AsQueryable();
         }
     }
 }

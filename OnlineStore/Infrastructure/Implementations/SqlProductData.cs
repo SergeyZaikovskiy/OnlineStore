@@ -31,7 +31,7 @@ namespace OnlineStore.Infrastructure.Implementations
             var brandsOne = db.CategoryToBrand.Where(br => br.CategoryId == productFilter.CategoryId).Select(c => c.Brand);
             var brandsTwo = db.SectionToBrands.Where(br => br.SectionId == productFilter.SectionId).Select(c => c.Brand);
 
-            var brandResult = brandsOne.Intersect(brandsTwo).Include(p=>p.Products);
+            var brandResult = brandsOne.Intersect(brandsTwo);
 
             return brandResult;
         }
@@ -74,8 +74,10 @@ namespace OnlineStore.Infrastructure.Implementations
                 return categories;
             }
 
-            var cats = db.SectionToCategory.Where(sc => sc.SectionId == productFilter.SectionId).Select(c => c.Category).Include(p=>p.Products);        
-                                     
+            var cats = db.SectionToCategory
+                .Where(sc => sc.SectionId == productFilter.SectionId)
+                .Select(c => c.Category);                                       
+                                                      
             return cats;
 
         }
@@ -94,7 +96,9 @@ namespace OnlineStore.Infrastructure.Implementations
         /// </summary>
         /// <param name="id">id категории</param>
         /// <returns></returns>
-        public IQueryable<SectionToCategory> GetCategoryByIdSection(int? idSection) => db.SectionToCategory.Where(catToSec=>catToSec.SectionId==idSection).Include(catToSec=>catToSec.Category);
+        public IQueryable<SectionToCategory> GetCategoryByIdSection(int? idSection) => db.SectionToCategory
+            .Where(catToSec=>catToSec.SectionId==idSection)
+            .Include(catToSec=>catToSec.Category);
            
 
         /// <summary>

@@ -31,7 +31,7 @@ namespace OnlineStore.Infrastructure.Mappers
             model.Id = brand.id;
             model.Name = brand.Name;
             model.Order = brand.Order;
-            model.ProductsCount = brand.Products.Count;
+            //model.ProductsCount = brand.Products.Count;
         }
 
         public static BrandViewModel CreateViewModel(this Brand brand)

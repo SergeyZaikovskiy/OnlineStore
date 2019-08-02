@@ -31,7 +31,7 @@ namespace OnlineStore.Infrastructure.Mappers
             model.Id = category.id;
             model.Name = category.Name;
             model.Order = category.Order;
-            model.ProductsCount = category.Products.Count;
+            ///model.ProductsCount = productCount;
         }
 
         public static CategoryViewModel CreateViewModel(this Category category)
