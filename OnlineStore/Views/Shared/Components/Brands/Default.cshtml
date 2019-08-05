@@ -3,26 +3,40 @@
 <div class="brands_products">
     <!--brands_products-->
     <h2>Брэнды</h2>
-    <div class="brands-name">        
-        <form asp-controller="Catalog" asp-action="Shop" asp-route-secid="@Model.SectionID" asp-route-catid="@Model.CategoryID" asp-route-brands="@Model.Brands.">
+    <div class="brands-name">
+
+
+     
+        <form asp-controller="Catalog" asp-action="Shop" asp-route-secid="@Model.SectionID" asp-route-catid="@Model.CategoryID">          
+
             <ul class="nav nav-pills nav-stacked">
-                @foreach (var brand in Model.Brands)
+
+                @for (int i = 0; i < Model.Brands.Count; i++)
                 {
-                <li>
-                    @{ if (brand.Choosen)
+                <li>                    
+                    <input type="hidden" asp-for="@Model.Brands[i].Id" />
+                    <input type="hidden" asp-for="@Model.Brands[i].Name" />
+                    <input type="hidden" asp-for="@Model.Brands[i].Order" />
+                    <input type="hidden" asp-for="@Model.Brands[i].ProductsCount" />
+
+                    @{ if (Model.Brands[i].Choosen)
                         {
-                            <input asp-for="@brand.Choosen" type="checkbox" checked/>
+                            <input asp-for="@Model.Brands[i].Choosen"  type="checkbox" checked />
                         }
+                        else
+                        { <input asp-for="@Model.Brands[i].Choosen" type="checkbox" />}
+                    }
+                    <label asp-for="@Model.Brands[i].Name">@Model.Brands[i].Name (@Model.Brands[i].ProductsCount) </label>
 
-                        else { <input asp-for="@brand.Choosen" type="checkbox"/>}
-                        }
-
-                        <label asp-for="@brand.Name">@brand.Name (@brand.ProductsCount)</label>
-                    </li>
+                </li>
                 }
             </ul>
+
+            @*<div class="form-group">
+                <input type="submit" value="Submit" />
+            </div>*@
             <button type="submit" class="btn btn-primary">Применить</button>
-        </form>            
+        </form>
     </div>
 </div><!--/brands_products-->
 

@@ -27,12 +27,12 @@ namespace OnlineStore.Controllers
         /// Вызов представления Shop (Набор товаров)
         /// </summary>
         /// <param name="productFilter">Фильтр товаров</param>
-        /// <returns></returns>       
-        public async Task<IActionResult> Shop(int? SecID, IEnumerable<BrandViewModel> brands, decimal? MinP, decimal? MaxP, int? CatID)
+        /// <returns></returns>           
+        public async Task<IActionResult> Shop(int? SecID, List<BrandViewModel> Brands, decimal? MinP, decimal? MaxP, int? CatID, int? sec)
         {
             var brandsID = new List<int?>();
 
-            foreach (var br in brands)
+            foreach (var br in Brands)
                 if (br.Choosen)
                     brandsID.Add(br.Id);
 
@@ -42,7 +42,7 @@ namespace OnlineStore.Controllers
 
             var catalog_model = new CatalogViewModel
             {
-                BrandCollection = brands,
+                BrandCollection = Brands,
                 SectionId = productFilter.SectionId,
                 Products = products.Select(ProductViewModelMapper.CreateViewModel)
             };
@@ -59,21 +59,23 @@ namespace OnlineStore.Controllers
             return View(catalog_model);
         }
 
-            /// <summary>
-            /// Вызов представления деталей товара
-            /// </summary>
-            /// <param name="id"></param>
-            /// <returns></returns>
-            public async Task<IActionResult> ProductDetails(int id)
-            {
-                var product = await Task.Run(() => _productData.GetProductById(id));
+        /// <summary>
+        /// Вызов представления деталей товара
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> ProductDetails(int id)
+        {
+            var product = await Task.Run(() => _productData.GetProductById(id));
 
-                if (product is null)
-                    return NotFound();
+            if (product is null)
+                return NotFound();
 
-                return View(product.CreateViewModel());
+            return View(product.CreateViewModel());
 
-            }
+        }      
 
-        }
+
     }
+
+}

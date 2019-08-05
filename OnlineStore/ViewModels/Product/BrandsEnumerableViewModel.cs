@@ -10,7 +10,7 @@ namespace OnlineStore.ViewModels.Product
     /// </summary>
     public class BrandsEnumerableViewModel
     {
-        public IEnumerable<BrandViewModel> Brands { get; set; }
+        public List<BrandViewModel> Brands { get; set; }
 
         public int? CategoryID { get; set; }
 

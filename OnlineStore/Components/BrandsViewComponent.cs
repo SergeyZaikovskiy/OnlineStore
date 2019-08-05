@@ -34,7 +34,7 @@ namespace OnlineStore.Components
         {
             var brands =await Task.Run(()=> GetBrands(productFilter));
 
-            var brandsEnumerable = new BrandsEnumerableViewModel {SectionID = productFilter.SectionId, CategoryID = productFilter.CategoryId, Brands=brands };
+            var brandsEnumerable = new BrandsEnumerableViewModel {SectionID = productFilter.SectionId, CategoryID = productFilter.CategoryId, Brands=brands.ToList() };
 
             return View(brandsEnumerable);
         }
