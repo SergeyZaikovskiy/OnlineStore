@@ -1,4 +1,4 @@
-﻿using OnlineStore.Domain.Enums;
+﻿using OnlineStore.Domain.SortsEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,69 +13,69 @@ namespace OnlineStore.Areas.Admin.ViewModels
 
     public class SortViewModelForEmployees
     {
-        public EnumSortForEmployee NameSort { get; set; }
-        public EnumSortForEmployee SurnameSort { get; set; }
-        public EnumSortForEmployee PatronimicSort { get; set; }
-        public EnumSortForEmployee AgeSort { get; set; }
-        public EnumSortForEmployee PositionSort { get; set; }
-        public EnumSortForEmployee Current { get; set; }
+        public string NameSort { get; set; }
+        public string SurnameSort { get; set; }
+        public string PatronimicSort { get; set; }
+        public string AgeSort { get; set; }
+        public string PositionSort { get; set; }
+        public string Current { get; set; }
 
         public bool Up { get; set; }
 
-        public SortViewModelForEmployees(EnumSortForEmployee SortEnum)
+        public SortViewModelForEmployees(string SortType)
         {
-            NameSort = EnumSortForEmployee.NameAsc;
-            SurnameSort = EnumSortForEmployee.SurnameAsc;
-            PatronimicSort = EnumSortForEmployee.PatronimicAsc;
-            AgeSort = EnumSortForEmployee.AgeAsc;
-            PositionSort = EnumSortForEmployee.PosAsc;
+            NameSort = SortEntityForEmployee.NameAsc;
+            SurnameSort = SortEntityForEmployee.SurnameAsc;
+            PatronimicSort = SortEntityForEmployee.PatronimicAsc;
+            AgeSort = SortEntityForEmployee.AgeAsc;
+            PositionSort = SortEntityForEmployee.PosAsc;
 
             Up = true;
 
-            if (SortEnum == EnumSortForEmployee.AgeDes || SortEnum == EnumSortForEmployee.NameDes
-                || SortEnum == EnumSortForEmployee.SurnameDes
-                || SortEnum == EnumSortForEmployee.PatronimicDes
-                || SortEnum == EnumSortForEmployee.PosDes)
+            if (SortType == SortEntityForEmployee.AgeDes || SortType == SortEntityForEmployee.NameDes
+                || SortType == SortEntityForEmployee.SurnameDes
+                || SortType == SortEntityForEmployee.PatronimicDes
+                || SortType == SortEntityForEmployee.PosDes)
             {
                 Up = false;
             }
 
-            switch (SortEnum)
+            switch (SortType)
             {
-                case EnumSortForEmployee.SurnameDes:
-                    Current = SurnameSort = EnumSortForEmployee.SurnameAsc;
+                case SortEntityForEmployee.SurnameDes:
+                    Current = SurnameSort = SortEntityForEmployee.SurnameAsc;
                     break;
 
-                case EnumSortForEmployee.NameAsc:
-                    Current = NameSort = EnumSortForEmployee.NameDes;
+                case SortEntityForEmployee.NameAsc:
+                    Current = NameSort = SortEntityForEmployee.NameDes;
                     break;
-                case EnumSortForEmployee.NameDes:
-                    Current = NameSort = EnumSortForEmployee.NameAsc;
-                    break;
-
-                case EnumSortForEmployee.PatronimicAsc:
-                    Current = PatronimicSort = EnumSortForEmployee.PatronimicDes;
-                    break;
-                case EnumSortForEmployee.PatronimicDes:
-                    Current = PatronimicSort = EnumSortForEmployee.PatronimicAsc;
+                case SortEntityForEmployee.NameDes:
+                    Current = NameSort = SortEntityForEmployee.NameAsc;
                     break;
 
-                case EnumSortForEmployee.AgeAsc:
-                    Current = AgeSort = EnumSortForEmployee.AgeDes;
+                case SortEntityForEmployee.PatronimicAsc:
+                    Current = PatronimicSort = SortEntityForEmployee.PatronimicDes;
                     break;
-                case EnumSortForEmployee.AgeDes:
-                    Current = AgeSort = EnumSortForEmployee.AgeAsc;
+                case SortEntityForEmployee.PatronimicDes:
+                    Current = PatronimicSort = SortEntityForEmployee.PatronimicAsc;
                     break;
 
-                case EnumSortForEmployee.PosAsc:
-                    Current = PositionSort = EnumSortForEmployee.PosDes;
+                case SortEntityForEmployee.AgeAsc:
+                    Current = AgeSort = SortEntityForEmployee.AgeDes;
                     break;
-                case EnumSortForEmployee.PosDes:
-                    Current = PositionSort = EnumSortForEmployee.PosAsc;
+                case SortEntityForEmployee.AgeDes:
+                    Current = AgeSort = SortEntityForEmployee.AgeAsc;
+                    break;
+
+                case SortEntityForEmployee.PosAsc:
+                    Current = PositionSort = SortEntityForEmployee.PosDes;
+                    break;
+                case SortEntityForEmployee.PosDes:
+                    Current = PositionSort = SortEntityForEmployee.PosAsc;
                     break;
 
                 default:
-                    Current = SurnameSort = EnumSortForEmployee.SurnameDes;
+                    Current = SurnameSort = SortEntityForEmployee.SurnameDes;
                     break;
             }
         }

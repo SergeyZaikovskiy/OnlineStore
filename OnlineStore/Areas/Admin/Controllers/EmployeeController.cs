@@ -8,11 +8,11 @@ using OnlineStore.Domain.Entities.EmployeesEntities;
 using OnlineStore.Domain.Entities.UserEntities;
 using OnlineStore.Areas.Admin;
 using OnlineStore.Infrastructure.Interfeices;
-using OnlineStore.Domain.Enums;
 using OnlineStore.ViewModels;
 using OnlineStore.Infrastructure.Mappers;
 using Microsoft.EntityFrameworkCore;
 using OnlineStore.Areas.Admin.ViewModels;
+using OnlineStore.Domain.SortsEntities;
 
 namespace OnlineStore.Areas.Admin.Controllers
 {
@@ -38,7 +38,7 @@ namespace OnlineStore.Areas.Admin.Controllers
         /// Вызов главного представления сотрудников
         /// </summary>
         /// <returns></returns>
-        public async Task<IActionResult> Index(EnumSortForEmployee sortValue = EnumSortForEmployee.SurnameAsc)
+        public async Task<IActionResult> Index(string sortValue = SortEntityForEmployee.SurnameAsc)
         {
             var employees = await Employees.GetAllEmp().AsNoTracking().ToListAsync();
 
@@ -53,36 +53,36 @@ namespace OnlineStore.Areas.Admin.Controllers
             //переключение сортировок
             switch (sortValue)
             {
-                case EnumSortForEmployee.SurnameDes:
+                case SortEntityForEmployee.SurnameDes:
                     employees = employees.OrderByDescending(s => s.Surname).ToList();
                     break;
 
-                case EnumSortForEmployee.NameAsc:
+                case SortEntityForEmployee.NameAsc:
                     employees = employees.OrderBy(s => s.Name).ToList();
                     break;
-                case EnumSortForEmployee.NameDes:
+                case SortEntityForEmployee.NameDes:
                     employees = employees.OrderByDescending(s => s.Name).ToList();
                     break;
 
-                case EnumSortForEmployee.PatronimicAsc:
+                case SortEntityForEmployee.PatronimicAsc:
                     employees = employees.OrderBy(s => s.Patronimic).ToList();
                     break;
-                case EnumSortForEmployee.PatronimicDes:
+                case SortEntityForEmployee.PatronimicDes:
                     employees = employees.OrderByDescending(s => s.Patronimic).ToList();
                     break;
 
-                case EnumSortForEmployee.AgeAsc:
+                case SortEntityForEmployee.AgeAsc:
                     employees = employees.OrderBy(s => s.Age).ToList();
                     break;
 
-                case EnumSortForEmployee.AgeDes:
+                case SortEntityForEmployee.AgeDes:
                     employees = employees.OrderByDescending(s => s.Age).ToList();
                     break;
 
-                case EnumSortForEmployee.PosAsc:
+                case SortEntityForEmployee.PosAsc:
                     employees = employees.OrderBy(s => s.Position.Name).ToList();
                     break;
-                case EnumSortForEmployee.PosDes:
+                case SortEntityForEmployee.PosDes:
                     employees = employees.OrderByDescending(s => s.Position.Name).ToList();
                     break;
 

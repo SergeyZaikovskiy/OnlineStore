@@ -1,4 +1,4 @@
-﻿using OnlineStore.Domain.Enums;
+﻿using OnlineStore.Domain.SortsEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,60 +11,70 @@ namespace OnlineStore.ViewModels
     /// </summary>
     public class SortViewModelForProduct
     {
-        public EnumSortForProducts NameSort { get; set; }
-        public EnumSortForProducts SectionSort { get; set; }
-        public EnumSortForProducts BrandSort { get; set; }
-        public EnumSortForProducts PriceSort { get; set; }
-
-        public EnumSortForProducts Current { get; set; }
+        public string NameSort { get; set; }
+        public string SectionSort { get; set; }
+        public string CategorySort { get; set; }
+        public string BrandSort { get; set; }
+        public string PriceSort { get; set; }
+        public string Current { get; set; }
 
         public bool Up { get; set; }
 
-        public SortViewModelForProduct(EnumSortForProducts SortEnum)
+        public SortViewModelForProduct(string SortType)
         {
-            NameSort = EnumSortForProducts.NameAsc;
-            SectionSort = EnumSortForProducts.SectionAsc;
-            BrandSort = EnumSortForProducts.BrandAsc;
-            PriceSort = EnumSortForProducts.PriceAsc;
+            NameSort = SortEntityForProducts.NameAsc;
+            SectionSort = SortEntityForProducts.SectionAsc;
+            CategorySort = SortEntityForProducts.CategoryAsc;
+            BrandSort = SortEntityForProducts.BrandAsc;
+            PriceSort = SortEntityForProducts.PriceAsc;
 
             Up = true;
 
-            if (SortEnum == EnumSortForProducts.NameAsc || SortEnum == EnumSortForProducts.SectionAsc
-                || SortEnum == EnumSortForProducts.BrandAsc
-                || SortEnum == EnumSortForProducts.PriceAsc)
+            if (SortType == SortEntityForProducts.NameAsc
+                || SortType == SortEntityForProducts.SectionAsc
+                || SortType == SortEntityForProducts.CategoryAsc
+                || SortType == SortEntityForProducts.BrandAsc
+                || SortType == SortEntityForProducts.PriceAsc)
             {
                 Up = false;
             }
 
-            switch (SortEnum)
+            switch (SortType)
             {
-                case EnumSortForProducts.NameDes:
-                    Current = NameSort = EnumSortForProducts.NameAsc;
+                case SortEntityForProducts.NameDes:
+                    Current = NameSort = SortEntityForProducts.NameAsc;
                     break;
 
-                case EnumSortForProducts.SectionAsc:
-                    Current = SectionSort = EnumSortForProducts.SectionDes;
+                case SortEntityForProducts.SectionAsc:
+                    Current = SectionSort = SortEntityForProducts.SectionDes;
                     break;
-                case EnumSortForProducts.SectionDes:
-                    Current = SectionSort = EnumSortForProducts.SectionAsc;
-                    break;
-
-                case EnumSortForProducts.BrandAsc:
-                    Current = BrandSort = EnumSortForProducts.BrandDes;
-                    break;
-                case EnumSortForProducts.BrandDes:
-                    Current = BrandSort = EnumSortForProducts.BrandAsc;
+                case SortEntityForProducts.SectionDes:
+                    Current = SectionSort = SortEntityForProducts.SectionAsc;
                     break;
 
-                case EnumSortForProducts.PriceAsc:
-                    Current = PriceSort = EnumSortForProducts.PriceDes;
+                case SortEntityForProducts.CategoryAsc:
+                    Current = BrandSort = SortEntityForProducts.CategoryDes;
                     break;
-                case EnumSortForProducts.PriceDes:
-                    Current = PriceSort = EnumSortForProducts.PriceAsc;
+                case SortEntityForProducts.CategoryDes:
+                    Current = BrandSort = SortEntityForProducts.CategoryAsc;
+                    break;
+
+                case SortEntityForProducts.BrandAsc:
+                    Current = BrandSort = SortEntityForProducts.BrandDes;
+                    break;
+                case SortEntityForProducts.BrandDes:
+                    Current = BrandSort = SortEntityForProducts.BrandAsc;
+                    break;
+
+                case SortEntityForProducts.PriceAsc:
+                    Current = PriceSort = SortEntityForProducts.PriceDes;
+                    break;
+                case SortEntityForProducts.PriceDes:
+                    Current = PriceSort = SortEntityForProducts.PriceAsc;
                     break;
 
                 default:
-                    Current = NameSort = EnumSortForProducts.NameDes;
+                    Current = NameSort = SortEntityForProducts.NameDes;
                     break;
             }
         }

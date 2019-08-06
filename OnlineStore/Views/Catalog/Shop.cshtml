@@ -22,9 +22,8 @@
                     @await Html.PartialAsync("Partial/_LeftSideBar", productFilter)
                 }
             </div>
-
             <div class="col-sm-9 padding-right">
-                @await Html.PartialAsync("Partial/_FeaturesItems", Model.Products)
+                @await Html.PartialAsync("Partial/_FeaturesItems", Model)
             </div>
         </div>
     </div>

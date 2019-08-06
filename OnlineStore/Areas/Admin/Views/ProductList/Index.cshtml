@@ -1,4 +1,7 @@
 ﻿@model OnlineStore.ViewModels.ProductsEnumerableViewModel
+<!--Пользовательский TagHelper-->
+@addTagHelper "*, OnlineStore"
+
 @{
     ViewData["Title"] = "Список товаров";
     Layout = "_LayoutAdminArea";
@@ -50,7 +53,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var product in Model.products)
+        @foreach (var product in Model.Products)
         {
             <tr>
                 <td><a asp-area="Admin" asp-controller="ProductList" asp-action="Edit" asp-route-idproduct="@product.Id"><i class="fa fa-edit"></i></a></td>

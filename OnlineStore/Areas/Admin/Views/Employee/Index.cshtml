@@ -1,5 +1,4 @@
-﻿@using OnlineStore.Domain.Enums
-@model OnlineStore.Areas.Admin.ViewModels.EmployeeEnumerableViewModel
+﻿@model OnlineStore.Areas.Admin.ViewModels.EmployeeEnumerableViewModel
 <!--Пользовательский TagHelper-->
 @addTagHelper "*, OnlineStore"
 
@@ -74,6 +73,7 @@
                 <td>@employee.Position.Name</td>
                 <td>@employee.Age</td>
                 <td><a asp-area="Admin" asp-controller="Employee" asp-action="Details" asp-route-id="@employee.Id">Подробно</a></td>
+
                 @if (User.IsInRole("Administrator"))
                 {
                     <td><a asp-area="Admin" asp-controller="Employee" asp-action="Delete" asp-route-id="@employee.Id"><i class="fa fa-times text text-danger" /></a></td>

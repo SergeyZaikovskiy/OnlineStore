@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OnlineStore.Areas.Admin.ViewModels;
 using OnlineStore.Domain.Entities.ProductsEntities;
-using OnlineStore.Domain.Enums;
+using OnlineStore.Domain.SortsEntities;
 using OnlineStore.Infrastructure.Interfeices;
 using OnlineStore.Infrastructure.Mappers;
 using OnlineStore.ViewModels;
@@ -39,36 +39,36 @@ namespace OnlineStore.Areas.Admin.Controllers
         /// Страница с перечнем товаров
         /// </summary>
         /// <returns></returns>
-        public async Task<IActionResult> Index(EnumSortForProducts sortValue = EnumSortForProducts.NameAsc)
+        public async Task<IActionResult> Index(string sortValue = SortEntityForProducts.NameAsc)
         {
             var productList = productData.GetProducts(new ProductFilter());
 
             //переключение сортировок
             switch (sortValue)
             {
-                case EnumSortForProducts.NameDes:
+                case SortEntityForProducts.NameAsc:
                     productList = productList.OrderByDescending(s => s.Name);
                     break;
 
-                case EnumSortForProducts.BrandAsc:
+                case SortEntityForProducts.BrandAsc:
                     productList = productList.OrderBy(s => s.Brand);
                     break;
-                case EnumSortForProducts.BrandDes:
+                case SortEntityForProducts.BrandDes:
                     productList = productList.OrderByDescending(s => s.Brand);
                     break;
 
-                case EnumSortForProducts.SectionAsc:
+                case SortEntityForProducts.SectionAsc:
                     productList = productList.OrderBy(s => s.Section);
                     break;
-                case EnumSortForProducts.SectionDes:
+                case SortEntityForProducts.SectionDes:
                     productList = productList.OrderByDescending(s => s.Section);
                     break;
 
-                case EnumSortForProducts.PriceAsc:
+                case SortEntityForProducts.PriceAsc:
                     productList = productList.OrderBy(s => s.Price);
                     break;
 
-                case EnumSortForProducts.PriceDes:
+                case SortEntityForProducts.PriceDes:
                     productList = productList.OrderByDescending(s => s.Price);
                     break;
 
@@ -82,7 +82,7 @@ namespace OnlineStore.Areas.Admin.Controllers
             //список товаров
             var products_view_model = productList.Select(ProductViewModelMapper.CreateViewModel);
             //модель представиления списка с возможностью сортировки
-            var productsEnumerableView = new ProductsEnumerableViewModel { products = products_view_model, SortViewModel = new SortViewModelForProduct(sortValue) };
+            var productsEnumerableView = new ProductsEnumerableViewModel { Products = products_view_model, SortViewModel = new SortViewModelForProduct(sortValue) };
 
             return View(productsEnumerableView);
         }
