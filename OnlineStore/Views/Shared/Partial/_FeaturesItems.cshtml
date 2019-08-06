@@ -10,20 +10,43 @@
         <span>
             Сортировать по:
         </span>
-        <sort action-name="Shop" controller-name="Catalog" up="@Model.ProductsWithSortModel.SortViewModel.Up" current="@Model.ProductsWithSortModel.SortViewModel.Current"
+
+        @{
+                var parms = new Dictionary<string, object>
+            {
+                { "SecID", Model.SectionId },
+                { "CatID", Model.CategoryId },              
+                {"Brands", Model.Brands}
+            };
+        }
+
+    <form asp-controller="Catalog" asp-action="Shop" asp-route-secid="@Model.SectionId" asp-route-catid="@Model.CategoryId">
+
+        @foreach (var brand in Model.Brands)
+        {
+            <input type="hidden" asp-for="@brand.Id" />
+            <input type="hidden" asp-for="@brand.Name" />
+            <input type="hidden" asp-for="@brand.Order" />
+            <input type="hidden" asp-for="@brand.ProductsCount" />
+            <input type="hidden" asp-for="@brand.Choosen"/>
+        }
+
+        <sort type="submit" action-name="Shop" controller-name="Catalog" route-data="parms" up="@Model.ProductsWithSortModel.SortViewModel.Up" current="@Model.ProductsWithSortModel.SortViewModel.Current"
               property="@Model.ProductsWithSortModel.SortViewModel.NameSort">
             Названию |
         </sort>
 
-        <sort action-name="Shop" controller-name="Catalog" up="@Model.ProductsWithSortModel.SortViewModel.Up" current="@Model.ProductsWithSortModel.SortViewModel.Current"
+        <sort type="submit" action-name="Shop" controller-name="Catalog" route-data="parms" up="@Model.ProductsWithSortModel.SortViewModel.Up" current="@Model.ProductsWithSortModel.SortViewModel.Current"
               property="@Model.ProductsWithSortModel.SortViewModel.BrandSort">
             Бренду |
         </sort>
 
-        <sort action-name="Shop" controller-name="Catalog" up="@Model.ProductsWithSortModel.SortViewModel.Up" current="@Model.ProductsWithSortModel.SortViewModel.Current"
+        <sort type="submit" action-name="Shop" controller-name="Catalog" route-data="parms" up="@Model.ProductsWithSortModel.SortViewModel.Up" current="@Model.ProductsWithSortModel.SortViewModel.Current"
               property="@Model.ProductsWithSortModel.SortViewModel.PriceSort">
             Цене
-        </sort>
+        </sort>       
+    </form>
+       
     </div>
 
     <br>

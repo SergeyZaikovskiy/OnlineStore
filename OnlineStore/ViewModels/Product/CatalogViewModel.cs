@@ -14,7 +14,7 @@ namespace OnlineStore.ViewModels
 
         public int? CategoryId { get; set; }        
 
-        public IEnumerable<BrandViewModel> BrandCollection { get; set; } 
+        public List<BrandViewModel> Brands { get; set; } 
 
         public ProductsEnumerableViewModel ProductsWithSortModel { get; set; }
 

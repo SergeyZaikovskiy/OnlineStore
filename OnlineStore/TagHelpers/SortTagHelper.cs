@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace OnlineStore.TagHelpers
 {/// <summary>
- /// Хелпер для сортировки сотрудников компании
+ /// Хелпер для сортировки
  /// </summary>
     public class SortTagHelper : TagHelper
     {
@@ -22,6 +22,8 @@ namespace OnlineStore.TagHelpers
         public string ActionName { get; set; }
         //Название контроллера
         public string ControllerName { get; set; }
+        //Маршрутизатор 
+        public Dictionary<string,object> RouteData { get; set; }
         //Область контроллера
         public string AreaName { get; set; }
         //Нисходящая или восходящая сортировка
@@ -42,7 +44,7 @@ namespace OnlineStore.TagHelpers
         {
             IUrlHelper urlHelper = urlHelperFactory.GetUrlHelper(ViewContext);
             output.TagName = "a";
-            string url = urlHelper.Action(ActionName, ControllerName, new { sortValue = Property, Area = AreaName });
+            string url = urlHelper.Action(ActionName, ControllerName,  new { sortValue = Property, Area = AreaName });
             output.Attributes.SetAttribute("href", url);
 
             //Проверям свойство

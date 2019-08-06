@@ -29,7 +29,7 @@ namespace OnlineStore.Controllers
         /// </summary>
         /// <param name="productFilter">Фильтр товаров</param>
         /// <returns></returns>           
-        public async Task<IActionResult> Shop(int ? SecID, List<BrandViewModel> Brands, decimal? MinP, decimal? MaxP, int? CatID, int? sec, string sortValue = SortEntityForProducts.NameAsc)
+        public async Task<IActionResult> Shop(int ? SecID, int? CatID, List<BrandViewModel> Brands, decimal? MinP, decimal? MaxP, int? sec, string sortValue = SortEntityForProducts.NameAsc)
         {
             var brandsID = new List<int?>();
 
@@ -75,7 +75,7 @@ namespace OnlineStore.Controllers
 
             var catalog_model = new CatalogViewModel
             {
-                BrandCollection = Brands,
+                Brands = Brands,
                 SectionId = productFilter.SectionId,
                 ProductsWithSortModel = productsEnumerableViewModel
             };
