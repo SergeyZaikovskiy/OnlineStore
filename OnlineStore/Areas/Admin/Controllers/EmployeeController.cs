@@ -95,6 +95,7 @@ namespace OnlineStore.Areas.Admin.Controllers
 
             //список сотрудников
             var employess_View_models = employees.Select(EmployeeViewModelMapper.CreateViewModel);
+
             //модель представления сотрудников с возможностью сортировки
             var employeeEnumerableView = new EmployeeEnumerableViewModel { employees = employess_View_models, SortViewModel = new SortViewModelForEmployees(sortValue) };
 

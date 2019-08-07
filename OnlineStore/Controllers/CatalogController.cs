@@ -39,7 +39,12 @@ namespace OnlineStore.Controllers
 
             ProductFilter productFilter = new ProductFilter { SectionId = SecID, CategoryId = CatID, BrandIdCollection = brandsID, MinPrice = MinP, MaxPrice = MaxP };
 
-            var products =  _productData.GetProducts(productFilter);
+            var products =   await Task.Run(()=>_productData.GetProducts(productFilter));
+
+            //Для работы без пользовательского TagHelper, переключатель сортировок          
+            ViewData["NameSort"] = sortValue == SortEntityForProducts.NameAsc ? SortEntityForProducts.NameDes : SortEntityForProducts.NameAsc;           
+            ViewData["BrandSort"] = sortValue == SortEntityForProducts.BrandAsc ? SortEntityForProducts.BrandDes : SortEntityForProducts.BrandAsc;
+            ViewData["PriceSort"] = sortValue == SortEntityForProducts.PriceAsc ? SortEntityForProducts.PriceDes : SortEntityForProducts.PriceAsc;
 
             //переключение сортировок
             switch (sortValue)
@@ -66,24 +71,21 @@ namespace OnlineStore.Controllers
                 default:
                     products = products.OrderBy(s => s.Name);
                     break;
-            }
+            }          
 
-            await products.AsNoTracking().ToListAsync();
-
-
-            ProductsEnumerableViewModel productsEnumerableViewModel = new ProductsEnumerableViewModel { SortViewModel = new SortViewModelForProduct(sortValue), Products = products.Select(ProductViewModelMapper.CreateViewModel) };
+          
 
             var catalog_model = new CatalogViewModel
             {
                 Brands = Brands,
                 SectionId = productFilter.SectionId,
-                ProductsWithSortModel = productsEnumerableViewModel
+                Products = products.Select(ProductViewModelMapper.CreateViewModel).ToList()
             };
 
             if (productFilter.CategoryId is null)
             {
                 catalog_model.CategoryId = _productData.GetCategories(productFilter).FirstOrDefault().id;
-                catalog_model.ProductsWithSortModel.Products = catalog_model.ProductsWithSortModel.Products.Where(p => p.Category.id == catalog_model.CategoryId);
+                catalog_model.Products = catalog_model.Products.Where(p => p.Category.id == catalog_model.CategoryId).ToList();
             }//если запрос идет только по секции, то принудительно выбираем все товары для первой попавшейся категории для данной секции
             else
             {

@@ -14,6 +14,7 @@ using OnlineStore.Domain.SortsEntities;
 using OnlineStore.Infrastructure.Interfeices;
 using OnlineStore.Infrastructure.Mappers;
 using OnlineStore.ViewModels;
+using OnlineStore.ViewModels.Product;
 
 namespace OnlineStore.Areas.Admin.Controllers
 {

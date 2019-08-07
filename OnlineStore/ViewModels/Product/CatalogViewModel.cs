@@ -16,7 +16,7 @@ namespace OnlineStore.ViewModels
 
         public List<BrandViewModel> Brands { get; set; } 
 
-        public ProductsEnumerableViewModel ProductsWithSortModel { get; set; }
+        public List<ProductViewModel> Products { get; set; }
 
     }
 }

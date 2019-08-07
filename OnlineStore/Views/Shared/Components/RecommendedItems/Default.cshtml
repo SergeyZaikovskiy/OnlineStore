@@ -20,6 +20,7 @@
                                                 <img src="@Model[j].Image.Path" alt="@Model[j].Name" />
                                                 <h2>@(Model[j].Price.ToString("C"))</h2>
                                                 <p>@Model[j].Name</p>
+                                                <p>@Model[j].Brand.Name</p>
                                                 <a asp-controller="Cart" asp-action="AddtoCart" asp-route-id="@Model[j].Id"
                                                    class="btn btn-default add-to-cart">
                                                     <i class="fa fa-shopping-cart">
@@ -43,6 +44,7 @@
                                                 <img src="@Model[k].Image.Path" alt="" />
                                                 <h2>@(Model[k].Price.ToString("C"))</h2>
                                                 <p>@Model[k].Name</p>
+                                                <p>@Model[k].Brand.Name</p>
                                                 <a asp-controller="Cart" asp-action="AddtoCart" asp-route-id="@Model[k].Id"
                                                    class="btn btn-default add-to-cart">
                                                     <i class="fa fa-shopping-cart">
