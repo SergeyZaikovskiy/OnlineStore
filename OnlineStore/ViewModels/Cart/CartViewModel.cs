@@ -12,6 +12,8 @@ namespace OnlineStore.ViewModels
     {
         public Dictionary<ProductViewModel, int> Items { get; set; } = new Dictionary<ProductViewModel, int>();
 
-        public int ItemsCount => Items?.Sum(item => item.Value) ?? 0;
+        public int ItemsCount => Items?.Sum(item => item.Value) ?? 0;     
+
+       
     }
 }

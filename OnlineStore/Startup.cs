@@ -42,6 +42,8 @@ namespace OnlineStore
             services.AddScoped<IProductData, SqlProductData>();
             services.AddScoped<ICartService, CookieCartService>();
 
+           
+
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<OnlineStoreContext>()

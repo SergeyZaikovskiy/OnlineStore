@@ -13,5 +13,12 @@ namespace OnlineStore.ViewModels
         public CartViewModel CartViewModel { get; set; }
 
         public OrderViewModel OrderViewModel { get; set; }
+
+        public CartDetailsViewModel() { }
+
+        public CartDetailsViewModel(CartViewModel CartViewModel, OrderViewModel OrderViewModel) {
+            this.OrderViewModel = OrderViewModel;
+            this.CartViewModel = CartViewModel;
+        }
     }
 }

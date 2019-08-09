@@ -22,8 +22,6 @@ namespace OnlineStore.TagHelpers
         public string ActionName { get; set; }
         //Название контроллера
         public string ControllerName { get; set; }
-        //Маршрутизатор 
-        public Dictionary<string,object> RouteData { get; set; }
         //Область контроллера
         public string AreaName { get; set; }
         //Нисходящая или восходящая сортировка
@@ -50,7 +48,7 @@ namespace OnlineStore.TagHelpers
             //Проверям свойство
             if (Current == Property)
             {
-                TagBuilder tag = new TagBuilder("i");
+                TagBuilder tag = new TagBuilder("i");                
                 tag.AddCssClass("glyphicon");
 
                 if (Up == true)   // если сортировка по возрастанию

@@ -10,13 +10,24 @@ namespace OnlineStore.ViewModels
     /// </summary>
     public class CatalogViewModel
     {
+               
+
         public int? SectionId { get; set; }
 
         public int? CategoryId { get; set; }        
 
-        public List<BrandViewModel> Brands { get; set; } 
-
+        public List<BrandViewModel> Brands { get; set; }
+       
         public List<ProductViewModel> Products { get; set; }
+
+        public CatalogViewModel() { }
+
+        public CatalogViewModel(int? SecID, int? CatID, List<BrandViewModel> Brands, List<ProductViewModel> Products) {
+            this.SectionId = SecID;
+            this.Products = Products;
+            this.CategoryId = CatID;
+            this.Brands = Brands;     
+        }
 
     }
 }

@@ -27,9 +27,14 @@ namespace OnlineStore.Controllers
         /// <summary>
         /// Вызов представления Shop (Набор товаров)
         /// </summary>
-        /// <param name="productFilter">Фильтр товаров</param>
-        /// <returns></returns>           
-        public async Task<IActionResult> Shop(int ? SecID, int? CatID, List<BrandViewModel> Brands, decimal? MinP, decimal? MaxP, int? sec, string sortValue = SortEntityForProducts.NameAsc)
+        /// <param name="SecID">ID секции для фильтра отбора товаров</param>
+        /// <param name="CatID">ID категории для фильтра отбора товаров</param>
+        /// <param name="Brands">Список брендов для фильтра отбора товаров</param>
+        /// <param name="MinP">Минимальная цена для фильтра отбора товаров</param>
+        /// <param name="MaxP">Максимальная цена для фильтра отбора товаров</param>      
+        /// <param name="sortValue">Порядок сортировки товаров</param>
+        /// <returns></returns>       
+        public async Task<IActionResult> Shop(int ? SecID, int? CatID, List<BrandViewModel> Brands, decimal? MinP, decimal? MaxP, ToolModel model, string sortValue = SortEntityForProducts.NameAsc)
         {
             var brandsID = new List<int?>();
 
@@ -37,9 +42,9 @@ namespace OnlineStore.Controllers
                 if (br.Choosen)
                     brandsID.Add(br.Id);
 
-            ProductFilter productFilter = new ProductFilter { SectionId = SecID, CategoryId = CatID, BrandIdCollection = brandsID, MinPrice = MinP, MaxPrice = MaxP };
+            ProductFilter productFilter = new ProductFilter { SectionId = SecID, CategoryId = CatID, BrandIdCollection = brandsID, MinPrice = MinP, MaxPrice = MaxP  };
 
-            var products =   await Task.Run(()=>_productData.GetProducts(productFilter));
+            var products =  _productData.GetProducts(productFilter);
 
             //Для работы без пользовательского TagHelper, переключатель сортировок          
             ViewData["NameSort"] = sortValue == SortEntityForProducts.NameAsc ? SortEntityForProducts.NameDes : SortEntityForProducts.NameAsc;           
@@ -71,9 +76,9 @@ namespace OnlineStore.Controllers
                 default:
                     products = products.OrderBy(s => s.Name);
                     break;
-            }          
+            }
 
-          
+            await products.AsNoTracking().ToListAsync();
 
             var catalog_model = new CatalogViewModel
             {
