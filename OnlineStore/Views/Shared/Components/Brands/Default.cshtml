@@ -35,31 +35,8 @@
             @*<div class="form-group">
                 <input type="submit" value="Submit" />
             </div>*@
-            <button type="submit" class="btn btn-primary" onclick="post()">Применить</button>
+            <button type="submit" class="btn btn-primary">Применить</button>
         </form>
     </div>
 </div><!--/brands_products-->
 
-<script>
-    var model = {
-        text: "Test_text",
-        type: "test",
-        name: "test_name"
-    }
-
-    function post() {
-        var url = '/Utilities/Tool';
-        $.ajax({
-            url: url,
-            data: JSON.stringify(model),
-            type: 'POST',
-            contentType: "application/json",
-            success: function() {
-                alert("all good");
-            },
-            error: function() {
-                alert("all bad");
-            }
-        });
-    }
-</script>

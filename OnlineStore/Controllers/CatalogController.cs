@@ -24,17 +24,19 @@ namespace OnlineStore.Controllers
             _productData = productData;
         }
 
-        /// <summary>
-        /// Вызов представления Shop (Набор товаров)
+
+         /// <summary>
+        ///  Вызов представления Shop (Набор товаров)
         /// </summary>
         /// <param name="SecID">ID секции для фильтра отбора товаров</param>
         /// <param name="CatID">ID категории для фильтра отбора товаров</param>
-        /// <param name="Brands">Список брендов для фильтра отбора товаров</param>
-        /// <param name="MinP">Минимальная цена для фильтра отбора товаров</param>
-        /// <param name="MaxP">Максимальная цена для фильтра отбора товаров</param>      
-        /// <param name="sortValue">Порядок сортировки товаров</param>
-        /// <returns></returns>       
-        public async Task<IActionResult> Shop(int ? SecID, int? CatID, List<BrandViewModel> Brands, decimal? MinP, decimal? MaxP, ToolModel model, string sortValue = SortEntityForProducts.NameAsc)
+        /// <param name="Brands">Список брендов для фильтра отбора товаров из ViewComponent Brands</param>
+        /// <param name="JsonBrands">Список брендов из ТагХелперов</param>
+        /// <param name="MinP"></param>
+        /// <param name="MaxP"></param>
+        /// <param name="sortValue"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> Shop(int ? SecID, int? CatID, List<BrandViewModel> Brands, string JsonBrands, decimal? MinP, decimal? MaxP, string sortValue = SortEntityForProducts.NameAsc)
         {
             var brandsID = new List<int?>();
 

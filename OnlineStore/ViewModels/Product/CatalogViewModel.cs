@@ -20,6 +20,8 @@ namespace OnlineStore.ViewModels
        
         public List<ProductViewModel> Products { get; set; }
 
+        public SortViewModelForProduct SortViewModel { get; set; }
+
         public CatalogViewModel() { }
 
         public CatalogViewModel(int? SecID, int? CatID, List<BrandViewModel> Brands, List<ProductViewModel> Products) {
