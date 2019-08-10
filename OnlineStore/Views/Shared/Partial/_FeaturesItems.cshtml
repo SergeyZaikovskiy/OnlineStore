@@ -10,24 +10,24 @@
 
     <div>  
         @{  
-             var routedata = new Dictionary<string, object>();
-            routedata.Add("SecID", Model.SectionId);
-            routedata.Add("CatID", Model.CategoryId);
-            if (Model.Brands!=null)
+            var routedata = new Dictionary<string, string>();
+            routedata.Add("SecID", Model.SectionId.ToString());
+            routedata.Add("CatID", Model.CategoryId.ToString());
+            if (Model.Brands!=null && Model.Brands.Count>0)
             {
                 var JsonCollection = Html.Raw(Json.Serialize(Model.Brands));
-                routedata.Add("JsonBrands", JsonCollection);
-            }
-           
-    <sort action-name="Catalog" controller-name="Shop" up="@Model.SortViewModel.Up" current="@Model.SortViewModel.Current" route-data="@routedata"
-          property="@Model.SortViewModel.NameSort">
-        Название
-    </sort>
+                routedata.Add("JsonBrands", JsonCollection.ToString());
+            }           
+
+            <sort action-name="Shop" controller-name="Catalog" up="@Model.SortViewModel.Up" current="@Model.SortViewModel.Current" route-data="@routedata"
+                    property="@Model.SortViewModel.NameSort">
+                Название
+            </sort>
     }
     @{
         var JsonBrands = @Html.Raw(Json.Serialize(Model.Brands));
 
-        <form asp-controller="Catalog" asp-action="Shop" asp-route-secid="@Model.SectionId" asp-route-catid="@Model.CategoryId" asp-route-jsonbrands="@JsonBrands">
+        <form asp-controller="Catalog" asp-action="Shop" asp-route-secid="@Model.SectionId" asp-route-catid="@Model.CategoryId">
             @for (int i = 0; i < Model.Brands.Count; i++)
             {
                 <input type="hidden" asp-for="@Model.Brands[i].Id" />
@@ -43,9 +43,7 @@
 
             <button type="submit" class="btn btn-primary-outline" name="sortValue" value="@ViewBag.NameSort"><i class="text-info">Названию |</i></button>
             <button type="submit" class="btn btn-primary-outline" name="sortValue" value="@ViewBag.BrandSort"><i class="text-info">Бренду |</i></button>
-            <button type="submit" class="btn btn-primary-outline" name="sortValue" value="@ViewBag.PriceSort"><i class="text-info">Цене </i></button>
-
-            <sort action-name="Shop" controller-name="Catalog"></sort>
+            <button type="submit" class="btn btn-primary-outline" name="sortValue" value="@ViewBag.PriceSort"><i class="text-info">Цене </i></button>           
         </form>
     }
 </div>

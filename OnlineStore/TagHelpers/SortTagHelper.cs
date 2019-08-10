@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using Newtonsoft.Json;
+using OnlineStore.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +16,12 @@ namespace OnlineStore.TagHelpers
  /// </summary>
     public class SortTagHelper : TagHelper
     {
+        //public int? SectionId { get; set; }
+
+        //public int? CategoryId { get; set; }
+
+        //public List<BrandViewModel> BrandsList { get; set; }
+
         //Значение текущего свойства
         public string Property { get; set; }
         //Значение активного свойства
@@ -23,7 +31,7 @@ namespace OnlineStore.TagHelpers
         //Название контроллера
         public string ControllerName { get; set; }
         //данные для передачи в контроллер
-        public Dictionary<string, object> RouteData { get; set; }
+        public Dictionary<string, string> RouteData { get; set; }
         //Область контроллера
         public string AreaName { get; set; }
         //Нисходящая или восходящая сортировка
@@ -42,9 +50,25 @@ namespace OnlineStore.TagHelpers
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
+            var fixedRouteValues = new Dictionary<string, string>();
+            foreach (var (newKey, value) in RouteData.Where(r => !string.IsNullOrWhiteSpace(r.Value)))
+            {
+                var key = fixedRouteValues.Keys.FirstOrDefault(k => string.Equals(k, newKey, StringComparison.InvariantCultureIgnoreCase)) ?? newKey;
+                fixedRouteValues[key] = value;
+            }
+            fixedRouteValues.Add("sortValue", Property);
+
+            var query = string.Join("&", fixedRouteValues.Select(kvp => $"{kvp.Key}={kvp.Value}"));
+
             IUrlHelper urlHelper = urlHelperFactory.GetUrlHelper(ViewContext);
             output.TagName = "a";
-            string url = urlHelper.Action(ActionName, ControllerName, new { sortValue = Property, RouteData });
+
+            // /Catalog/Shop?secid=1&catid=6
+            //string url = urlHelper.Action(ActionName, ControllerName, query);
+            if(AreaName==null)
+                string url = "/" + ControllerName + "/" + ActionName + "?" + query;
+            else
+
             //string url = urlHelper.Action(ActionName, ControllerName,  new { sortValue = Property, Area = AreaName });
             output.Attributes.SetAttribute("href", url);
 

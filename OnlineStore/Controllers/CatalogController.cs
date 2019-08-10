@@ -86,7 +86,9 @@ namespace OnlineStore.Controllers
             {
                 Brands = Brands,
                 SectionId = productFilter.SectionId,
-                Products = products.Select(ProductViewModelMapper.CreateViewModel).ToList()
+                Products = products.Select(ProductViewModelMapper.CreateViewModel).ToList(),
+                SortViewModel = new SortViewModelForProduct(sortValue)
+               
             };
 
             if (productFilter.CategoryId is null)
