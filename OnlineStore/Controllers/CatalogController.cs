@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using OnlineStore.Domain.Entities.ProductsEntities;
 using OnlineStore.Domain.SortsEntities;
 using OnlineStore.Infrastructure.Interfeices;
@@ -25,7 +26,7 @@ namespace OnlineStore.Controllers
         }
 
 
-         /// <summary>
+        /// <summary>
         ///  Вызов представления Shop (Набор товаров)
         /// </summary>
         /// <param name="SecID">ID секции для фильтра отбора товаров</param>
@@ -36,13 +37,22 @@ namespace OnlineStore.Controllers
         /// <param name="MaxP"></param>
         /// <param name="sortValue"></param>
         /// <returns></returns>
-        public async Task<IActionResult> Shop(int ? SecID, int? CatID, List<BrandViewModel> Brands, string JsonBrands, decimal? MinP, decimal? MaxP, string sortValue = SortEntityForProducts.NameAsc)
+        public async Task<IActionResult> Shop(int? SecID, int? CatID, List<BrandViewModel> Brands, string JsonBrands, decimal? MinP, decimal? MaxP, string sortValue = SortEntityForProducts.NameAsc)
         {
             var brandsID = new List<int?>();
 
-            foreach (var br in Brands)
-                if (br.Choosen)
-                    brandsID.Add(br.Id);
+            if (Brands == null && Brands.Count == 0 && !String.IsNullOrEmpty(JsonBrands))
+            {
+                var brands = JsonConvert.DeserializeObject(JsonBrands);
+               
+            }
+            else
+            {
+                foreach (var br in Brands)
+                    if (br.Choosen)
+                        brandsID.Add(br.Id);
+            }
+
 
             ProductFilter productFilter = new ProductFilter { SectionId = SecID, CategoryId = CatID, BrandIdCollection = brandsID, MinPrice = MinP, MaxPrice = MaxP  };
 

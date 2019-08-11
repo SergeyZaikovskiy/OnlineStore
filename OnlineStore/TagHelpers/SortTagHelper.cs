@@ -65,9 +65,11 @@ namespace OnlineStore.TagHelpers
 
             // /Catalog/Shop?secid=1&catid=6
             //string url = urlHelper.Action(ActionName, ControllerName, query);
-            if(AreaName==null)
-                string url = "/" + ControllerName + "/" + ActionName + "?" + query;
+            string url;
+            if (AreaName==null)
+                url = "/" + ControllerName + "/" + ActionName + "?" + query;
             else
+                url = "/" + AreaName + "/" + ControllerName + "/" + ActionName + "?" + query;
 
             //string url = urlHelper.Action(ActionName, ControllerName,  new { sortValue = Property, Area = AreaName });
             output.Attributes.SetAttribute("href", url);
