@@ -41,6 +41,7 @@ namespace OnlineStore.Controllers
         {
             var brandsID = new List<int?>();            
             var catalog_model = new CatalogViewModel();
+            catalog_model.SortViewModel = new SortViewModelForProduct(sortValue);
 
             //Определим откуда пришли данные, из тагхелпера сортировки или из Вьюкомпонента
             if ((Brands == null || Brands.Count == 0) && !String.IsNullOrEmpty(JsonBrands))
@@ -52,6 +53,8 @@ namespace OnlineStore.Controllers
                         brandsID.Add(br.Id);
 
                 catalog_model.Brands = BrandsFromJson;
+                //отмечаем не нужность смены сортировки, а только ее сохранение
+                catalog_model.SortViewModel.NeedChangeSort = false;
             }
             else
             {
@@ -103,8 +106,7 @@ namespace OnlineStore.Controllers
             
             //Заполняем оставшиеся данный для ViewModel с товарами
             catalog_model.SectionId = productFilter.SectionId;
-            catalog_model.Products = products.Select(ProductViewModelMapper.CreateViewModel).ToList();
-            catalog_model.SortViewModel = new SortViewModelForProduct(sortValue);           
+            catalog_model.Products = products.Select(ProductViewModelMapper.CreateViewModel).ToList();                     
 
             if (productFilter.CategoryId is null)
             {
