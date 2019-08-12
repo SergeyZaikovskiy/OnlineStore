@@ -15,5 +15,7 @@ namespace OnlineStore.ViewModels.Product
         public int? CategoryID { get; set; }
 
         public int? SectionID { get; set; }
+
+        public string SortValue { get; set; }
     }
 }

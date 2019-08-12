@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace OnlineStore.Components
 {
-    /// <summary>
+ /// <summary>
  /// Компонент для области Категорий
  /// Вызывает компонент Category
  /// </summary>
@@ -23,16 +23,18 @@ namespace OnlineStore.Components
             _ProductData = productDate;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(ProductFilter productFilter)
+        public async Task<IViewComponentResult> InvokeAsync(CatalogViewModel catalogViewModel)
         {
 
-            var cats = await Task.Run(() => GetCategories(productFilter));
+            var cats = await Task.Run(() => GetCategories(catalogViewModel));
 
             return View(cats);
         }
 
-        public List<CategoryViewModel> GetCategories(ProductFilter productFilter)
+        public List<CategoryViewModel> GetCategories(CatalogViewModel catalogViewModel)
         {
+            ProductFilter productFilter = new ProductFilter { SectionId = catalogViewModel.SectionId, CategoryId = catalogViewModel.CategoryId };
+
             var categories = _ProductData.GetCategories(productFilter);           
 
             var cats = categories.Select(cat => cat.CreateViewModel()).ToList();

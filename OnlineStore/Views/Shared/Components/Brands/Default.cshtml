@@ -7,7 +7,7 @@
 
 
      
-        <form asp-controller="Catalog" asp-action="Shop" asp-route-secid="@Model.SectionID" asp-route-catid="@Model.CategoryID">          
+        <form asp-controller="Catalog" asp-action="Shop" asp-route-secid="@Model.SectionID" asp-route-catid="@Model.CategoryID" asp-route-sortvalue="@Model.SortValue">          
 
             <ul class="nav nav-pills nav-stacked">
 
@@ -31,10 +31,7 @@
                 </li>
                 }
             </ul>
-
-            @*<div class="form-group">
-                <input type="submit" value="Submit" />
-            </div>*@
+           
             <button type="submit" class="btn btn-primary">Применить</button>
         </form>
     </div>

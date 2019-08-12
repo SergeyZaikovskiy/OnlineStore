@@ -28,20 +28,20 @@ namespace OnlineStore.Components
         /// Загрузка и отображения представления для Компонента Section
         /// </summary>
         /// <returns></returns>
-        public async Task<IViewComponentResult> InvokeAsync(ProductFilter productFilter)
+        public async Task<IViewComponentResult> InvokeAsync(CatalogViewModel catalogViewModel)
         {
-            var sections = await Task.Run(() => GetSections(productFilter));
+            var sections = await Task.Run(() => GetSections(catalogViewModel));
 
             return View(sections);
         }
 
-        private List<SectionViewModel> GetSections(ProductFilter productFilter)
+        private List<SectionViewModel> GetSections(CatalogViewModel catalogViewModel)
         {
-            var sections = _ProductData.GetSections().Select(s => s.CreateViewModel()).ToList();          
+            var sections = _ProductData.GetSections().Select(s => s.CreateViewModel()).ToList();           
 
             for (int i = 0; i < sections.Count; i++)
             {
-                if (sections[i].Id == productFilter.SectionId) sections[i].Choosen = true;
+                if (sections[i].Id == catalogViewModel.SectionId) sections[i].Choosen = true;
                 else sections[i].Choosen = false;                
             }
             return sections;

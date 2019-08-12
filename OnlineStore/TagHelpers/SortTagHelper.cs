@@ -15,12 +15,7 @@ namespace OnlineStore.TagHelpers
  /// Хелпер для сортировки
  /// </summary>
     public class SortTagHelper : TagHelper
-    {
-        //public int? SectionId { get; set; }
-
-        //public int? CategoryId { get; set; }
-
-        //public List<BrandViewModel> BrandsList { get; set; }
+    {     
 
         //Значение текущего свойства
         public string Property { get; set; }
@@ -30,7 +25,7 @@ namespace OnlineStore.TagHelpers
         public string ActionName { get; set; }
         //Название контроллера
         public string ControllerName { get; set; }
-        //данные для передачи в контроллер
+        //Данные для передачи в контроллер
         public Dictionary<string, string> RouteData { get; set; }
         //Область контроллера
         public string AreaName { get; set; }
@@ -56,6 +51,7 @@ namespace OnlineStore.TagHelpers
                 var key = fixedRouteValues.Keys.FirstOrDefault(k => string.Equals(k, newKey, StringComparison.InvariantCultureIgnoreCase)) ?? newKey;
                 fixedRouteValues[key] = value;
             }
+            //Добавляем марршут в словарь
             fixedRouteValues.Add("sortValue", Property);
 
             var query = string.Join("&", fixedRouteValues.Select(kvp => $"{kvp.Key}={kvp.Value}"));
@@ -63,15 +59,14 @@ namespace OnlineStore.TagHelpers
             IUrlHelper urlHelper = urlHelperFactory.GetUrlHelper(ViewContext);
             output.TagName = "a";
 
-            // /Catalog/Shop?secid=1&catid=6
-            //string url = urlHelper.Action(ActionName, ControllerName, query);
+            
             string url;
             if (AreaName==null)
                 url = "/" + ControllerName + "/" + ActionName + "?" + query;
             else
                 url = "/" + AreaName + "/" + ControllerName + "/" + ActionName + "?" + query;
 
-            //string url = urlHelper.Action(ActionName, ControllerName,  new { sortValue = Property, Area = AreaName });
+           
             output.Attributes.SetAttribute("href", url);
 
             //Проверям свойство

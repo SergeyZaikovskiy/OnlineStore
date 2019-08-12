@@ -30,17 +30,25 @@ namespace OnlineStore.Components
         /// Загрузка и отображения представления для Компонента Brands
         /// </summary>
         /// <returns></returns>
-        public async Task<IViewComponentResult> InvokeAsync(ProductFilter productFilter)
+        public async Task<IViewComponentResult> InvokeAsync(CatalogViewModel catalogViewModel)
         {
-            var brands =await Task.Run(()=> GetBrands(productFilter));
+            var brands =await Task.Run(()=> GetBrands(catalogViewModel));
 
-            var brandsEnumerable = new BrandsEnumerableViewModel {SectionID = productFilter.SectionId, CategoryID = productFilter.CategoryId, Brands=brands.ToList() };
+            var brandsEnumerable = new BrandsEnumerableViewModel {SectionID = catalogViewModel.SectionId, CategoryID = catalogViewModel.CategoryId, Brands=brands.ToList(), SortValue = catalogViewModel.SortViewModel.Current };
 
             return View(brandsEnumerable);
         }
 
-        private IQueryable<BrandViewModel> GetBrands(ProductFilter productFilter)
+        private IQueryable<BrandViewModel> GetBrands(CatalogViewModel catalogViewModel)
         {
+            var ChoosenBrands = catalogViewModel.Brands
+                .Where(br => br.Choosen)
+                .Select(x => (int?)x.Id);                
+
+            ProductFilter productFilter = new ProductFilter { SectionId = catalogViewModel.SectionId, CategoryId = catalogViewModel.CategoryId,
+                BrandIdCollection = ChoosenBrands.AsEnumerable()
+            };
+       
             var brands =  _ProductData.GetBrands(productFilter);                       
 
             var BrandsViewModels = brands.Select(brand => brand.CreateViewModel()).ToList();
@@ -51,8 +59,12 @@ namespace OnlineStore.Components
                 List<int?> brand = new List<int?> { (int?)BrandsViewModels[i].Id };
                 ProductFilter pf = new ProductFilter { SectionId = productFilter.SectionId, CategoryId = productFilter.CategoryId, BrandIdCollection = brand };
                 var countGoods = _ProductData.GetProducts(pf).Count();
+                if (ChoosenBrands.Contains(BrandsViewModels[i].Id))
+                {
+                    BrandsViewModels[i].Choosen = true;
+                }
                 BrandsViewModels[i].ProductsCount = countGoods;
-            }                             
+            }//только для заполнения количества товара для каждого бренда                            
 
             return BrandsViewModels.AsQueryable();
         }

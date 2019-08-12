@@ -8,45 +8,55 @@
     <!--features_items-->
     <h2 class="title text-center">Товары</h2>
 
-    <div>  
-        @{  
+    <div>
+        <span>
+            Сортировать по:
+        </span>
+        @{
             var routedata = new Dictionary<string, string>();
             routedata.Add("SecID", Model.SectionId.ToString());
             routedata.Add("CatID", Model.CategoryId.ToString());
-            if (Model.Brands!=null && Model.Brands.Count>0)
+            if (Model.Brands != null && Model.Brands.Count > 0)
             {
                 var JsonCollection = Html.Raw(Json.Serialize(Model.Brands));
                 routedata.Add("JsonBrands", JsonCollection.ToString());
-            }           
-
-            <sort action-name="Shop" controller-name="Catalog" up="@Model.SortViewModel.Up" current="@Model.SortViewModel.Current" route-data="@routedata"
-                    property="@Model.SortViewModel.NameSort">
-                Название
-            </sort>
-    }
-    @{
-        var JsonBrands = @Html.Raw(Json.Serialize(Model.Brands));
-
-        <form asp-controller="Catalog" asp-action="Shop" asp-route-secid="@Model.SectionId" asp-route-catid="@Model.CategoryId">
-            @for (int i = 0; i < Model.Brands.Count; i++)
-            {
-                <input type="hidden" asp-for="@Model.Brands[i].Id" />
-                <input type="hidden" asp-for="@Model.Brands[i].Name" />
-                <input type="hidden" asp-for="@Model.Brands[i].Order" />
-                <input type="hidden" asp-for="@Model.Brands[i].Choosen" />
-                <input type="hidden" asp-for="@Model.Brands[i].ProductsCount" />
             }
 
-            <span>
-                Сортировать по:
-            </span>
+            <sort action-name="Shop" controller-name="Catalog" up="@Model.SortViewModel.Up" current="@Model.SortViewModel.Current" route-data="@routedata"
+                  property="@Model.SortViewModel.NameSort">
+                Названию |
+            </sort>
+            <sort action-name="Shop" controller-name="Catalog" up="@Model.SortViewModel.Up" current="@Model.SortViewModel.Current" route-data="@routedata"
+                  property="@Model.SortViewModel.BrandSort">
+                Бренду |
+            </sort>
+            <sort action-name="Shop" controller-name="Catalog" up="@Model.SortViewModel.Up" current="@Model.SortViewModel.Current" route-data="@routedata"
+                  property="@Model.SortViewModel.PriceSort">
+                Цене
+            </sort>
+        }
+        @*@{
 
-            <button type="submit" class="btn btn-primary-outline" name="sortValue" value="@ViewBag.NameSort"><i class="text-info">Названию |</i></button>
-            <button type="submit" class="btn btn-primary-outline" name="sortValue" value="@ViewBag.BrandSort"><i class="text-info">Бренду |</i></button>
-            <button type="submit" class="btn btn-primary-outline" name="sortValue" value="@ViewBag.PriceSort"><i class="text-info">Цене </i></button>           
-        </form>
-    }
-</div>
+            <form asp-controller="Catalog" asp-action="Shop" asp-route-secid="@Model.SectionId" asp-route-catid="@Model.CategoryId">
+                @for (int i = 0; i < Model.Brands.Count; i++)
+                {
+                    <input type="hidden" asp-for="@Model.Brands[i].Id" />
+                    <input type="hidden" asp-for="@Model.Brands[i].Name" />
+                    <input type="hidden" asp-for="@Model.Brands[i].Order" />
+                    <input type="hidden" asp-for="@Model.Brands[i].Choosen" />
+                    <input type="hidden" asp-for="@Model.Brands[i].ProductsCount" />
+                }
+
+                <span>
+                    Сортировать по:
+                </span>
+
+                <button type="submit" class="btn btn-primary-outline" name="sortValue" value="@ViewBag.NameSort"><i class="text-info">Названию |</i></button>
+                <button type="submit" class="btn btn-primary-outline" name="sortValue" value="@ViewBag.BrandSort"><i class="text-info">Бренду |</i></button>
+                <button type="submit" class="btn btn-primary-outline" name="sortValue" value="@ViewBag.PriceSort"><i class="text-info">Цене </i></button>
+            </form>
+        }*@
+    </div>
 
     <br>
 
@@ -70,7 +80,8 @@
                     <div class="product-overlay">
                         <div class="overlay-content">
                             <h2>@(product.Price.ToString("C"))</h2>
-                            <p><a asp-controller="Catalog" asp-action="ProductDetails" asp-route-id="@product.Id">@product.Name</a></p>
+                            <p>@product.Name</p>
+                            <p>@product.Brand.Name</p>                           
                             <a asp-controller="Cart" asp-action="AddtoCart" asp-route-id="@product.Id"
                                class="btn btn-default add-to-cart">
                                 <i class="fa fa-shopping-cart">

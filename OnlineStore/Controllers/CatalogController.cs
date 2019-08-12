@@ -39,29 +39,37 @@ namespace OnlineStore.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Shop(int? SecID, int? CatID, List<BrandViewModel> Brands, string JsonBrands, decimal? MinP, decimal? MaxP, string sortValue = SortEntityForProducts.NameAsc)
         {
-            var brandsID = new List<int?>();
+            var brandsID = new List<int?>();            
+            var catalog_model = new CatalogViewModel();
 
-            if (Brands == null && Brands.Count == 0 && !String.IsNullOrEmpty(JsonBrands))
+            //Определим откуда пришли данные, из тагхелпера сортировки или из Вьюкомпонента
+            if ((Brands == null || Brands.Count == 0) && !String.IsNullOrEmpty(JsonBrands))
             {
-                var brands = JsonConvert.DeserializeObject(JsonBrands);
-               
+                //распарсиваем Json в листинг брендов
+                var BrandsFromJson = JsonConvert.DeserializeObject<List<BrandViewModel>>(JsonBrands);
+                foreach (var br in BrandsFromJson)
+                    if (br.Choosen)
+                        brandsID.Add(br.Id);
+
+                catalog_model.Brands = BrandsFromJson;
             }
             else
             {
                 foreach (var br in Brands)
                     if (br.Choosen)
                         brandsID.Add(br.Id);
+                catalog_model.Brands = Brands;
             }
-
 
             ProductFilter productFilter = new ProductFilter { SectionId = SecID, CategoryId = CatID, BrandIdCollection = brandsID, MinPrice = MinP, MaxPrice = MaxP  };
 
+            //Получаем лист товаров по заданному фильтру
             var products =  _productData.GetProducts(productFilter);
 
-            //Для работы без пользовательского TagHelper, переключатель сортировок          
-            ViewData["NameSort"] = sortValue == SortEntityForProducts.NameAsc ? SortEntityForProducts.NameDes : SortEntityForProducts.NameAsc;           
-            ViewData["BrandSort"] = sortValue == SortEntityForProducts.BrandAsc ? SortEntityForProducts.BrandDes : SortEntityForProducts.BrandAsc;
-            ViewData["PriceSort"] = sortValue == SortEntityForProducts.PriceAsc ? SortEntityForProducts.PriceDes : SortEntityForProducts.PriceAsc;
+            ////Для работы без пользовательского TagHelper, переключатель сортировок          
+            //ViewData["NameSort"] = sortValue == SortEntityForProducts.NameAsc ? SortEntityForProducts.NameDes : SortEntityForProducts.NameAsc;           
+            //ViewData["BrandSort"] = sortValue == SortEntityForProducts.BrandAsc ? SortEntityForProducts.BrandDes : SortEntityForProducts.BrandAsc;
+            //ViewData["PriceSort"] = sortValue == SortEntityForProducts.PriceAsc ? SortEntityForProducts.PriceDes : SortEntityForProducts.PriceAsc;
 
             //переключение сортировок
             switch (sortValue)
@@ -92,14 +100,11 @@ namespace OnlineStore.Controllers
 
             await products.AsNoTracking().ToListAsync();
 
-            var catalog_model = new CatalogViewModel
-            {
-                Brands = Brands,
-                SectionId = productFilter.SectionId,
-                Products = products.Select(ProductViewModelMapper.CreateViewModel).ToList(),
-                SortViewModel = new SortViewModelForProduct(sortValue)
-               
-            };
+            
+            //Заполняем оставшиеся данный для ViewModel с товарами
+            catalog_model.SectionId = productFilter.SectionId;
+            catalog_model.Products = products.Select(ProductViewModelMapper.CreateViewModel).ToList();
+            catalog_model.SortViewModel = new SortViewModelForProduct(sortValue);           
 
             if (productFilter.CategoryId is null)
             {

@@ -34,7 +34,7 @@ namespace OnlineStore.ViewModels
                 || SortType == SortEntityForProducts.SectionAsc
                 || SortType == SortEntityForProducts.CategoryAsc
                 || SortType == SortEntityForProducts.BrandAsc
-                || SortType == SortEntityForProducts.PriceAsc)
+                || SortType == SortEntityForProducts.PriceDes)
             {
                 Up = false;
             }
