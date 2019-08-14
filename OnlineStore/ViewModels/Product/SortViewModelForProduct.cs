@@ -16,10 +16,8 @@ namespace OnlineStore.ViewModels
         public string CategorySort { get; set; }
         public string BrandSort { get; set; }
         public string PriceSort { get; set; }
-        public string Current { get; set; }
-
-        //Иногда нужно просто сохранять текущую сортировку
-        public bool NeedChangeSort { get; set; } = true;
+        public string Current { get; set; }    
+              
 
         public bool Up { get; set; }
 
@@ -33,56 +31,59 @@ namespace OnlineStore.ViewModels
 
             Up = true;
 
-            if (SortType == SortEntityForProducts.NameAsc
-                || SortType == SortEntityForProducts.SectionAsc
-                || SortType == SortEntityForProducts.CategoryAsc
-                || SortType == SortEntityForProducts.BrandAsc
+            if (SortType == SortEntityForProducts.NameDes
+                || SortType == SortEntityForProducts.SectionDes
+                || SortType == SortEntityForProducts.CategoryDes
+                || SortType == SortEntityForProducts.BrandDes
                 || SortType == SortEntityForProducts.PriceDes)
             {
                 Up = false;
-            }
+            }            
 
-            if (NeedChangeSort)
+          
+            switch (SortType)
             {
-                switch (SortType)
-                {
-                    case SortEntityForProducts.NameDes:
-                        Current = NameSort = SortEntityForProducts.NameAsc;
-                        break;
+                case SortEntityForProducts.NameDes:
+                    Current = NameSort = SortEntityForProducts.NameAsc;                       
+                    break;
 
-                    case SortEntityForProducts.SectionAsc:
-                        Current = SectionSort = SortEntityForProducts.SectionDes;
-                        break;
-                    case SortEntityForProducts.SectionDes:
-                        Current = SectionSort = SortEntityForProducts.SectionAsc;
-                        break;
+                case SortEntityForProducts.SectionAsc:
+                    Current = SectionSort = SortEntityForProducts.SectionDes;                     
+                    break;
 
-                    case SortEntityForProducts.CategoryAsc:
-                        Current = BrandSort = SortEntityForProducts.CategoryDes;
-                        break;
-                    case SortEntityForProducts.CategoryDes:
-                        Current = BrandSort = SortEntityForProducts.CategoryAsc;
-                        break;
+                case SortEntityForProducts.SectionDes:
+                    Current = SectionSort = SortEntityForProducts.SectionAsc;                        
+                    break;
 
-                    case SortEntityForProducts.BrandAsc:
-                        Current = BrandSort = SortEntityForProducts.BrandDes;
-                        break;
-                    case SortEntityForProducts.BrandDes:
-                        Current = BrandSort = SortEntityForProducts.BrandAsc;
-                        break;
+                case SortEntityForProducts.CategoryAsc:
+                    Current = BrandSort = SortEntityForProducts.CategoryDes;                       
+                    break;
 
-                    case SortEntityForProducts.PriceAsc:
-                        Current = PriceSort = SortEntityForProducts.PriceDes;
-                        break;
-                    case SortEntityForProducts.PriceDes:
-                        Current = PriceSort = SortEntityForProducts.PriceAsc;
-                        break;
+                case SortEntityForProducts.CategoryDes:
+                    Current = BrandSort = SortEntityForProducts.CategoryAsc;                      
+                    break;
 
-                    default:
-                        Current = NameSort = SortEntityForProducts.NameDes;
-                        break;
-                }
+                case SortEntityForProducts.BrandAsc:
+                    Current = BrandSort = SortEntityForProducts.BrandDes;                       
+                    break;
+
+                case SortEntityForProducts.BrandDes:
+                    Current = BrandSort = SortEntityForProducts.BrandAsc;                       
+                    break;
+
+                case SortEntityForProducts.PriceAsc:
+                    Current = PriceSort = SortEntityForProducts.PriceDes;                       
+                    break;
+
+                case SortEntityForProducts.PriceDes:
+                    Current = PriceSort = SortEntityForProducts.PriceAsc;                        
+                    break;
+
+                default:
+                    Current = NameSort = SortEntityForProducts.NameDes;                        
+                    break;
             }
+           
         }
 
     }

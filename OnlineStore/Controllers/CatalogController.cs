@@ -41,8 +41,7 @@ namespace OnlineStore.Controllers
         {
             var brandsID = new List<int?>();            
             var catalog_model = new CatalogViewModel();
-            catalog_model.SortViewModel = new SortViewModelForProduct(sortValue);
-
+          
             //Определим откуда пришли данные, из тагхелпера сортировки или из Вьюкомпонента
             if ((Brands == null || Brands.Count == 0) && !String.IsNullOrEmpty(JsonBrands))
             {
@@ -52,17 +51,26 @@ namespace OnlineStore.Controllers
                     if (br.Choosen)
                         brandsID.Add(br.Id);
 
-                catalog_model.Brands = BrandsFromJson;
-                //отмечаем не нужность смены сортировки, а только ее сохранение
-                catalog_model.SortViewModel.NeedChangeSort = false;
+                catalog_model.Brands = BrandsFromJson;                               
             }
             else
             {
                 foreach (var br in Brands)
                     if (br.Choosen)
                         brandsID.Add(br.Id);
+
                 catalog_model.Brands = Brands;
-            }
+
+                if (Brands.Count > 0)
+                {
+                    if (sortValue == SortEntityForProducts.NameAsc) { sortValue = SortEntityForProducts.NameDes; }
+                    else if (sortValue == SortEntityForProducts.NameDes) { sortValue = SortEntityForProducts.NameAsc; }
+                    else if (sortValue == SortEntityForProducts.BrandAsc) { sortValue = SortEntityForProducts.BrandDes; }
+                    else if (sortValue == SortEntityForProducts.BrandDes) { sortValue = SortEntityForProducts.BrandAsc; }
+                    else if (sortValue == SortEntityForProducts.PriceAsc) { sortValue = SortEntityForProducts.PriceDes; }
+                    else if (sortValue == SortEntityForProducts.PriceDes) { sortValue = SortEntityForProducts.PriceAsc; }
+                }//Запуск из Вьюкомпонента Бренды, просто сохраняем текущую сортировку
+            }                
 
             ProductFilter productFilter = new ProductFilter { SectionId = SecID, CategoryId = CatID, BrandIdCollection = brandsID, MinPrice = MinP, MaxPrice = MaxP  };
 
@@ -72,32 +80,35 @@ namespace OnlineStore.Controllers
             ////Для работы без пользовательского TagHelper, переключатель сортировок          
             //ViewData["NameSort"] = sortValue == SortEntityForProducts.NameAsc ? SortEntityForProducts.NameDes : SortEntityForProducts.NameAsc;           
             //ViewData["BrandSort"] = sortValue == SortEntityForProducts.BrandAsc ? SortEntityForProducts.BrandDes : SortEntityForProducts.BrandAsc;
-            //ViewData["PriceSort"] = sortValue == SortEntityForProducts.PriceAsc ? SortEntityForProducts.PriceDes : SortEntityForProducts.PriceAsc;
+            //ViewData["PriceSort"] = sortValue == SortEntityForProducts.PriceAsc ? SortEntityForProducts.PriceDes : SortEntityForProducts.PriceAsc;          
+                
 
-            //переключение сортировок
+            //сортировка списка товаров
             switch (sortValue)
             {
                 case SortEntityForProducts.NameDes:
-                    products = products.OrderByDescending(s => s.Name);
+                    products = products.OrderByDescending(s => s.Name);                   
                     break;
 
                 case SortEntityForProducts.BrandAsc:
-                    products = products.OrderBy(s => s.Brand);
+                    products = products.OrderBy(s => s.Brand);                   
                     break;
+
                 case SortEntityForProducts.BrandDes:
-                    products = products.OrderByDescending(s => s.Brand);
+                    products = products.OrderByDescending(s => s.Brand);                   
                     break;              
 
                 case SortEntityForProducts.PriceAsc:
                     products = products.OrderBy(s => s.Price);
+                   
                     break;
 
                 case SortEntityForProducts.PriceDes:
-                    products = products.OrderByDescending(s => s.Price);
+                    products = products.OrderByDescending(s => s.Price);                  
                     break;
 
                 default:
-                    products = products.OrderBy(s => s.Name);
+                    products = products.OrderBy(s => s.Name);                    
                     break;
             }
 
@@ -118,6 +129,8 @@ namespace OnlineStore.Controllers
                 catalog_model.CategoryId = productFilter.CategoryId;               
             }
 
+            catalog_model.SortViewModel = new SortViewModelForProduct(sortValue);
+
             return View(catalog_model);
         }
 
@@ -134,10 +147,7 @@ namespace OnlineStore.Controllers
                 return NotFound();
 
             return View(product.CreateViewModel());
-
-        }      
-
-
+        }
     }
 
 }
