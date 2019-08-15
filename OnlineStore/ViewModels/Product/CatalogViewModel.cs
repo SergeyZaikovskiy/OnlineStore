@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OnlineStore.ViewModels.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,6 +22,8 @@ namespace OnlineStore.ViewModels
         public List<ProductViewModel> Products { get; set; }
 
         public SortViewModelForProduct SortViewModel { get; set; }
+
+        public PageViewModel PageViewModel { get; set; }
 
         public CatalogViewModel() { }
 

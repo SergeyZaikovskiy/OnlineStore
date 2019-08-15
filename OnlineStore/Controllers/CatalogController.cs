@@ -10,6 +10,7 @@ using OnlineStore.Domain.SortsEntities;
 using OnlineStore.Infrastructure.Interfeices;
 using OnlineStore.Infrastructure.Mappers;
 using OnlineStore.ViewModels;
+using OnlineStore.ViewModels.Common;
 
 namespace OnlineStore.Controllers
 {
@@ -37,11 +38,12 @@ namespace OnlineStore.Controllers
         /// <param name="MaxP"></param>
         /// <param name="sortValue"></param>
         /// <returns></returns>
-        public async Task<IActionResult> Shop(int? SecID, int? CatID, List<BrandViewModel> Brands, string JsonBrands, decimal? MinP, decimal? MaxP, string sortValue = SortEntityForProducts.NameAsc)
+        public async Task<IActionResult> Shop(int? SecID, int? CatID, List<BrandViewModel> Brands, string JsonBrands, decimal? MinP, decimal? MaxP, string sortValue = SortEntityForProducts.NameAsc, int page = 1)
         {
             var brandsID = new List<int?>();            
             var catalog_model = new CatalogViewModel();
-          
+
+            
             //Определим откуда пришли данные, из тагхелпера сортировки или из Вьюкомпонента
             if ((Brands == null || Brands.Count == 0) && !String.IsNullOrEmpty(JsonBrands))
             {
@@ -63,25 +65,29 @@ namespace OnlineStore.Controllers
 
                 if (Brands.Count > 0)
                 {
-                    if (sortValue == SortEntityForProducts.NameAsc) { sortValue = SortEntityForProducts.NameDes; }
-                    else if (sortValue == SortEntityForProducts.NameDes) { sortValue = SortEntityForProducts.NameAsc; }
-                    else if (sortValue == SortEntityForProducts.BrandAsc) { sortValue = SortEntityForProducts.BrandDes; }
-                    else if (sortValue == SortEntityForProducts.BrandDes) { sortValue = SortEntityForProducts.BrandAsc; }
-                    else if (sortValue == SortEntityForProducts.PriceAsc) { sortValue = SortEntityForProducts.PriceDes; }
-                    else if (sortValue == SortEntityForProducts.PriceDes) { sortValue = SortEntityForProducts.PriceAsc; }
+                    sortValue = SaveSort(sortValue);
                 }//Запуск из Вьюкомпонента Бренды, просто сохраняем текущую сортировку
-            }                
 
-            ProductFilter productFilter = new ProductFilter { SectionId = SecID, CategoryId = CatID, BrandIdCollection = brandsID, MinPrice = MinP, MaxPrice = MaxP  };
+            }//Дополнительные настройки для сортировки, либо сохранить текущую, либо применить
+
+            
 
             //Получаем лист товаров по заданному фильтру
-            var products =  _productData.GetProducts(productFilter);
+            ProductFilter productFilter = new ProductFilter { SectionId = SecID, CategoryId = CatID, BrandIdCollection = brandsID, MinPrice = MinP, MaxPrice = MaxP  };
 
+            if (productFilter.CategoryId is null)
+            {             
+                productFilter.CategoryId = _productData.GetCategories(productFilter).FirstOrDefault().id;
+            }//если запрос идет только по секции, то принудительно выбираем все товары для первой попавшейся категории для данной секции           
+
+            //Выборка товаров по фильтру
+            var products =  _productData.GetProducts(productFilter);        
+            
             ////Для работы без пользовательского TagHelper, переключатель сортировок          
             //ViewData["NameSort"] = sortValue == SortEntityForProducts.NameAsc ? SortEntityForProducts.NameDes : SortEntityForProducts.NameAsc;           
             //ViewData["BrandSort"] = sortValue == SortEntityForProducts.BrandAsc ? SortEntityForProducts.BrandDes : SortEntityForProducts.BrandAsc;
             //ViewData["PriceSort"] = sortValue == SortEntityForProducts.PriceAsc ? SortEntityForProducts.PriceDes : SortEntityForProducts.PriceAsc;          
-                
+
 
             //сортировка списка товаров
             switch (sortValue)
@@ -99,8 +105,7 @@ namespace OnlineStore.Controllers
                     break;              
 
                 case SortEntityForProducts.PriceAsc:
-                    products = products.OrderBy(s => s.Price);
-                   
+                    products = products.OrderBy(s => s.Price);                   
                     break;
 
                 case SortEntityForProducts.PriceDes:
@@ -112,23 +117,17 @@ namespace OnlineStore.Controllers
                     break;
             }
 
-            await products.AsNoTracking().ToListAsync();
 
-            
+           //Пагинация
+            int pageSize = 9;
+            var count = await products.CountAsync();
+            var PageProducts = await products.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+
             //Заполняем оставшиеся данный для ViewModel с товарами
-            catalog_model.SectionId = productFilter.SectionId;
-            catalog_model.Products = products.Select(ProductViewModelMapper.CreateViewModel).ToList();                     
-
-            if (productFilter.CategoryId is null)
-            {
-                catalog_model.CategoryId = _productData.GetCategories(productFilter).FirstOrDefault().id;
-                catalog_model.Products = catalog_model.Products.Where(p => p.Category.id == catalog_model.CategoryId).ToList();
-            }//если запрос идет только по секции, то принудительно выбираем все товары для первой попавшейся категории для данной секции
-            else
-            {
-                catalog_model.CategoryId = productFilter.CategoryId;               
-            }
-
+            catalog_model.SectionId = productFilter.SectionId;               
+            catalog_model.CategoryId = productFilter.CategoryId;
+            catalog_model.Products = PageProducts.Select(ProductViewModelMapper.CreateViewModel).ToList();    
+            catalog_model.PageViewModel = new PageViewModel(count, page,pageSize);
             catalog_model.SortViewModel = new SortViewModelForProduct(sortValue);
 
             return View(catalog_model);
@@ -148,6 +147,18 @@ namespace OnlineStore.Controllers
 
             return View(product.CreateViewModel());
         }
+
+        private string SaveSort(string currentSortValue)
+        {
+            if (currentSortValue == SortEntityForProducts.NameAsc) { currentSortValue = SortEntityForProducts.NameDes; }
+            else if (currentSortValue == SortEntityForProducts.NameDes) { currentSortValue = SortEntityForProducts.NameAsc; }
+            else if (currentSortValue == SortEntityForProducts.BrandAsc) { currentSortValue = SortEntityForProducts.BrandDes; }
+            else if (currentSortValue == SortEntityForProducts.BrandDes) { currentSortValue = SortEntityForProducts.BrandAsc; }
+            else if (currentSortValue == SortEntityForProducts.PriceAsc) { currentSortValue = SortEntityForProducts.PriceDes; }
+            else if (currentSortValue == SortEntityForProducts.PriceDes) { currentSortValue = SortEntityForProducts.PriceAsc; }
+
+            return currentSortValue;
+        }//Метод для сохранения текущей сортировки
     }
 
 }

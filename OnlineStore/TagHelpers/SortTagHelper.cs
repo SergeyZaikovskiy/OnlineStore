@@ -44,22 +44,13 @@ namespace OnlineStore.TagHelpers
         public ViewContext ViewContext { get; set; }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
-        {
-            var fixedRouteValues = new Dictionary<string, string>();
-            foreach (var (newKey, value) in RouteData.Where(r => !string.IsNullOrWhiteSpace(r.Value)))
-            {
-                var key = fixedRouteValues.Keys.FirstOrDefault(k => string.Equals(k, newKey, StringComparison.InvariantCultureIgnoreCase)) ?? newKey;
-                fixedRouteValues[key] = value;
-            }
-            //Добавляем марршут в словарь
-            fixedRouteValues.Add("sortValue", Property);
-
-            var query = string.Join("&", fixedRouteValues.Select(kvp => $"{kvp.Key}={kvp.Value}"));
+        {           
 
             IUrlHelper urlHelper = urlHelperFactory.GetUrlHelper(ViewContext);
             output.TagName = "a";
 
-            
+            var query = CheckDataRoute(RouteData);
+
             string url;
             if (AreaName==null)
                 url = "/" + ControllerName + "/" + ActionName + "?" + query;
@@ -83,6 +74,22 @@ namespace OnlineStore.TagHelpers
                 output.PreContent.AppendHtml(tag);
             }
         }
+
+        private string CheckDataRoute(Dictionary<string, string> DataDictionary)
+        {
+            var fixedRouteValues = new Dictionary<string, string>();
+            foreach (var (newKey, value) in DataDictionary.Where(r => !string.IsNullOrWhiteSpace(r.Value)))
+            {
+                var key = fixedRouteValues.Keys.FirstOrDefault(k => string.Equals(k, newKey, StringComparison.InvariantCultureIgnoreCase)) ?? newKey;
+                fixedRouteValues[key] = value;
+            }
+            //Добавляем марршут в словарь
+            fixedRouteValues.Add("sortValue", Property);
+
+            var query = string.Join("&", fixedRouteValues.Select(kvp => $"{kvp.Key}={kvp.Value}"));
+
+            return query;
+        }//проверка данных в словаре для машратизации и передачи данных в контроллер
     }
 
 }
