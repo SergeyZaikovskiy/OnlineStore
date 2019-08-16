@@ -43,7 +43,6 @@
                             <input type="checkbox" name="selectedUsers"
                                    id="@Model.Brands[i].Id" value="@Model.Brands[i].Id"
                                    class="styled">
-
                             <label>@Model.Brands[i].Name</label>
                         </li>
                     }
@@ -61,7 +60,7 @@
             $("input:submit")
                 .on("click", function () {
 
-                    var str = JSON.stringify($("#selectedUsers").data("value"));
+                    var str = JSON.stringify($("#selected").data("value"));
                     var data = JSON.parse(str).map(function (e) {
                         return { Body: e.body, IsCompleted: e.iscompleted };
                     });

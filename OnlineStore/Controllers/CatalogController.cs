@@ -38,7 +38,7 @@ namespace OnlineStore.Controllers
         /// <param name="MaxP"></param>
         /// <param name="sortValue"></param>
         /// <returns></returns>
-        public async Task<IActionResult> Shop(string[] selectedUsers, string selected, int? SecID, int? CatID, List<BrandViewModel> Brands, string JsonBrands, decimal? MinP, decimal? MaxP, string sortValue = SortEntityForProducts.NameAsc, int page = 1)
+        public async Task<IActionResult> Shop(string selectedUsers, string selected, int? SecID, int? CatID, List<BrandViewModel> Brands, string JsonBrands, decimal? MinP, decimal? MaxP, string sortValue = SortEntityForProducts.NameAsc, int page = 1)
         {
             var brandsID = new List<int?>();            
             var catalog_model = new CatalogViewModel();

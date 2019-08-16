@@ -41,6 +41,8 @@ namespace OnlineStore.TagHelpers
             TagBuilder tag = new TagBuilder("ul");
             tag.AddCssClass("pagination");
 
+           
+
             // формируем три ссылки - на текущую, предыдущую и следующую
             TagBuilder currentItem = CreateTag(PageModel.PageNumber, urlHelper);
 
@@ -58,6 +60,19 @@ namespace OnlineStore.TagHelpers
                 TagBuilder nextItem = CreateTag(PageModel.PageNumber + 1, urlHelper);
                 tag.InnerHtml.AppendHtml(nextItem);
             }
+            //сслыка на страницу на 2 меньше чем последняя, если мы находимся на последней странице
+            if (PageModel.PageNumber == PageModel.TotalPages && PageModel.TotalPages > 2)
+            {
+                TagBuilder prevItem = CreateTag(PageModel.PageNumber - 2, urlHelper);
+                tag.InnerHtml.AppendHtml(prevItem);
+            }
+            //сслыка на страницу на 2 больше чем первая, если мы находимся на первой странице
+            if (PageModel.PageNumber == 1 && PageModel.TotalPages > 2)
+            {
+                TagBuilder prevItem = CreateTag(PageModel.PageNumber + 2, urlHelper);
+                tag.InnerHtml.AppendHtml(prevItem);
+            }
+
             output.Content.AppendHtml(tag);
         }
 
