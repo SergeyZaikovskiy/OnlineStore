@@ -17,7 +17,7 @@ namespace OnlineStore.ViewModels
 
         public int? CategoryId { get; set; }        
 
-        public List<BrandViewModel> Brands { get; set; }
+        public List<int> Brands { get; set; }
        
         public List<ProductViewModel> Products { get; set; }
 
@@ -27,7 +27,7 @@ namespace OnlineStore.ViewModels
 
         public CatalogViewModel() { }
 
-        public CatalogViewModel(int? SecID, int? CatID, List<BrandViewModel> Brands, List<ProductViewModel> Products) {
+        public CatalogViewModel(int? SecID, int? CatID, List<int> Brands, List<ProductViewModel> Products) {
             this.SectionId = SecID;
             this.Products = Products;
             this.CategoryId = CatID;

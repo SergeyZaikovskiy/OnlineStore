@@ -11,7 +11,7 @@ namespace OnlineStore.Domain.Entities.ProductsEntities
     {
         public int? SectionId { get; set; }       
 
-        public IEnumerable<int?> BrandIdCollection { get; set; }
+        public List<int> BrandIdCollection { get; set; }
 
         public int? CategoryId { get; set; }
 

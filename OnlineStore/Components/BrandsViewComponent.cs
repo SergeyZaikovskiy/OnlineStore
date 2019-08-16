@@ -41,12 +41,12 @@ namespace OnlineStore.Components
 
         private IQueryable<BrandViewModel> GetBrands(CatalogViewModel catalogViewModel)
         {
-            var ChoosenBrands = catalogViewModel.Brands
-                .Where(br => br.Choosen)
-                .Select(x => (int?)x.Id);                
+            //var ChoosenBrands = catalogViewModel.Brands
+            //    .Where(br => br.Choosen)
+            //    .Select(x => (int?)x.Id);                
 
             ProductFilter productFilter = new ProductFilter { SectionId = catalogViewModel.SectionId, CategoryId = catalogViewModel.CategoryId,
-                BrandIdCollection = ChoosenBrands.AsEnumerable()
+                BrandIdCollection = catalogViewModel.Brands
             };
        
             var brands =  _ProductData.GetBrands(productFilter);                       
@@ -56,10 +56,10 @@ namespace OnlineStore.Components
             //Для заполнения количества товара по брендам
             for (int i = 0; i < BrandsViewModels.Count; i++)
             {
-                List<int?> brand = new List<int?> { (int?)BrandsViewModels[i].Id };
+                List<int> brand = new List<int> { (int)BrandsViewModels[i].Id };
                 ProductFilter pf = new ProductFilter { SectionId = productFilter.SectionId, CategoryId = productFilter.CategoryId, BrandIdCollection = brand };
                 var countGoods = _ProductData.GetProducts(pf).Count();
-                if (ChoosenBrands.Contains(BrandsViewModels[i].Id))
+                if (catalogViewModel.Brands.Contains(BrandsViewModels[i].Id))
                 {
                     BrandsViewModels[i].Choosen = true;
                 }

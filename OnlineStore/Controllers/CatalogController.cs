@@ -38,32 +38,30 @@ namespace OnlineStore.Controllers
         /// <param name="MaxP"></param>
         /// <param name="sortValue"></param>
         /// <returns></returns>
-        public async Task<IActionResult> Shop(string selectedUsers, string selected, int? SecID, int? CatID, List<BrandViewModel> Brands, string JsonBrands, decimal? MinP, decimal? MaxP, string sortValue = SortEntityForProducts.NameAsc, int page = 1)
+        public async Task<IActionResult> Shop(int[] Brands, int? SecID, int? CatID, string JsonBrands, decimal? MinP, decimal? MaxP, string sortValue = SortEntityForProducts.NameAsc, int page = 1)
         {
-            var brandsID = new List<int?>();            
+            var brandsID = new List<int>();            
             var catalog_model = new CatalogViewModel();
 
             
             //Определим откуда пришли данные, из тагхелпера сортировки или из Вьюкомпонента
-            if ((Brands == null || Brands.Count == 0) && !String.IsNullOrEmpty(JsonBrands))
+            if ((Brands == null || Brands.Length == 0) && !String.IsNullOrEmpty(JsonBrands))
             {
                 //распарсиваем Json в листинг брендов
-                var BrandsFromJson = JsonConvert.DeserializeObject<List<BrandViewModel>>(JsonBrands);
-                foreach (var br in BrandsFromJson)
-                    if (br.Choosen)
-                        brandsID.Add(br.Id);
+                var BrandsFromJson = JsonConvert.DeserializeObject<List<int>>(JsonBrands);
+                foreach (var br in BrandsFromJson)                  
+                        brandsID.Add(br);
 
                 catalog_model.Brands = BrandsFromJson;                               
             }
             else
             {
-                foreach (var br in Brands)
-                    if (br.Choosen)
-                        brandsID.Add(br.Id);
+                foreach (var br in Brands)                    
+                        brandsID.Add(br);
 
-                catalog_model.Brands = Brands;
+                catalog_model.Brands = Brands.ToList();
 
-                if (Brands.Count > 0)
+                if (Brands.Length > 0)
                 {
                     sortValue = SaveSort(sortValue);
                 }//Запуск из Вьюкомпонента Бренды, просто сохраняем текущую сортировку
@@ -119,7 +117,7 @@ namespace OnlineStore.Controllers
 
 
            //Пагинация
-            int pageSize = 9;
+            int pageSize = 6;
             var count = await products.CountAsync();
             var PageProducts = await products.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
 

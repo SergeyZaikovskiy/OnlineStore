@@ -1,77 +1,29 @@
 ﻿@model OnlineStore.ViewModels.Product.BrandsEnumerableViewModel
 
-    <div class="brands_products">
-        <!--brands_products-->
-        <h2>Брэнды</h2>
-        <div class="brands-name">
+<div class="brands_products">
+    <!--brands_products-->
+    <h2>Брэнды</h2>
+    <div class="brands-name">        
 
-            <form asp-controller="Catalog" asp-action="Shop" asp-route-secid="@Model.SectionID" asp-route-catid="@Model.CategoryID" asp-route-sortvalue="@Model.SortValue">
-
-                <ul class="nav nav-pills nav-stacked">
-
-                    @for (int i = 0; i < Model.Brands.Count; i++)
-                    {
-                        <li>
-                            <input type="hidden" asp-for="@Model.Brands[i].Id" />
-                            <input type="hidden" asp-for="@Model.Brands[i].Name" />
-                            <input type="hidden" asp-for="@Model.Brands[i].Order" />
-                            <input type="hidden" asp-for="@Model.Brands[i].ProductsCount" />
-
-                            @{ if (Model.Brands[i].Choosen)
-                                {
-                                    <input asp-for="@Model.Brands[i].Choosen" type="checkbox" checked />
-                                }
-                                else
-                                { <input asp-for="@Model.Brands[i].Choosen" type="checkbox" />}
-                            }
-                            <label asp-for="@Model.Brands[i].Name">@Model.Brands[i].Name (@Model.Brands[i].ProductsCount) </label>
-
-                        </li>
-                    }
-                </ul>
-
-                <button type="submit" class="btn btn-primary">Применить</button>
-            </form>
-        </div>
-        <div class="brands-name">
-
-            <form asp-controller="Catalog" asp-action="Shop">
-                <ul class="nav nav-pills nav-stacked">
-                    @for (int i = 0; i < Model.Brands.Count; i++)
-                    {
-                        <li>
-                            <input type="checkbox" name="selectedUsers"
-                                   id="@Model.Brands[i].Id" value="@Model.Brands[i].Id"
-                                   class="styled">
-                            <label>@Model.Brands[i].Name</label>
-                        </li>
-                    }
-                </ul>
-                <button type="submit" class="btn btn-primary">Применить</button>
-            </form>
-     </div>
+        <form asp-controller="Catalog" asp-action="Shop">
+            <ul class="nav nav-pills nav-stacked">
+                @for (int i = 0; i < Model.Brands.Count; i++)
+                {
+                <li>
+                    <input type="checkbox" name="brands"
+                           id="@Model.Brands[i].Id" value="@Model.Brands[i].Id"
+                           class="styled">
+                    <label>@Model.Brands[i].Name (@Model.Brands[i].ProductsCount)</label>
+                </li>
+                }
+            </ul>
+            <button type="submit" class="btn btn-primary">Применить</button>
+        </form>
+    </div>
 </div><!--/brands_products-->
 
-@section scripts
-{
-    <script type="text/javascript">
 
-        $(function () {
-            $("input:submit")
-                .on("click", function () {
 
-                    var str = JSON.stringify($("#selected").data("value"));
-                    var data = JSON.parse(str).map(function (e) {
-                        return { Body: e.body, IsCompleted: e.iscompleted };
-                    });
 
-                    data.forEach(function (e, i) {
-                        $("form").append("<input type='hidden' name='brand.Id' value='" + brand.Id + "' />");
-                    });
-                });
-        });
-
-    </script>
-}
 
 

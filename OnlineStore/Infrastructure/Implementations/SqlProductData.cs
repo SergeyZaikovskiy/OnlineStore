@@ -138,7 +138,7 @@ namespace OnlineStore.Infrastructure.Implementations
                 products = products.Where(p => p.CategoryId == productFilter.CategoryId);
 
             if (productFilter.BrandIdCollection != null && productFilter.BrandIdCollection.Count() > 0)
-                products = products.Where(p => productFilter.BrandIdCollection.Contains(p.BrandId));
+                products = products.Where(p => productFilter.BrandIdCollection.Contains((int)p.BrandId));
 
             if (productFilter.MinPrice!=null && productFilter.MaxPrice!=null && (productFilter.MinPrice <productFilter.MaxPrice))
                 products = products.Where(p => (p.Price > productFilter.MinPrice && p.Price < productFilter.MaxPrice));
