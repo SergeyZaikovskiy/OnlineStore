@@ -22,7 +22,6 @@
                     routedata.Add("JsonBrands", JsonCollection.ToString());
                 }
 
-
                 <sort action-name="Shop" controller-name="Catalog" up="@Model.SortViewModel.Up" current="@Model.SortViewModel.Current" route-data="@routedata"
                       property="@Model.SortViewModel.NameSort">
                     Названию |
@@ -36,50 +35,18 @@
                     Цене
                 </sort>
             }
-            @*@{
-
-                <form asp-controller="Catalog" asp-action="Shop" asp-route-secid="@Model.SectionId" asp-route-catid="@Model.CategoryId">
-                    @for (int i = 0; i < Model.Brands.Count; i++)
-                    {
-                        <input type="hidden" asp-for="@Model.Brands[i].Id" />
-                        <input type="hidden" asp-for="@Model.Brands[i].Name" />
-                        <input type="hidden" asp-for="@Model.Brands[i].Order" />
-                        <input type="hidden" asp-for="@Model.Brands[i].Choosen" />
-                        <input type="hidden" asp-for="@Model.Brands[i].ProductsCount" />
-                    }
-
-                    <span>
-                        Сортировать по:
-                    </span>
-
-                    <button type="submit" class="btn btn-primary-outline" name="sortValue" value="@ViewBag.NameSort"><i class="text-info">Названию |</i></button>
-                    <button type="submit" class="btn btn-primary-outline" name="sortValue" value="@ViewBag.BrandSort"><i class="text-info">Бренду |</i></button>
-                    <button type="submit" class="btn btn-primary-outline" name="sortValue" value="@ViewBag.PriceSort"><i class="text-info">Цене </i></button>
-                </form>
-            }*@
         </div>
 
         <br>
 
-        @foreach (var product in Model.Products)
-        {
-            <div class="col-sm-4">
-                <div class="product-image-wrapper">
-                    <div class="single-products">
-                        <div class="productinfo text-center">
-                            <img src="@product.Image.Path" alt="@product.Name" />
-                            <h2>@(product.Price.ToString("C"))</h2>
-                            <p>@product.Name</p>
-                            <p>@product.Brand.Name</p>
-                            <a asp-controller="Cart" asp-action="AddtoCart" asp-route-id="@product.Id"
-                               class="btn btn-default add-to-cart">
-                                <i class="fa fa-shopping-cart">
-                                </i>
-                                В корзину
-                            </a>
-                        </div>
-                        <div class="product-overlay">
-                            <div class="overlay-content">
+        <div>
+            @foreach (var product in Model.Products)
+            {
+                <div class="col-sm-4">
+                    <div class="product-image-wrapper">
+                        <div class="single-products">
+                            <div class="productinfo text-center">
+                                <img src="@product.Image.Path" alt="@product.Name" />
                                 <h2>@(product.Price.ToString("C"))</h2>
                                 <p>@product.Name</p>
                                 <p>@product.Brand.Name</p>
@@ -90,12 +57,35 @@
                                     В корзину
                                 </a>
                             </div>
+                            <div class="product-overlay">
+                                <div class="overlay-content">
+                                    <h2>@(product.Price.ToString("C"))</h2>
+                                    <p>@product.Name</p>
+                                    <p>@product.Brand.Name</p>
+                                    <a asp-controller="Cart" asp-action="AddtoCart" asp-route-id="@product.Id"
+                                       class="btn btn-default add-to-cart">
+                                        <i class="fa fa-shopping-cart">
+                                        </i>
+                                        В корзину
+                                    </a>
+                                </div>
+                            </div>
+                            <img src="~@product.Image.Path" class="new" alt="" />
                         </div>
-                        <img src="~@product.Image.Path" class="new" alt="" />
                     </div>
                 </div>
+            }
+        </div>          
+       
+            <br>
+        @if (Model.Products.Count > 0)
+        {
+            <div>
+                @{
+                    routedata.Add("sortValue", Model.SortViewModel.Current);
+                    routedata.Add("needChangeSort", "false");
+                }
+                <page-link page-model="Model.PageViewModel" action-name="Shop" controller-name="Catalog" route-data="routedata"></page-link>
             </div>
         }
-        @{routedata.Add("sortValue", Model.SortViewModel.Current); }
-        <page-link page-model="Model.PageViewModel" action-name="Shop" controller-name="Catalog" route-data="routedata"></page-link>
     </div>

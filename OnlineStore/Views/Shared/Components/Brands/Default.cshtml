@@ -3,16 +3,22 @@
 <div class="brands_products">
     <!--brands_products-->
     <h2>Брэнды</h2>
-    <div class="brands-name">        
-
-        <form asp-controller="Catalog" asp-action="Shop">
+    <div class="brands-name">       
+        <form asp-controller="Catalog" asp-action="Shop" asp-route-secid="@Model.SectionID" asp-route-catid="@Model.CategoryID" asp-route-needchangesort="false">
             <ul class="nav nav-pills nav-stacked">
                 @for (int i = 0; i < Model.Brands.Count; i++)
                 {
                 <li>
-                    <input type="checkbox" name="brands"
-                           id="@Model.Brands[i].Id" value="@Model.Brands[i].Id"
-                           class="styled">
+                    @if (Model.Brands[i].Choosen)
+                    {
+                        <input type="checkbox" name="brands"
+                               id="@Model.Brands[i].Id" value="@Model.Brands[i].Id"
+                               class="styled" checked>}
+                    else
+                    { <input type="checkbox" name="brands"
+                             id="@Model.Brands[i].Id" value="@Model.Brands[i].Id"
+                             class="styled">}
+
                     <label>@Model.Brands[i].Name (@Model.Brands[i].ProductsCount)</label>
                 </li>
                 }

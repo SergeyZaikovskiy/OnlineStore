@@ -28,48 +28,30 @@ namespace OnlineStore.Controllers
 
 
         /// <summary>
-        ///  Вызов представления Shop (Набор товаров)
+        /// Вызов представления Shop (Набор товаров)
         /// </summary>
+        /// <param name="Brands">Массив брендов для фильтра из ViewComponent Brand</param>
+        /// <param name="JsonBrands">Список брендов для фильтра из Тагхелперов</param>
         /// <param name="SecID">ID секции для фильтра отбора товаров</param>
         /// <param name="CatID">ID категории для фильтра отбора товаров</param>
-        /// <param name="Brands">Список брендов для фильтра отбора товаров из ViewComponent Brands</param>
-        /// <param name="JsonBrands">Список брендов из ТагХелперов</param>
-        /// <param name="MinP"></param>
-        /// <param name="MaxP"></param>
-        /// <param name="sortValue"></param>
+        /// <param name="MinP">Минимальная цена товара для фильтра</param>
+        /// <param name="MaxP">Максимальная цена товара для фильтра</param>
+        /// <param name="sortValue">Название сортировки товаров</param>
+        /// <param name="page">Номер текущей страницы для пагинации</param>
+        /// <param name="needChangeSort">Нужно ли менять сортировку или сохранить текущую</param>
         /// <returns></returns>
-        public async Task<IActionResult> Shop(int[] Brands, int? SecID, int? CatID, string JsonBrands, decimal? MinP, decimal? MaxP, string sortValue = SortEntityForProducts.NameAsc, int page = 1)
+        public async Task<IActionResult> Shop(int[] Brands, string JsonBrands, int? SecID, int? CatID,  decimal? MinP, decimal? MaxP, 
+            string sortValue = SortEntityForProducts.NameAsc, int page = 1, bool needChangeSort = true)
         {
-            var brandsID = new List<int>();            
-            var catalog_model = new CatalogViewModel();
-
+            //Временный листинг ID выбранных брендов
+            var brandsID = new List<int>();           
             
             //Определим откуда пришли данные, из тагхелпера сортировки или из Вьюкомпонента
-            if ((Brands == null || Brands.Length == 0) && !String.IsNullOrEmpty(JsonBrands))
-            {
-                //распарсиваем Json в листинг брендов
-                var BrandsFromJson = JsonConvert.DeserializeObject<List<int>>(JsonBrands);
-                foreach (var br in BrandsFromJson)                  
-                        brandsID.Add(br);
+            if ((Brands == null || Brands.Length == 0) && !String.IsNullOrEmpty(JsonBrands)) {
+                brandsID = JsonConvert.DeserializeObject<List<int>>(JsonBrands);} //распарсиваем Json в листинг брендов
+            else {brandsID = Brands.ToList(); }//Дополнительные настройки для сортировки, либо сохранить текущую, либо применить         
 
-                catalog_model.Brands = BrandsFromJson;                               
-            }
-            else
-            {
-                foreach (var br in Brands)                    
-                        brandsID.Add(br);
-
-                catalog_model.Brands = Brands.ToList();
-
-                if (Brands.Length > 0)
-                {
-                    sortValue = SaveSort(sortValue);
-                }//Запуск из Вьюкомпонента Бренды, просто сохраняем текущую сортировку
-
-            }//Дополнительные настройки для сортировки, либо сохранить текущую, либо применить
-
-            
-
+            //ФИЛЬМТРАЦИЯ ДАННЫХ
             //Получаем лист товаров по заданному фильтру
             ProductFilter productFilter = new ProductFilter { SectionId = SecID, CategoryId = CatID, BrandIdCollection = brandsID, MinPrice = MinP, MaxPrice = MaxP  };
 
@@ -79,15 +61,19 @@ namespace OnlineStore.Controllers
             }//если запрос идет только по секции, то принудительно выбираем все товары для первой попавшейся категории для данной секции           
 
             //Выборка товаров по фильтру
-            var products =  _productData.GetProducts(productFilter);        
-            
+            var products =  _productData.GetProducts(productFilter);
+
             ////Для работы без пользовательского TagHelper, переключатель сортировок          
             //ViewData["NameSort"] = sortValue == SortEntityForProducts.NameAsc ? SortEntityForProducts.NameDes : SortEntityForProducts.NameAsc;           
             //ViewData["BrandSort"] = sortValue == SortEntityForProducts.BrandAsc ? SortEntityForProducts.BrandDes : SortEntityForProducts.BrandAsc;
             //ViewData["PriceSort"] = sortValue == SortEntityForProducts.PriceAsc ? SortEntityForProducts.PriceDes : SortEntityForProducts.PriceAsc;          
 
-
+            //СОРТИРОВКА ДАННЫХ
             //сортировка списка товаров
+            //Сохраним текущую сортировку если это необходимо
+            if (!needChangeSort)
+                sortValue = SaveSort(sortValue);
+
             switch (sortValue)
             {
                 case SortEntityForProducts.NameDes:
@@ -115,18 +101,22 @@ namespace OnlineStore.Controllers
                     break;
             }
 
+            //ПАГИНАЦИЯ ДАННЫХ
+            //Пагинация
+            int pageSize = 6;//размер станицы
+            var count = await products.CountAsync();//количество единиц товаров
+            var PageProducts = await products.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();//количество страниц
 
-           //Пагинация
-            int pageSize = 6;
-            var count = await products.CountAsync();
-            var PageProducts = await products.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
-
-            //Заполняем оставшиеся данный для ViewModel с товарами
-            catalog_model.SectionId = productFilter.SectionId;               
-            catalog_model.CategoryId = productFilter.CategoryId;
-            catalog_model.Products = PageProducts.Select(ProductViewModelMapper.CreateViewModel).ToList();    
-            catalog_model.PageViewModel = new PageViewModel(count, page,pageSize);
-            catalog_model.SortViewModel = new SortViewModelForProduct(sortValue);
+            //Заполняем данныe для ViewModel с товарами
+            var catalog_model = new CatalogViewModel
+            {
+                SectionId = productFilter.SectionId,
+                CategoryId = productFilter.CategoryId,
+                Products = PageProducts.Select(ProductViewModelMapper.CreateViewModel).ToList(),
+                Brands = brandsID,
+                PageViewModel = new PageViewModel(count, page, pageSize),
+                SortViewModel = new SortViewModelForProduct(sortValue)
+             };            
 
             return View(catalog_model);
         }

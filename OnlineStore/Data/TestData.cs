@@ -304,17 +304,17 @@ namespace OnlineStore.Data
             #endregion
 
 #region Категории спорта
-            new CategoryToBrand{id=141, CategoryId =  14, BrandId=1},
-            new CategoryToBrand{id=142, CategoryId =  14, BrandId=2},
-            new CategoryToBrand{id=143, CategoryId =  14, BrandId=3},
-            new CategoryToBrand{id=144, CategoryId =  14, BrandId=4},
-            new CategoryToBrand{id=145, CategoryId =  14, BrandId=5},
+            new CategoryToBrand{id=200, CategoryId =  14, BrandId=1},
+            new CategoryToBrand{id=201, CategoryId =  14, BrandId=2},
+            new CategoryToBrand{id=202, CategoryId =  14, BrandId=3},
+            new CategoryToBrand{id=203, CategoryId =  14, BrandId=4},
+            new CategoryToBrand{id=204, CategoryId =  14, BrandId=5},
 
-            new CategoryToBrand{id=146, CategoryId =  15, BrandId=1},
-            new CategoryToBrand{id=147, CategoryId =  15, BrandId=2},
-            new CategoryToBrand{id=148, CategoryId =  15, BrandId=3},
-            new CategoryToBrand{id=149, CategoryId =  15, BrandId=4},
-            new CategoryToBrand{id=150, CategoryId =  15, BrandId=5},
+            new CategoryToBrand{id=205, CategoryId =  15, BrandId=1},
+            new CategoryToBrand{id=206, CategoryId =  15, BrandId=2},
+            new CategoryToBrand{id=207, CategoryId =  15, BrandId=3},
+            new CategoryToBrand{id=208, CategoryId =  15, BrandId=4},
+            new CategoryToBrand{id=209, CategoryId =  15, BrandId=5},
 
             new CategoryToBrand{id=151, CategoryId =  16, BrandId=1},
             new CategoryToBrand{id=152, CategoryId =  16, BrandId=2},
@@ -380,7 +380,10 @@ namespace OnlineStore.Data
             new CategoryToBrand{id=198, CategoryId =  25, BrandId=23},
             new CategoryToBrand{id=199, CategoryId =  25, BrandId=24}
 
+           
+
 #endregion
+             //ПОСЛЕДНИЙ ID 209
         };
 
 
