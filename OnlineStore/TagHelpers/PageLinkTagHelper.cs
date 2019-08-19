@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace OnlineStore.TagHelpers
 {
+    /// <summary>
+    /// Тагхелпер для пагинации данных
+    /// </summary>
     public class PageLinkTagHelper : TagHelper
     {
         private IUrlHelperFactory urlHelperFactory;
@@ -41,38 +44,41 @@ namespace OnlineStore.TagHelpers
             TagBuilder tag = new TagBuilder("ul");
             tag.AddCssClass("pagination");
 
+
+
+            if (PageModel.TotalPages>0)
+            {            
+                // формируем три ссылки - на текущую, предыдущую и следующую
+                TagBuilder currentItem = CreateTag(PageModel.PageNumber, urlHelper);
+
+                //сслыка на страницу на 2 меньше чем последняя, если мы находимся на последней странице
+                if (PageModel.PageNumber == PageModel.TotalPages && PageModel.TotalPages > 2)
+                {
+                    TagBuilder prevItem = CreateTag(PageModel.PageNumber - 2, urlHelper);
+                    tag.InnerHtml.AppendHtml(prevItem);
+                }
+
+                // создаем ссылку на предыдущую страницу, если она есть
+                if (PageModel.HasPreviousPage)
+                {
+                    TagBuilder prevItem = CreateTag(PageModel.PageNumber - 1, urlHelper);
+                    tag.InnerHtml.AppendHtml(prevItem);
+                }
+
+                tag.InnerHtml.AppendHtml(currentItem);
+                // создаем ссылку на следующую страницу, если она есть
+                if (PageModel.HasNextPage)
+                {
+                    TagBuilder nextItem = CreateTag(PageModel.PageNumber + 1, urlHelper);
+                    tag.InnerHtml.AppendHtml(nextItem);
+                }
            
-
-            // формируем три ссылки - на текущую, предыдущую и следующую
-            TagBuilder currentItem = CreateTag(PageModel.PageNumber, urlHelper);
-
-            //сслыка на страницу на 2 меньше чем последняя, если мы находимся на последней странице
-            if (PageModel.PageNumber == PageModel.TotalPages && PageModel.TotalPages > 2)
-            {
-                TagBuilder prevItem = CreateTag(PageModel.PageNumber - 2, urlHelper);
-                tag.InnerHtml.AppendHtml(prevItem);
-            }
-
-            // создаем ссылку на предыдущую страницу, если она есть
-            if (PageModel.HasPreviousPage)
-            {
-                TagBuilder prevItem = CreateTag(PageModel.PageNumber - 1, urlHelper);
-                tag.InnerHtml.AppendHtml(prevItem);
-            }
-
-            tag.InnerHtml.AppendHtml(currentItem);
-            // создаем ссылку на следующую страницу, если она есть
-            if (PageModel.HasNextPage)
-            {
-                TagBuilder nextItem = CreateTag(PageModel.PageNumber + 1, urlHelper);
-                tag.InnerHtml.AppendHtml(nextItem);
-            }
-           
-            //сслыка на страницу на 2 больше чем первая, если мы находимся на первой странице
-            if (PageModel.PageNumber == 1 && PageModel.TotalPages > 2)
-            {
-                TagBuilder prevItem = CreateTag(PageModel.PageNumber + 2, urlHelper);
-                tag.InnerHtml.AppendHtml(prevItem);
+                //сслыка на страницу на 2 больше чем первая, если мы находимся на первой странице
+                if (PageModel.PageNumber == 1 && PageModel.TotalPages > 2)
+                {
+                    TagBuilder prevItem = CreateTag(PageModel.PageNumber + 2, urlHelper);
+                    tag.InnerHtml.AppendHtml(prevItem);
+                }
             }
 
             output.Content.AppendHtml(tag);
@@ -115,7 +121,7 @@ namespace OnlineStore.TagHelpers
             var query = string.Join("&", fixedRouteValues.Select(kvp => $"{kvp.Key}={kvp.Value}"));
 
             return query;
-        }//проверка данных в словаре для машратизации и передачи данных в контроллер
+        }//проверка данных в словаре для машрутизации и передачи данных в контроллер, чтобы не попадались пустые
 
         private string CreateURL(string dataString)
         {

@@ -11,6 +11,7 @@ using OnlineStore.Infrastructure.Interfeices;
 using OnlineStore.Infrastructure.Mappers;
 using OnlineStore.ViewModels;
 using OnlineStore.ViewModels.Common;
+using SmartBreadcrumbs.Attributes;
 
 namespace OnlineStore.Controllers
 {
@@ -39,7 +40,8 @@ namespace OnlineStore.Controllers
         /// <param name="sortValue">Название сортировки товаров</param>
         /// <param name="page">Номер текущей страницы для пагинации</param>
         /// <param name="needChangeSort">Нужно ли менять сортировку или сохранить текущую</param>
-        /// <returns></returns>
+        /// <returns></returns>       
+        [Breadcrumb("Каталог", FromAction = "Index", FromController = typeof(HomeController))]
         public async Task<IActionResult> Shop(int[] Brands, string JsonBrands, int? SecID, int? CatID,  decimal? MinP, decimal? MaxP, 
             string sortValue = SortEntityForProducts.NameAsc, int page = 1, bool needChangeSort = true)
         {
@@ -61,7 +63,7 @@ namespace OnlineStore.Controllers
             }//если запрос идет только по секции, то принудительно выбираем все товары для первой попавшейся категории для данной секции           
 
             //Выборка товаров по фильтру
-            var products =  _productData.GetProducts(productFilter);
+            var products = _productData.GetProducts(productFilter);
 
             ////Для работы без пользовательского TagHelper, переключатель сортировок          
             //ViewData["NameSort"] = sortValue == SortEntityForProducts.NameAsc ? SortEntityForProducts.NameDes : SortEntityForProducts.NameAsc;           
@@ -126,6 +128,7 @@ namespace OnlineStore.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [Breadcrumb("Детали товара", FromAction = "Index", FromController = typeof(HomeController))]
         public async Task<IActionResult> ProductDetails(int id)
         {
             var product = await Task.Run(() => _productData.GetProductById(id));

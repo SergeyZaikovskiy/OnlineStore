@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OnlineStore.Infrastructure.Interfeices;
 using OnlineStore.ViewModels;
+using SmartBreadcrumbs.Attributes;
 
 namespace OnlineStore.Controllers
 {
@@ -26,6 +27,7 @@ namespace OnlineStore.Controllers
         /// Показать детали
         /// </summary>
         /// <returns></returns>
+        [Breadcrumb("Корзина", FromAction = "Index", FromController = typeof(HomeController))]
         public async Task<IActionResult> Details()
         {
             var model =  new CartDetailsViewModel

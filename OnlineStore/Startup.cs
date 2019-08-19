@@ -14,6 +14,7 @@ using OnlineStore.Data;
 using OnlineStore.Domain.Entities.UserEntities;
 using OnlineStore.Infrastructure.Implementations;
 using OnlineStore.Infrastructure.Interfeices;
+using SmartBreadcrumbs.Extensions;
 
 namespace OnlineStore
 {
@@ -64,8 +65,7 @@ namespace OnlineStore
 
                 cfg.User.RequireUniqueEmail = false;
 
-            });
-
+            });           
 
             services.ConfigureApplicationCookie(cfg =>
             {
@@ -82,6 +82,13 @@ namespace OnlineStore
             });
 
             services.AddMvc();
+
+            services.AddBreadcrumbs(GetType().Assembly, options =>
+            {
+                // Testing
+                options.DontLookForDefaultNode = true;
+            });
+
         }
 
        

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OnlineStore.Infrastructure.Interfeices;
 using OnlineStore.ViewModels;
+using SmartBreadcrumbs.Attributes;
 
 namespace OnlineStore.Controllers
 {
@@ -20,13 +21,14 @@ namespace OnlineStore.Controllers
         {
             this.orderService = orderService;
         }
-
+        [Breadcrumb("Профиль", FromAction = "Index", FromController = typeof(HomeController))]
         public IActionResult Index() => View();
 
         /// <summary>
         /// Получить заказы пользователя
         /// </summary>
         /// <returns></returns>
+        [Breadcrumb("Заказы")]
         public async Task<IActionResult> Orders()
         {
             var orders = await orderService.GetUserOrders(User.Identity.Name).AsNoTracking().ToListAsync();

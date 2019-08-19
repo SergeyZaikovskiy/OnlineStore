@@ -11,8 +11,9 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace OnlineStore.TagHelpers
-{/// <summary>
- /// Хелпер для сортировки
+{
+    /// <summary>
+ /// Тагхелпер для сортировки данных
  /// </summary>
     public class SortTagHelper : TagHelper
     {     

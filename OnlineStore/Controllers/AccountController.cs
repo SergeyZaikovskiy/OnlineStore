@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OnlineStore.Domain.Entities.UserEntities;
 using OnlineStore.ViewModels;
+using SmartBreadcrumbs.Attributes;
 
 namespace OnlineStore.Controllers
 {
@@ -33,6 +34,7 @@ namespace OnlineStore.Controllers
         /// Вызов представления Login Get-request
         /// </summary>
         /// <returns></returns>
+        [Breadcrumb("Логины", FromAction = "Index", FromController = typeof(HomeController))]
         public IActionResult Login() => View();
 
         /// <summary>
@@ -74,6 +76,7 @@ namespace OnlineStore.Controllers
         /// Вызов представления Register Get-request
         /// </summary>
         /// <returns></returns>
+        [Breadcrumb("Регистрация", FromAction = "Index", FromController = typeof(HomeController))]
         public IActionResult Register() => View();
 
         /// <summary>

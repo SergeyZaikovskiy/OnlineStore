@@ -43,7 +43,6 @@
 
                     @*Таг хелпер для вызова ViewComponent*@
                     <vc:user-info />
-
                 </div>
             </div>
         </div>
@@ -62,11 +61,12 @@
                             <span class="icon-bar"></span>
                         </button>
                     </div>
-
-                    @await Component.InvokeAsync("HeaderSections")
-
-                </div>               
+                    <vc:header-sections />
+                    <breadcrumb class="breadcrumbs"></breadcrumb>
+                    @*@await Component.InvokeAsync("HeaderSections")*@
+                </div>
             </div>
         </div>
+      
     </div><!--/header-bottom-->
 </header><!--/header-->

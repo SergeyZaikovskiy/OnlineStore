@@ -11,24 +11,14 @@
 
             <div class="col-sm-12">
 
-                @await Component.InvokeAsync("CategoryTab");
+                <vc:category-tab />
+                <vc:recommended-items />
+                @*@await Component.InvokeAsync("CategoryTab");
 
-                @await Component.InvokeAsync("RecommendedItems");               
+                @await Component.InvokeAsync("RecommendedItems");*@
 
             </div>
         </div>
     </div>
 </section>
 
-@section Scripts{
-    <script>
-        $("section").click(function () {
-        });
-    </script>
-}
-
-@section Styles
-{
-    <style>
-    </style>
-}
