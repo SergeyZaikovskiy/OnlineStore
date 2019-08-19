@@ -1,11 +1,10 @@
 ﻿<div class="shop-menu pull-right">
     <ul class="nav navbar-nav">
-        <li><a href="#">@User.Identity.Name</a></li>
+        <li><a asp-controller="Profile" asp-action="Index"><i class="fa fa-crosshairs"></i>@User.Identity.Name</a></li>
         @if (User.IsInRole("Administrator"))
         {
             <li><a asp-area="Admin" asp-controller="Home" asp-action="Index"><i class="fa fa-key"></i> Область администратора</a></li>
-        }
-        <li><a href="#"><i class="fa fa-star"></i> Отложенные</a></li>
+        }        
         <li><a asp-controller="Profile" asp-action="Orders"><i class="fa fa-crosshairs"></i> Заказы</a></li>
         <li><a asp-controller="Cart" asp-action="Details"><i class="fa fa-shopping-cart"></i>Корзина</a></li>
         <li><a asp-controller="Account" asp-action="Logout"><i class="fa fa-lock"></i>Выйти</a></li>
