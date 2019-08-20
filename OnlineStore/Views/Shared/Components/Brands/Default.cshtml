@@ -1,32 +1,33 @@
 ﻿@model OnlineStore.ViewModels.Product.BrandsEnumerableViewModel
 
+
 <div class="brands_products">
     <!--brands_products-->
     <h2>Брэнды</h2>
-    <div class="brands-name">       
+    <div class="brands-name">
         <form asp-controller="Catalog" asp-action="Shop" asp-route-secid="@Model.SectionID" asp-route-catid="@Model.CategoryID" asp-route-needchangesort="false" asp-route-sortvalue="@Model.SortValue">
-            <ul class="nav nav-pills nav-stacked">
-                @for (int i = 0; i < Model.Brands.Count; i++)
-                {
-                <li>
-                    @if (Model.Brands[i].Choosen)
+           
+            <nav>
+                <ul class="nav nav-pills nav-stacked">
+                    @for (int i = 0; i < Model.Brands.Count; i++)
                     {
-                        <input type="checkbox" name="brands"
-                               id="@Model.Brands[i].Id" value="@Model.Brands[i].Id"
-                               class="styled" checked>}
-                    else
-                    { <input type="checkbox" name="brands"
-                             id="@Model.Brands[i].Id" value="@Model.Brands[i].Id"
-                             class="styled">}
+                        <li>
+                            @if (Model.Brands[i].Choosen)
+                            {
+                                <input type="checkbox" name="brands"
+                                       id="@Model.Brands[i].Id" value="@Model.Brands[i].Id"
+                                       class="styled" checked>}
+                            else
+                            { <input type="checkbox" name="brands"
+                                     id="@Model.Brands[i].Id" value="@Model.Brands[i].Id"
+                                     class="styled">}
 
-                    <label>@Model.Brands[i].Name (@Model.Brands[i].ProductsCount)</label>
-                </li>
-                }
-            </ul>
-            <button type="submit" class="btn btn-primary">Применить</button>
-        </form>
+                            <label>@Model.Brands[i].Name (@Model.Brands[i].ProductsCount)</label>
+                        </li>
+                    }
+                </ul>
+            </nav>
+                    <button type="submit" class="btn btn-primary">Применить</button>
+</form>
     </div>
 </div><!--/brands_products-->
-
-
-
