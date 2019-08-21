@@ -105,7 +105,7 @@ namespace OnlineStore.Controllers
 
             //ПАГИНАЦИЯ ДАННЫХ
             //Пагинация
-            int pageSize = 6;//размер станицы
+            int pageSize = 6;//размер страницы
             var count = await products.CountAsync();//количество единиц товаров
             var PageProducts = await products.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();//количество страниц
 

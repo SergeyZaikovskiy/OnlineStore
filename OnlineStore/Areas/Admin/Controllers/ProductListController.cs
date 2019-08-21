@@ -15,6 +15,7 @@ using OnlineStore.Infrastructure.Interfeices;
 using OnlineStore.Infrastructure.Mappers;
 using OnlineStore.ViewModels;
 using OnlineStore.ViewModels.Product;
+using SmartBreadcrumbs.Attributes;
 
 namespace OnlineStore.Areas.Admin.Controllers
 {
@@ -40,6 +41,7 @@ namespace OnlineStore.Areas.Admin.Controllers
         /// Страница с перечнем товаров
         /// </summary>
         /// <returns></returns>
+        [Breadcrumb("Список товаров", FromAction = "Index", FromController = typeof(HomeController))]
         public async Task<IActionResult> Index(string sortValue = SortEntityForProducts.NameAsc)
         {
             var productList = productData.GetProducts(new ProductFilter());

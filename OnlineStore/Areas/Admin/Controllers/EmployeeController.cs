@@ -13,6 +13,8 @@ using OnlineStore.Infrastructure.Mappers;
 using Microsoft.EntityFrameworkCore;
 using OnlineStore.Areas.Admin.ViewModels;
 using OnlineStore.Domain.SortsEntities;
+using OnlineStore.ViewModels.Common;
+using SmartBreadcrumbs.Attributes;
 
 namespace OnlineStore.Areas.Admin.Controllers
 {
@@ -37,10 +39,14 @@ namespace OnlineStore.Areas.Admin.Controllers
         /// <summary>
         /// Вызов главного представления сотрудников
         /// </summary>
+        /// <param name="sortValue">Название сортировки</param>
+        /// <param name="page">Номер страницы</param>
+        /// <param name="needChangeSort">Нужно ли менять сортировку или просто сохранить текущую</param>
         /// <returns></returns>
-        public async Task<IActionResult> Index(string sortValue = SortEntityForEmployee.SurnameAsc)
+         [Breadcrumb("Список сотрудников", FromAction = "Index", FromController = typeof(HomeController))]
+        public async Task<IActionResult> Index(string sortValue = SortEntityForEmployee.SurnameAsc, int page = 1, bool needChangeSort = true)
         {
-            var employees = await Employees.GetAllEmp().AsNoTracking().ToListAsync();
+            var employees = Employees.GetAllEmp();
 
             //Для работы без пользовательского TagHelper
             //ViewData["SurnameSort"] = sortEmployee == SortEnum.SurnameAsc ? SortEnum.SurnameDes : SortEnum.SurnameAsc;
@@ -49,55 +55,67 @@ namespace OnlineStore.Areas.Admin.Controllers
             //ViewData["AgeSort"] = sortEmployee == SortEnum.AgeAsc ? SortEnum.AgeDes : SortEnum.AgeAsc;
             //ViewData["PositionSort"] = sortEmployee == SortEnum.PosAsc ? SortEnum.PosDes : SortEnum.PosAsc;
 
-           
-            //переключение сортировок
+
+            //СОРТИРОВКА ДАННЫХ
+            //сортировка списка товаров
+            //Сохраним текущую сортировку если это необходимо
+            if (!needChangeSort)
+                sortValue = SaveSort(sortValue);
+
             switch (sortValue)
             {
                 case SortEntityForEmployee.SurnameDes:
-                    employees = employees.OrderByDescending(s => s.Surname).ToList();
+                    employees = employees.OrderByDescending(s => s.Surname);
                     break;
 
                 case SortEntityForEmployee.NameAsc:
-                    employees = employees.OrderBy(s => s.Name).ToList();
+                    employees = employees.OrderBy(s => s.Name);
                     break;
                 case SortEntityForEmployee.NameDes:
-                    employees = employees.OrderByDescending(s => s.Name).ToList();
+                    employees = employees.OrderByDescending(s => s.Name);
                     break;
 
                 case SortEntityForEmployee.PatronimicAsc:
-                    employees = employees.OrderBy(s => s.Patronimic).ToList();
+                    employees = employees.OrderBy(s => s.Patronimic);
                     break;
                 case SortEntityForEmployee.PatronimicDes:
-                    employees = employees.OrderByDescending(s => s.Patronimic).ToList();
+                    employees = employees.OrderByDescending(s => s.Patronimic);
                     break;
 
                 case SortEntityForEmployee.AgeAsc:
-                    employees = employees.OrderBy(s => s.Age).ToList();
+                    employees = employees.OrderBy(s => s.Age);
                     break;
 
                 case SortEntityForEmployee.AgeDes:
-                    employees = employees.OrderByDescending(s => s.Age).ToList();
+                    employees = employees.OrderByDescending(s => s.Age);
                     break;
 
                 case SortEntityForEmployee.PosAsc:
-                    employees = employees.OrderBy(s => s.Position.Name).ToList();
+                    employees = employees.OrderBy(s => s.Position.Name);
                     break;
                 case SortEntityForEmployee.PosDes:
-                    employees = employees.OrderByDescending(s => s.Position.Name).ToList();
+                    employees = employees.OrderByDescending(s => s.Position.Name);
                     break;
 
                 default:
-                    employees = employees.OrderBy(s => s.Surname).ToList();
+                    employees = employees.OrderBy(s => s.Surname);
                     break;
-            }
+            }          
 
-            //await employees.AsNoTracking().ToListAsync();
 
-            //список сотрудников
-            var employess_View_models = employees.Select(EmployeeViewModelMapper.CreateViewModel);
+            //ПАГИНАЦИЯ ДАННЫХ
+            //Пагинация
+            int pageSize = 12;//размер страницы
+            var count = await employees.CountAsync();//количество единиц товаров
+            var PageProducts = await employees.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();//количество страниц
 
+            
             //модель представления сотрудников с возможностью сортировки
-            var employeeEnumerableView = new EmployeeEnumerableViewModel { employees = employess_View_models, SortViewModel = new SortViewModelForEmployees(sortValue) };
+            var employeeEnumerableView = new EmployeeEnumerableViewModel
+            { employees = PageProducts.Select(EmployeeViewModelMapper.CreateViewModel),
+                SortViewModel = new SortViewModelForEmployees(sortValue),
+                PageViewModel = new PageViewModel(count, page, pageSize),
+            };
 
             return View(employeeEnumerableView);
         }
@@ -176,6 +194,22 @@ namespace OnlineStore.Areas.Admin.Controllers
 
             return View(emp_view_model);
         }
+
+        private string SaveSort(string currentSortValue)
+        {
+            if (currentSortValue == SortEntityForEmployee.NameAsc) { currentSortValue = SortEntityForEmployee.NameDes; }
+            else if (currentSortValue == SortEntityForEmployee.NameDes) { currentSortValue = SortEntityForEmployee.NameAsc; }
+            else if (currentSortValue == SortEntityForEmployee.SurnameAsc) { currentSortValue = SortEntityForEmployee.SurnameDes; }
+            else if (currentSortValue == SortEntityForEmployee.SurnameDes) { currentSortValue = SortEntityForEmployee.SurnameAsc; }
+            else if (currentSortValue == SortEntityForEmployee.PatronimicAsc) { currentSortValue = SortEntityForEmployee.PatronimicDes; }
+            else if (currentSortValue == SortEntityForEmployee.PatronimicDes) { currentSortValue = SortEntityForEmployee.PatronimicAsc; }
+            else if (currentSortValue == SortEntityForEmployee.AgeAsc) { currentSortValue = SortEntityForEmployee.AgeDes; }
+            else if (currentSortValue == SortEntityForEmployee.AgeDes) { currentSortValue = SortEntityForEmployee.AgeAsc; }
+            else if (currentSortValue == SortEntityForEmployee.PosAsc) { currentSortValue = SortEntityForEmployee.PosDes; }
+            else if (currentSortValue == SortEntityForEmployee.PosDes) { currentSortValue = SortEntityForEmployee.PosAsc; }
+
+            return currentSortValue;
+        }//Метод для сохранения текущей сортировки
     }
 
 }

@@ -44,7 +44,7 @@
             <img src="@Model.Image.Path" alt="">
         </div>
         <div>
-            <p><a asp-area="Admin" asp-controller="ProductList" asp-action="Index">Вернуться к списку товаров</a></p>
+            <input type="button" onclick="history.go(-1)" value="Назад" />
         </div>
         <div>
             <br />

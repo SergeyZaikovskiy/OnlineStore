@@ -1,4 +1,5 @@
 ﻿using OnlineStore.ViewModels;
+using OnlineStore.ViewModels.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace OnlineStore.Areas.Admin.ViewModels
     {
         public IEnumerable<EmployeeItemViewModel> employees { get; set; }
         public SortViewModelForEmployees SortViewModel { get; set; }
+        public PageViewModel PageViewModel { get; set; }
 
     }
 }

@@ -13,7 +13,7 @@ namespace OnlineStore.Domain.SortsEntities
         public const string PatronimicAsc = "PatronimicAsc";
         public const string PatronimicDes = "PatronimicDes";
 
-        public const string AgeAsc = "SurnameAAgeAscsc";
+        public const string AgeAsc = "AgeAsc";
         public const string AgeDes = "AgeDes";
 
         public const string PosAsc = "PosAsc";

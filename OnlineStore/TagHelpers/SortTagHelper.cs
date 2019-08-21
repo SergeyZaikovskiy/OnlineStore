@@ -16,7 +16,7 @@ namespace OnlineStore.TagHelpers
  /// Тагхелпер для сортировки данных
  /// </summary>
     public class SortTagHelper : TagHelper
-    {     
+    {
 
         //Значение текущего свойства
         public string Property { get; set; }
@@ -53,10 +53,11 @@ namespace OnlineStore.TagHelpers
             var query = CheckDataRoute(RouteData);
 
             string url;
+
             if (AreaName==null)
-                url = "/" + ControllerName + "/" + ActionName + "?" + query;
+                url = "/" + ControllerName + "/" + ActionName  + query;
             else
-                url = "/" + AreaName + "/" + ControllerName + "/" + ActionName + "?" + query;
+                url = "/" + AreaName + "/" + ControllerName + "/" + ActionName  + query;
 
            
             output.Attributes.SetAttribute("href", url);
@@ -78,19 +79,26 @@ namespace OnlineStore.TagHelpers
 
         private string CheckDataRoute(Dictionary<string, string> DataDictionary)
         {
-            var fixedRouteValues = new Dictionary<string, string>();
-            foreach (var (newKey, value) in DataDictionary.Where(r => !string.IsNullOrWhiteSpace(r.Value)))
+            if (DataDictionary != null)
             {
-                var key = fixedRouteValues.Keys.FirstOrDefault(k => string.Equals(k, newKey, StringComparison.InvariantCultureIgnoreCase)) ?? newKey;
-                fixedRouteValues[key] = value;
+                var fixedRouteValues = new Dictionary<string, string>();
+                foreach (var (newKey, value) in DataDictionary.Where(r => !string.IsNullOrWhiteSpace(r.Value)))
+                {
+                    var key = fixedRouteValues.Keys.FirstOrDefault(k => string.Equals(k, newKey, StringComparison.InvariantCultureIgnoreCase)) ?? newKey;
+                    fixedRouteValues[key] = value;
+                }
+                //Добавляем марршут в словарь
+                fixedRouteValues.Add("sortValue", Property);
+
+                var query = "?" +  string.Join("&", fixedRouteValues.Select(kvp => $"{kvp.Key}={kvp.Value}"));
+
+                return query;
             }
-            //Добавляем марршут в словарь
-            fixedRouteValues.Add("sortValue", Property);
-
-            var query = string.Join("&", fixedRouteValues.Select(kvp => $"{kvp.Key}={kvp.Value}"));
-
-            return query;
+            else
+                return null;
+           
         }//проверка данных в словаре для машратизации и передачи данных в контроллер
+
     }
 
 }

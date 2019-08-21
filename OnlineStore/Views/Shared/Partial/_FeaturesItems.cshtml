@@ -57,20 +57,25 @@
                                 В корзину
                             </a>
                         </div>
+                      
                         <div class="product-overlay">
-                            <div class="overlay-content">
-                                <h2>@(product.Price.ToString("C"))</h2>
-                                <p>@product.Name</p>
-                                <p>@product.Brand.Name</p>
-                                <a asp-controller="Cart" asp-action="AddtoCart" asp-route-id="@product.Id"
-                                   class="btn btn-default add-to-cart">
-                                    <i class="fa fa-shopping-cart">
-                                    </i>
-                                    В корзину
-                                </a>
-                            </div>
+                            <a asp-controller="Catalog" asp-action="ProductDetails" asp-route-id="@product.Id">
+                                <div class="overlay-content">
+                                    <h2>@(product.Price.ToString("C"))</h2>
+                                    <p>@product.Name</p>
+                                    <p>@product.Brand.Name</p>
+                                    <a asp-controller="Cart" asp-action="AddtoCart" asp-route-id="@product.Id"
+                                       class="btn btn-default add-to-cart">
+                                        <i class="fa fa-shopping-cart">
+                                        </i>
+                                        В корзину
+                                    </a>
+
+                                </div>
+                            </a>
                         </div>
-                        <img src="~@product.Image.Path" class="new" alt="" />
+                                          
+                      
                     </div>
                 </div>
             </div>
