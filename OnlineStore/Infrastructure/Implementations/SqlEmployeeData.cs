@@ -32,11 +32,30 @@ namespace OnlineStore.Infrastructure.Implementations
         }
 
         /// <summary>
-        /// Получить всех сотрудников из базы
+        /// Получить всех сотрудников из базы по фильтру
         /// </summary>
         /// <returns></returns>
-        public IQueryable<Employee> GetAllEmp()=> db.Employees
-                .Include(emp => emp.Position);
+        public IQueryable<Employee> GetAllEmp(EmployeeFilter employeeFilter)
+        {
+            IQueryable<Employee> employee = db.Employees.Include(p=>p.Position);
+
+            if (employeeFilter is null)
+                return employee;
+
+            if (!String.IsNullOrEmpty(employeeFilter.Name))
+                employee = employee.Where(emp => emp.Name.Contains(employeeFilter.Name));
+
+            if (!String.IsNullOrEmpty(employeeFilter.SurName))
+                employee = employee.Where(emp => emp.Surname.Contains(employeeFilter.SurName));
+
+            if (!String.IsNullOrEmpty(employeeFilter.Patronimic))
+                employee = employee.Where(emp => emp.Patronimic.Contains(employeeFilter.Patronimic));
+
+            if (employeeFilter.Positions != null && employeeFilter.Positions.Count>0)
+                employee = employee.Where(emp => employeeFilter.Positions.Contains(emp.PositionId));         
+
+            return employee;
+        }
 
         /// <summary>
         /// Получить все должности из базы

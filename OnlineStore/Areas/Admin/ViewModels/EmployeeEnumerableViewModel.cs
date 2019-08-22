@@ -1,4 +1,5 @@
-﻿using OnlineStore.ViewModels;
+﻿using OnlineStore.Domain.Entities.EmployeesEntities;
+using OnlineStore.ViewModels;
 using OnlineStore.ViewModels.Common;
 using System;
 using System.Collections.Generic;
@@ -15,8 +16,12 @@ namespace OnlineStore.Areas.Admin.ViewModels
     public class EmployeeEnumerableViewModel
     {
         public IEnumerable<EmployeeItemViewModel> employees { get; set; }
+
+        public List<PositionViewModel> PositionModels { get; set; }
         public SortViewModelForEmployees SortViewModel { get; set; }
         public PageViewModel PageViewModel { get; set; }
+
+        public EmployeeFilter employeeFilter { get; set; }
 
     }
 }

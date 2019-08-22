@@ -7,24 +7,68 @@
     Layout = "_LayoutAdminArea";
 }
 
-<h2>@ViewData["Title"]</h2>
-
-<hr />
-<div>
-    <a asp-controller="Home" asp-action="Index" class="btn btn-default">Назад</a>
-</div>
-
-<br/>
-
-<a asp-controller="Employee" asp-action="Edit" class="btn btn-default">Добавить сотрудника</a>
-
-<hr />
 
 
 @{
     var routedata = new Dictionary<string, string>();
 }
 
+<h2>@ViewData["Title"]</h2>
+
+<br />
+<div>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-default">Назад</a>
+</div>
+
+<br />
+<a asp-controller="Employee" asp-action="Edit" class="btn btn-default">Добавить сотрудника</a>
+<hr />
+
+<form asp-controller="Employee" asp-action="Index" asp-area="Admin">
+    <ul class="list-inline">
+        <li>
+            <input type="text" name="surname" value="@Model.employeeFilter.SurName">
+            <label>Фамилия</label>
+        </li>
+        <li>
+            <input type="text" name="name" value="@Model.employeeFilter.Name">
+            <label>Имя</label>
+        </li>
+        <li>
+            <input type="text" name="patronimic" value="@Model.employeeFilter.Patronimic">
+            <label>Отчество</label>
+        </li>
+
+        <li class="dropdown">
+            <a href="#" data-toggle="dropdown" class="btn bt">
+                <b>Должность</b><b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                @for (int i = 0; i < Model.PositionModels.Count; i++)
+                {
+                    <li style="white-space:nowrap">
+                        @if (Model.PositionModels[i].Choosen)
+                        {
+                            <input type="checkbox" name="positions"
+                                   id="@Model.PositionModels[i].Id" value="@Model.PositionModels[i].Id"
+                                   class="styled" checked>}
+                        else
+                        { <input type="checkbox" name="positions"
+                                 id="@Model.PositionModels[i].Id" value="@Model.PositionModels[i].Id"
+                                 class="styled">}
+
+                        <label>@Model.PositionModels[i].Name </label>
+                    </li>
+                }
+            </ul>
+        </li>
+    </ul>
+
+    <button type="submit" class="btn btn-primary">Фильтр</button>
+    <button type="reset" class="btn btn-primary">Сбросить</button>
+</form>
+
+<br />
 
 <div>
     <table class="table table-striped">

@@ -44,9 +44,13 @@ namespace OnlineStore.Areas.Admin.Controllers
         /// <param name="needChangeSort">Нужно ли менять сортировку или просто сохранить текущую</param>
         /// <returns></returns>
          [Breadcrumb("Список сотрудников", FromAction = "Index", FromController = typeof(HomeController))]
-        public async Task<IActionResult> Index(string sortValue = SortEntityForEmployee.SurnameAsc, int page = 1, bool needChangeSort = true)
+        public async Task<IActionResult> Index(string name, string surname, string patronimic, List<int> positions, 
+             string sortValue = SortEntityForEmployee.SurnameAsc, int page = 1, bool needChangeSort = true)
         {
-            var employees = Employees.GetAllEmp();
+            var filter = new EmployeeFilter { Name = name, SurName = surname,
+                Patronimic = patronimic, Positions = positions};
+
+            var employees = Employees.GetAllEmp(filter);
 
             //Для работы без пользовательского TagHelper
             //ViewData["SurnameSort"] = sortEmployee == SortEnum.SurnameAsc ? SortEnum.SurnameDes : SortEnum.SurnameAsc;
@@ -107,14 +111,24 @@ namespace OnlineStore.Areas.Admin.Controllers
             //Пагинация
             int pageSize = 12;//размер страницы
             var count = await employees.CountAsync();//количество единиц товаров
-            var PageProducts = await employees.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();//количество страниц
+            var PageEmployee = await employees.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();//количество страниц
+            var Positions = await Task.Run(()=>Employees.GetAllPositions());
 
-            
+
+            var positionsViewModels = Positions.Select(PositionViewModelMapper.CreateViewModel).ToList();
+            for (int i = 0; i < positionsViewModels.Count; i++)
+            {
+                if (positions.Contains(positionsViewModels[i].Id))
+                    positionsViewModels[i].Choosen = true;
+            }
+
             //модель представления сотрудников с возможностью сортировки
             var employeeEnumerableView = new EmployeeEnumerableViewModel
-            { employees = PageProducts.Select(EmployeeViewModelMapper.CreateViewModel),
+            { employees = PageEmployee.Select(EmployeeViewModelMapper.CreateViewModel),
                 SortViewModel = new SortViewModelForEmployees(sortValue),
                 PageViewModel = new PageViewModel(count, page, pageSize),
+                PositionModels = positionsViewModels,
+                employeeFilter = filter
             };
 
             return View(employeeEnumerableView);

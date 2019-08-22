@@ -118,7 +118,7 @@ namespace OnlineStore.Controllers
                 Brands = brandsID,
                 PageViewModel = new PageViewModel(count, page, pageSize),
                 SortViewModel = new SortViewModelForProduct(sortValue)
-             };            
+             };         
 
             return View(catalog_model);
         }

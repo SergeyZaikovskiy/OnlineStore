@@ -15,7 +15,7 @@ namespace OnlineStore.Infrastructure.Interfeices
         /// Получаем всех сотрудников
         /// </summary>
         /// <returns></returns>
-        IQueryable<Employee> GetAllEmp();
+        IQueryable<Employee> GetAllEmp(EmployeeFilter employeeFilter);
 
         /// <summary>
         /// Получаем сотрудника по Id
