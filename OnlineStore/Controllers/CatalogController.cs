@@ -51,7 +51,7 @@ namespace OnlineStore.Controllers
             //Определим откуда пришли данные, из тагхелпера сортировки или из Вьюкомпонента
             if ((Brands == null || Brands.Length == 0) && !String.IsNullOrEmpty(JsonBrands)) {
                 brandsID = JsonConvert.DeserializeObject<List<int>>(JsonBrands);} //распарсиваем Json в листинг брендов
-            else {brandsID = Brands.ToList(); }//Дополнительные настройки для сортировки, либо сохранить текущую, либо применить         
+            else {brandsID = Brands.ToList(); }
 
             //ФИЛЬМТРАЦИЯ ДАННЫХ
             //Получаем лист товаров по заданному фильтру

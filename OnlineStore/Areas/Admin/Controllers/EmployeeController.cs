@@ -15,6 +15,7 @@ using OnlineStore.Areas.Admin.ViewModels;
 using OnlineStore.Domain.SortsEntities;
 using OnlineStore.ViewModels.Common;
 using SmartBreadcrumbs.Attributes;
+using Newtonsoft.Json;
 
 namespace OnlineStore.Areas.Admin.Controllers
 {
@@ -44,11 +45,26 @@ namespace OnlineStore.Areas.Admin.Controllers
         /// <param name="needChangeSort">Нужно ли менять сортировку или просто сохранить текущую</param>
         /// <returns></returns>
          [Breadcrumb("Список сотрудников", FromAction = "Index", FromController = typeof(HomeController))]
-        public async Task<IActionResult> Index(string name, string surname, string patronimic, List<int> positions, 
+        public async Task<IActionResult> Index(string name, string surname, string patronimic, List<int> positions, string jsonPositions,
              string sortValue = SortEntityForEmployee.SurnameAsc, int page = 1, bool needChangeSort = true)
         {
-            var filter = new EmployeeFilter { Name = name, SurName = surname,
-                Patronimic = patronimic, Positions = positions};
+
+            //Временный листинг ID выбранных брендов
+            var posList = new List<int>();
+
+            //Определим откуда пришли данные, из тагхелпера сортировки или из формы
+            if ((positions == null || positions.Count == 0) && !String.IsNullOrEmpty(jsonPositions))
+            {
+                posList = JsonConvert.DeserializeObject<List<int>>(jsonPositions);
+            } //распарсиваем Json в листинг брендов
+            else { posList = positions; }  
+
+            var filter = new EmployeeFilter
+            {
+                Name = name, SurName = surname,
+                Patronimic = patronimic,
+                Positions = posList
+            };
 
             var employees = Employees.GetAllEmp(filter);
 
@@ -118,7 +134,7 @@ namespace OnlineStore.Areas.Admin.Controllers
             var positionsViewModels = Positions.Select(PositionViewModelMapper.CreateViewModel).ToList();
             for (int i = 0; i < positionsViewModels.Count; i++)
             {
-                if (positions.Contains(positionsViewModels[i].Id))
+                if (posList.Contains(positionsViewModels[i].Id))
                     positionsViewModels[i].Choosen = true;
             }
 
