@@ -59,21 +59,13 @@ namespace OnlineStore.Areas.Admin.Controllers
 
             //ФИЛЬМТРАЦИЯ ДАННЫХ
             //Получаем лист товаров по заданному фильтру
-            ProductFilter productFilter = new ProductFilter { SectionId = SecID, CategoryId = CatID, BrandIdCollection = brandsID, MinPrice = MinP, MaxPrice = MaxP };
-
-            if (productFilter.CategoryId is null)
-            {
-                productFilter.CategoryId = productData.GetCategories(productFilter).FirstOrDefault().id;
-            }//если запрос идет только по секции, то принудительно выбираем все товары для первой попавшейся категории для данной секции           
+            ProductFilter productFilter = new ProductFilter {Name =Name, SectionId = SecID, CategoryId = CatID, BrandIdCollection = brandsID, MinPrice = MinP, MaxPrice = MaxP };
+                              
 
             //Выборка товаров по фильтру
             var products = productData.GetProducts(productFilter);
 
-            ////Для работы без пользовательского TagHelper, переключатель сортировок          
-            //ViewData["NameSort"] = sortValue == SortEntityForProducts.NameAsc ? SortEntityForProducts.NameDes : SortEntityForProducts.NameAsc;           
-            //ViewData["BrandSort"] = sortValue == SortEntityForProducts.BrandAsc ? SortEntityForProducts.BrandDes : SortEntityForProducts.BrandAsc;
-            //ViewData["PriceSort"] = sortValue == SortEntityForProducts.PriceAsc ? SortEntityForProducts.PriceDes : SortEntityForProducts.PriceAsc;          
-
+         
             //СОРТИРОВКА ДАННЫХ
             //сортировка списка товаров
             //Сохраним текущую сортировку если это необходимо
@@ -94,6 +86,23 @@ namespace OnlineStore.Areas.Admin.Controllers
                     products = products.OrderByDescending(s => s.Brand);
                     break;
 
+
+                case SortEntityForProducts.SectionAsc:
+                    products = products.OrderBy(s => s.Brand);
+                    break;
+
+                case SortEntityForProducts.SectionDes:
+                    products = products.OrderByDescending(s => s.Brand);
+                    break;
+
+                case SortEntityForProducts.CategoryAsc:
+                    products = products.OrderBy(s => s.Brand);
+                    break;
+
+                case SortEntityForProducts.CategoryDes:
+                    products = products.OrderByDescending(s => s.Brand);
+                    break;
+
                 case SortEntityForProducts.PriceAsc:
                     products = products.OrderBy(s => s.Price);
                     break;
@@ -109,7 +118,7 @@ namespace OnlineStore.Areas.Admin.Controllers
 
             //ПАГИНАЦИЯ ДАННЫХ
             //Пагинация
-            int pageSize = 6;//размер страницы
+            int pageSize = 12;//размер страницы
             var count = await products.CountAsync();//количество единиц товаров
             var PageProducts = await products.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();//количество страниц
 
