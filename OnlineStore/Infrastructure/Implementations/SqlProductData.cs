@@ -131,6 +131,9 @@ namespace OnlineStore.Infrastructure.Implementations
             if (productFilter is null)
                 return products;
 
+            if (!String.IsNullOrEmpty(productFilter.Name))
+                products = products.Where(p => p.Name.Contains(productFilter.Name));
+
             if (productFilter.SectionId != null)
                 products = products.Where(p => p.SectionId == productFilter.SectionId);
 

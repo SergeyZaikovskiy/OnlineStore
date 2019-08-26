@@ -8,12 +8,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using OnlineStore.Areas.Admin.ViewModels;
 using OnlineStore.Domain.Entities.ProductsEntities;
 using OnlineStore.Domain.SortsEntities;
 using OnlineStore.Infrastructure.Interfeices;
 using OnlineStore.Infrastructure.Mappers;
 using OnlineStore.ViewModels;
+using OnlineStore.ViewModels.Common;
 using OnlineStore.ViewModels.Product;
 using SmartBreadcrumbs.Attributes;
 
@@ -42,52 +44,87 @@ namespace OnlineStore.Areas.Admin.Controllers
         /// </summary>
         /// <returns></returns>
         [Breadcrumb("Список товаров", FromAction = "Index", FromController = typeof(HomeController))]
-        public async Task<IActionResult> Index(string sortValue = SortEntityForProducts.NameAsc)
+        public async Task<IActionResult> Index(string Name, int[] Brands, string JsonBrands, int? SecID, int? CatID, decimal? MinP, decimal? MaxP,
+            string sortValue = SortEntityForProducts.NameAsc, int page = 1, bool needChangeSort = true)
         {
-            var productList = productData.GetProducts(new ProductFilter());
+            //Временный листинг ID выбранных брендов
+            var brandsID = new List<int>();
 
-            //переключение сортировок
+            //Определим откуда пришли данные, из тагхелпера сортировки или из формы фильтра
+            if ((Brands == null || Brands.Length == 0) && !String.IsNullOrEmpty(JsonBrands))
+            {
+                brandsID = JsonConvert.DeserializeObject<List<int>>(JsonBrands);
+            } //распарсиваем Json в листинг брендов
+            else { brandsID = Brands.ToList(); }
+
+            //ФИЛЬМТРАЦИЯ ДАННЫХ
+            //Получаем лист товаров по заданному фильтру
+            ProductFilter productFilter = new ProductFilter { SectionId = SecID, CategoryId = CatID, BrandIdCollection = brandsID, MinPrice = MinP, MaxPrice = MaxP };
+
+            if (productFilter.CategoryId is null)
+            {
+                productFilter.CategoryId = productData.GetCategories(productFilter).FirstOrDefault().id;
+            }//если запрос идет только по секции, то принудительно выбираем все товары для первой попавшейся категории для данной секции           
+
+            //Выборка товаров по фильтру
+            var products = productData.GetProducts(productFilter);
+
+            ////Для работы без пользовательского TagHelper, переключатель сортировок          
+            //ViewData["NameSort"] = sortValue == SortEntityForProducts.NameAsc ? SortEntityForProducts.NameDes : SortEntityForProducts.NameAsc;           
+            //ViewData["BrandSort"] = sortValue == SortEntityForProducts.BrandAsc ? SortEntityForProducts.BrandDes : SortEntityForProducts.BrandAsc;
+            //ViewData["PriceSort"] = sortValue == SortEntityForProducts.PriceAsc ? SortEntityForProducts.PriceDes : SortEntityForProducts.PriceAsc;          
+
+            //СОРТИРОВКА ДАННЫХ
+            //сортировка списка товаров
+            //Сохраним текущую сортировку если это необходимо
+            if (!needChangeSort)
+                sortValue = SaveSort(sortValue);
+
             switch (sortValue)
             {
-                case SortEntityForProducts.NameAsc:
-                    productList = productList.OrderByDescending(s => s.Name);
+                case SortEntityForProducts.NameDes:
+                    products = products.OrderByDescending(s => s.Name);
                     break;
 
                 case SortEntityForProducts.BrandAsc:
-                    productList = productList.OrderBy(s => s.Brand);
-                    break;
-                case SortEntityForProducts.BrandDes:
-                    productList = productList.OrderByDescending(s => s.Brand);
+                    products = products.OrderBy(s => s.Brand);
                     break;
 
-                case SortEntityForProducts.SectionAsc:
-                    productList = productList.OrderBy(s => s.Section);
-                    break;
-                case SortEntityForProducts.SectionDes:
-                    productList = productList.OrderByDescending(s => s.Section);
+                case SortEntityForProducts.BrandDes:
+                    products = products.OrderByDescending(s => s.Brand);
                     break;
 
                 case SortEntityForProducts.PriceAsc:
-                    productList = productList.OrderBy(s => s.Price);
+                    products = products.OrderBy(s => s.Price);
                     break;
 
                 case SortEntityForProducts.PriceDes:
-                    productList = productList.OrderByDescending(s => s.Price);
+                    products = products.OrderByDescending(s => s.Price);
                     break;
 
                 default:
-                    productList = productList.OrderBy(s => s.Name);
+                    products = products.OrderBy(s => s.Name);
                     break;
             }
 
-            await productList.AsNoTracking().ToListAsync();
+            //ПАГИНАЦИЯ ДАННЫХ
+            //Пагинация
+            int pageSize = 6;//размер страницы
+            var count = await products.CountAsync();//количество единиц товаров
+            var PageProducts = await products.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();//количество страниц
 
-            //список товаров
-            var products_view_model = productList.Select(ProductViewModelMapper.CreateViewModel);
-            //модель представиления списка с возможностью сортировки
-            var productsEnumerableView = new ProductsEnumerableViewModel { Products = products_view_model, SortViewModel = new SortViewModelForProduct(sortValue) };
+            //Заполняем данныe для ViewModel с товарами
+            var catalog_model = new CatalogViewModel
+            {
+                SectionId = productFilter.SectionId,
+                CategoryId = productFilter.CategoryId,
+                Products = PageProducts.Select(ProductViewModelMapper.CreateViewModel).ToList(),
+                Brands = brandsID,
+                PageViewModel = new PageViewModel(count, page, pageSize),
+                SortViewModel = new SortViewModelForProduct(sortValue)
+            };
 
-            return View(productsEnumerableView);
+            return View(catalog_model);
         }
 
         /// <summary>
@@ -250,6 +287,23 @@ namespace OnlineStore.Areas.Admin.Controllers
 
         //    return RedirectToAction("Edit", "ProductList", productViewModel);           
         //}
+
+
+        private string SaveSort(string currentSortValue)
+        {
+            if (currentSortValue == SortEntityForProducts.NameAsc) { currentSortValue = SortEntityForProducts.NameDes; }
+            else if (currentSortValue == SortEntityForProducts.NameDes) { currentSortValue = SortEntityForProducts.NameAsc; }
+            else if (currentSortValue == SortEntityForProducts.BrandAsc) { currentSortValue = SortEntityForProducts.BrandDes; }
+            else if (currentSortValue == SortEntityForProducts.BrandDes) { currentSortValue = SortEntityForProducts.BrandAsc; }
+            else if (currentSortValue == SortEntityForProducts.CategoryAsc) { currentSortValue = SortEntityForProducts.CategoryDes; }
+            else if (currentSortValue == SortEntityForProducts.CategoryDes) { currentSortValue = SortEntityForProducts.CategoryAsc; }
+            else if (currentSortValue == SortEntityForProducts.SectionAsc) { currentSortValue = SortEntityForProducts.SectionDes; }
+            else if (currentSortValue == SortEntityForProducts.SectionDes) { currentSortValue = SortEntityForProducts.SectionAsc; }
+            else if (currentSortValue == SortEntityForProducts.PriceAsc) { currentSortValue = SortEntityForProducts.PriceDes; }
+            else if (currentSortValue == SortEntityForProducts.PriceDes) { currentSortValue = SortEntityForProducts.PriceAsc; }
+
+            return currentSortValue;
+        }//Метод для сохранения текущей сортировки
     }
 
 }
