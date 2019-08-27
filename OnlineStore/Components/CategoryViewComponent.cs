@@ -32,25 +32,23 @@ namespace OnlineStore.Components
         }
 
         public List<CategoryViewModel> GetCategories(CatalogViewModel catalogViewModel)
-        {
-            ProductFilter productFilter = new ProductFilter { SectionId = catalogViewModel.SectionId, CategoryId = catalogViewModel.CategoryId };
-
-            var categories = _ProductData.GetCategories(productFilter);           
+        {            
+            var categories = _ProductData.GetCategories(catalogViewModel.productFilter);           
 
             var cats = categories.Select(cat => cat.CreateViewModel()).ToList();
 
 
             for (int i = 0; i < cats.Count; i++)
             {
-                ProductFilter pf = new ProductFilter {SectionId=productFilter.SectionId, CategoryId= cats[i].Id };
+                ProductFilter pf = new ProductFilter {SectionId= catalogViewModel.productFilter.SectionId, CategoryId= cats[i].Id };
 
                 var countGoods = _ProductData.GetProducts(pf).Count();
 
                 cats[i].ProductsCount = countGoods;
 
-                if (cats[i].Id == productFilter.CategoryId) cats[i].Choosen = true;
+                if (cats[i].Id == catalogViewModel.productFilter.CategoryId) cats[i].Choosen = true;
                 else cats[i].Choosen = false;
-                cats[i].SectionID = (int)productFilter.SectionId;
+                cats[i].SectionID = (int)catalogViewModel.productFilter.SectionId;
             }
 
             return cats;

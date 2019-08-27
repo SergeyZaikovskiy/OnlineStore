@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using OnlineStore.Areas.Admin.ViewModels;
@@ -122,18 +123,23 @@ namespace OnlineStore.Areas.Admin.Controllers
             var count = await products.CountAsync();//количество единиц товаров
             var PageProducts = await products.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();//количество страниц
 
+            var sections = await productData.GetSections().ToListAsync();
+            sections.Insert(0, new Section { Name = "Все", id = 0 });
+            var categories = await productData.GetCategories(null).ToListAsync();
+            categories.Insert(0, new Category { Name = "Все", id = 0 });
+
             //Заполняем данныe для ViewModel с товарами
-            var catalog_model = new CatalogViewModel
+            var productListViewModel = new ProductListViewModel
             {
-                SectionId = productFilter.SectionId,
-                CategoryId = productFilter.CategoryId,
-                Products = PageProducts.Select(ProductViewModelMapper.CreateViewModel).ToList(),
-                Brands = brandsID,
+                productFilter = productFilter,               
+                Products = PageProducts.Select(ProductViewModelMapper.CreateViewModel).ToList(),              
                 PageViewModel = new PageViewModel(count, page, pageSize),
-                SortViewModel = new SortViewModelForProduct(sortValue)
+                SortViewModel = new SortViewModelForProduct(sortValue),
+                Sections = new SelectList(sections, "Id", "Name"),
+                Categories = new SelectList(categories, "Id", "Name")
             };
 
-            return View(catalog_model);
+            return View(productListViewModel);
         }
 
         /// <summary>

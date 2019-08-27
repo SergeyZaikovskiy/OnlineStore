@@ -41,7 +41,7 @@ namespace OnlineStore.Components
 
             for (int i = 0; i < sections.Count; i++)
             {
-                if (sections[i].Id == catalogViewModel.SectionId) sections[i].Choosen = true;
+                if (sections[i].Id == catalogViewModel.productFilter.SectionId) sections[i].Choosen = true;
                 else sections[i].Choosen = false;                
             }
             return sections;

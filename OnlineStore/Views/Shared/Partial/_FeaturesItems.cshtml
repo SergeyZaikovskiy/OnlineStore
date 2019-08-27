@@ -14,11 +14,11 @@
         </span>
         @{
             var routedata = new Dictionary<string, string>();
-            routedata.Add("SecID", Model.SectionId.ToString());
-            routedata.Add("CatID", Model.CategoryId.ToString());
-            if (Model.Brands != null && Model.Brands.Count > 0)
+            routedata.Add("SecID", Model.productFilter.SectionId.ToString());
+            routedata.Add("CatID", Model.productFilter.CategoryId.ToString());
+            if (Model.productFilter.BrandIdCollection != null && Model.productFilter.BrandIdCollection.Count > 0)
             {
-                var JsonCollection = Html.Raw(Json.Serialize(Model.Brands));
+                var JsonCollection = Html.Raw(Json.Serialize(Model.productFilter.BrandIdCollection));
                 routedata.Add("JsonBrands", JsonCollection.ToString());
             }
 

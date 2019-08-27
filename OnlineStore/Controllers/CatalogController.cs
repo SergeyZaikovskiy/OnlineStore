@@ -112,10 +112,8 @@ namespace OnlineStore.Controllers
             //Заполняем данныe для ViewModel с товарами
             var catalog_model = new CatalogViewModel
             {
-                SectionId = productFilter.SectionId,
-                CategoryId = productFilter.CategoryId,
-                Products = PageProducts.Select(ProductViewModelMapper.CreateViewModel).ToList(),
-                Brands = brandsID,
+                productFilter = productFilter,               
+                Products = PageProducts.Select(ProductViewModelMapper.CreateViewModel).ToList(),             
                 PageViewModel = new PageViewModel(count, page, pageSize),
                 SortViewModel = new SortViewModelForProduct(sortValue)
              };         

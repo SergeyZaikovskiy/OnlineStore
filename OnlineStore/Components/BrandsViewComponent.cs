@@ -34,7 +34,7 @@ namespace OnlineStore.Components
         {
             var brands =await Task.Run(()=> GetBrands(catalogViewModel));
 
-            var brandsEnumerable = new BrandsEnumerableViewModel {SectionID = catalogViewModel.SectionId, CategoryID = catalogViewModel.CategoryId, Brands=brands.ToList(), SortValue = catalogViewModel.SortViewModel.Current };
+            var brandsEnumerable = new BrandsEnumerableViewModel {SectionID = catalogViewModel.productFilter.SectionId, CategoryID = catalogViewModel.productFilter.CategoryId, Brands=brands.ToList(), SortValue = catalogViewModel.SortViewModel.Current };
 
             return View(brandsEnumerable);
         }
@@ -45,11 +45,9 @@ namespace OnlineStore.Components
             //    .Where(br => br.Choosen)
             //    .Select(x => (int?)x.Id);                
 
-            ProductFilter productFilter = new ProductFilter { SectionId = catalogViewModel.SectionId, CategoryId = catalogViewModel.CategoryId,
-                BrandIdCollection = catalogViewModel.Brands
-            };
+            
        
-            var brands =  _ProductData.GetBrands(productFilter);                       
+            var brands =  _ProductData.GetBrands(catalogViewModel.productFilter);                       
 
             var BrandsViewModels = brands.Select(brand => brand.CreateViewModel()).ToList();
 
@@ -57,9 +55,9 @@ namespace OnlineStore.Components
             for (int i = 0; i < BrandsViewModels.Count; i++)
             {
                 List<int> brand = new List<int> { (int)BrandsViewModels[i].Id };
-                ProductFilter pf = new ProductFilter { SectionId = productFilter.SectionId, CategoryId = productFilter.CategoryId, BrandIdCollection = brand };
+                ProductFilter pf = new ProductFilter { SectionId = catalogViewModel.productFilter.SectionId, CategoryId = catalogViewModel.productFilter.CategoryId, BrandIdCollection = brand };
                 var countGoods = _ProductData.GetProducts(pf).Count();
-                if (catalogViewModel.Brands.Contains(BrandsViewModels[i].Id))
+                if (catalogViewModel.productFilter.BrandIdCollection.Contains(BrandsViewModels[i].Id))
                 {
                     BrandsViewModels[i].Choosen = true;
                 }

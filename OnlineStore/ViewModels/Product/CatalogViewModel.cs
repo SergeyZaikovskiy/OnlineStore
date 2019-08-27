@@ -1,4 +1,5 @@
-﻿using OnlineStore.ViewModels.Common;
+﻿using OnlineStore.Domain.Entities.ProductsEntities;
+using OnlineStore.ViewModels.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,14 +12,9 @@ namespace OnlineStore.ViewModels
     /// </summary>
     public class CatalogViewModel
     {
-               
 
-        public int? SectionId { get; set; }
+        public ProductFilter productFilter { get; set; }
 
-        public int? CategoryId { get; set; }        
-
-        public List<int> Brands { get; set; }
-       
         public List<ProductViewModel> Products { get; set; }
 
         public SortViewModelForProduct SortViewModel { get; set; }
@@ -28,10 +24,14 @@ namespace OnlineStore.ViewModels
         public CatalogViewModel() { }
 
         public CatalogViewModel(int? SecID, int? CatID, List<int> Brands, List<ProductViewModel> Products) {
-            this.SectionId = SecID;
-            this.Products = Products;
-            this.CategoryId = CatID;
-            this.Brands = Brands;     
+
+            productFilter = new ProductFilter
+            {
+                SectionId = SecID,
+                CategoryId = CatID,
+                BrandIdCollection = Brands
+            };
+             this.Products = Products;                
         }
 
     }
