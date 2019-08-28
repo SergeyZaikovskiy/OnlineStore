@@ -62,7 +62,7 @@ namespace OnlineStore.Components
                     BrandsViewModels[i].Choosen = true;
                 }
                 BrandsViewModels[i].ProductsCount = countGoods;
-            }//только для заполнения количества товара для каждого бренда и отметки ввыранности                           
+            }//только для заполнения количества товара для каждого бренда и отметки выбранности                           
 
             return BrandsViewModels.AsQueryable();
         }

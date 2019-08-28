@@ -42,16 +42,16 @@ namespace OnlineStore.Controllers
         /// <param name="needChangeSort">Нужно ли менять сортировку или сохранить текущую</param>
         /// <returns></returns>       
         [Breadcrumb("Каталог", FromAction = "Index", FromController = typeof(HomeController))]
-        public async Task<IActionResult> Shop(int[] Brands, string JsonBrands, int? SecID, int? CatID,  decimal? MinP, decimal? MaxP, 
+        public async Task<IActionResult> Shop(List<int> Brands, string JsonBrands, int? SecID, int? CatID,  decimal? MinP, decimal? MaxP, 
             string sortValue = SortEntityForProducts.NameAsc, int page = 1, bool needChangeSort = true)
         {
             //Временный листинг ID выбранных брендов
             var brandsID = new List<int>();           
             
             //Определим откуда пришли данные, из тагхелпера сортировки или из Вьюкомпонента
-            if ((Brands == null || Brands.Length == 0) && !String.IsNullOrEmpty(JsonBrands)) {
+            if ((Brands == null || Brands.Count == 0) && !String.IsNullOrEmpty(JsonBrands)) {
                 brandsID = JsonConvert.DeserializeObject<List<int>>(JsonBrands);} //распарсиваем Json в листинг брендов
-            else {brandsID = Brands.ToList(); }
+            else {brandsID = Brands; }
 
             //ФИЛЬМТРАЦИЯ ДАННЫХ
             //Получаем лист товаров по заданному фильтру

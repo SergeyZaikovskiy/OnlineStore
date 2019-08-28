@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 namespace OnlineStore.Areas.Admin.ViewModels
 {
     public class ProductListViewModel
-    {  
-
-        public SelectList Sections { get; set; }
-
+    {
         public ProductFilter productFilter { get; set; }
+        public SelectList Sections { get; set; }        
 
-        public SelectList Categories { get; set; }     
+        public SelectList Categories { get; set; }
+
+        public List<BrandViewModel> Brands{ get; set; }
 
         public List<ProductViewModel> Products { get; set; }
 

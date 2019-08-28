@@ -45,18 +45,18 @@ namespace OnlineStore.Areas.Admin.Controllers
         /// </summary>
         /// <returns></returns>
         [Breadcrumb("Список товаров", FromAction = "Index", FromController = typeof(HomeController))]
-        public async Task<IActionResult> Index(string Name, int[] Brands, string JsonBrands, int? SecID, int? CatID, decimal? MinP, decimal? MaxP,
+        public async Task<IActionResult> Index(string Name, List<int> Brands, string JsonBrands, int? SecID, int? CatID, decimal? MinP, decimal? MaxP,
             string sortValue = SortEntityForProducts.NameAsc, int page = 1, bool needChangeSort = true)
         {
             //Временный листинг ID выбранных брендов
             var brandsID = new List<int>();
 
             //Определим откуда пришли данные, из тагхелпера сортировки или из формы фильтра
-            if ((Brands == null || Brands.Length == 0) && !String.IsNullOrEmpty(JsonBrands))
+            if ((Brands == null || Brands.Count == 0) && !String.IsNullOrEmpty(JsonBrands))
             {
                 brandsID = JsonConvert.DeserializeObject<List<int>>(JsonBrands);
             } //распарсиваем Json в листинг брендов
-            else { brandsID = Brands.ToList(); }
+            else { brandsID = Brands; }
 
             //ФИЛЬМТРАЦИЯ ДАННЫХ
             //Получаем лист товаров по заданному фильтру
@@ -123,10 +123,19 @@ namespace OnlineStore.Areas.Admin.Controllers
             var count = await products.CountAsync();//количество единиц товаров
             var PageProducts = await products.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();//количество страниц
 
-            var sections = await productData.GetSections().ToListAsync();
+
+            var sections = await productData.GetSections().ToListAsync();          
             sections.Insert(0, new Section { Name = "Все", id = 0 });
             var categories = await productData.GetCategories(null).ToListAsync();
             categories.Insert(0, new Category { Name = "Все", id = 0 });
+
+            var brands = await productData.GetBrands(null).ToListAsync();
+            var BrandsViewModels = brands.Select(brand => brand.CreateViewModel()).ToList();
+            for (int i = 0; i < BrandsViewModels.Count; i++)
+            {
+                if (productFilter.BrandIdCollection.Contains(BrandsViewModels[i].Id))
+                    BrandsViewModels[i].Choosen = true;
+            }
 
             //Заполняем данныe для ViewModel с товарами
             var productListViewModel = new ProductListViewModel
@@ -135,8 +144,9 @@ namespace OnlineStore.Areas.Admin.Controllers
                 Products = PageProducts.Select(ProductViewModelMapper.CreateViewModel).ToList(),              
                 PageViewModel = new PageViewModel(count, page, pageSize),
                 SortViewModel = new SortViewModelForProduct(sortValue),
-                Sections = new SelectList(sections, "Id", "Name"),
-                Categories = new SelectList(categories, "Id", "Name")
+                Sections = new SelectList(sections, "id", "Name"),
+                Categories = new SelectList(categories, "id", "Name"),
+                Brands = BrandsViewModels
             };
 
             return View(productListViewModel);

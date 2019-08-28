@@ -27,13 +27,18 @@ namespace OnlineStore.Infrastructure.Implementations
         /// </summary>
         /// <returns></returns>
         public IQueryable<Brand> GetBrands(ProductFilter productFilter)
-        {
-            var brandsOne = db.CategoryToBrand.Where(br => br.CategoryId == productFilter.CategoryId).Select(c => c.Brand);
-            var brandsTwo = db.SectionToBrands.Where(br => br.SectionId == productFilter.SectionId).Select(c => c.Brand);
+        {            
+            if (productFilter != null)
+            {
+                var brandsOne = db.CategoryToBrand.Where(br => br.CategoryId == productFilter.CategoryId).Select(c => c.Brand);
+                var brandsTwo = db.SectionToBrands.Where(br => br.SectionId == productFilter.SectionId).Select(c => c.Brand);
+                var  brandResult = brandsOne.Intersect(brandsTwo);
+                return brandResult;
+            }
+            else
+                return db.Brands;
 
-            var brandResult = brandsOne.Intersect(brandsTwo);
-
-            return brandResult;
+            
         }
 
 
@@ -134,10 +139,10 @@ namespace OnlineStore.Infrastructure.Implementations
             if (!String.IsNullOrEmpty(productFilter.Name))
                 products = products.Where(p => p.Name.Contains(productFilter.Name));
 
-            if (productFilter.SectionId != null)
+            if (productFilter.SectionId != null && productFilter.SectionId > 0)
                 products = products.Where(p => p.SectionId == productFilter.SectionId);
 
-            if (productFilter.CategoryId != null)
+            if (productFilter.CategoryId != null && productFilter.CategoryId > 0)
                 products = products.Where(p => p.CategoryId == productFilter.CategoryId);
 
             if (productFilter.BrandIdCollection != null && productFilter.BrandIdCollection.Count() > 0)
