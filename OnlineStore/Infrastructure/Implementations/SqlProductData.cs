@@ -16,7 +16,7 @@ namespace OnlineStore.Infrastructure.Implementations
     public class SqlProductData : IProductData
     {
         private readonly OnlineStoreContext db;
-
+        
         public SqlProductData(OnlineStoreContext db)
         {
             this.db = db;
@@ -189,26 +189,29 @@ namespace OnlineStore.Infrastructure.Implementations
         /// Изменить описание товара в базе
         /// </summary>
         /// <param name="product">Товар для изменения</param>
-        public void UpdateInfoProduct(Product product)
+        public void UpdateInfoOrAddProduct(Product product)
         {
-            if (product is null) return;
+            if (product is null) return;          
+
             if (product.id > 0)
             {
                 db.Products.Update(product);
-            }
-            db.SaveChanges();
-        }
+            }//Обновить данные о товаре
+            else { db.Products.Add(product); }//Добавить новый товар в базу
 
-        /// <summary>
-        /// Добавить товар в базу
-        /// </summary>
-        /// <param name="product">Товар для добавления</param>
-        public void AddProduct(Product product)
-        {
-            if (product is null) return;
-            db.Products.Add(product);
+            #region Обновить связи между категориями, секциями и брендами
+
+            var linkSecToCat = db.SectionToCategory.FirstOrDefault(seccat => seccat.CategoryId == product.CategoryId && seccat.SectionId == product.SectionId);
+            if (linkSecToCat == null) { db.SectionToCategory.Add(new SectionToCategory { SectionId = product.SectionId, CategoryId = product.CategoryId }); }
+            var linkCatToBr = db.CategoryToBrand.FirstOrDefault(catbr => catbr.CategoryId == product.CategoryId && catbr.BrandId == product.BrandId);
+            if (linkCatToBr == null) { db.CategoryToBrand.Add(new CategoryToBrand { BrandId = (int)product.BrandId, CategoryId = product.CategoryId }); }
+            var linkSecToBr = db.SectionToBrands.FirstOrDefault(secbr => secbr.SectionId == product.SectionId && secbr.BrandId == product.BrandId);
+            if (linkSecToBr == null) { db.SectionToBrands.Add(new SectionToBrands { SectionId = product.SectionId, BrandId = (int)product.BrandId }); }
+
+            #endregion
+
             db.SaveChanges();
-        }
+        }       
 
         /// <summary>
         /// Добавить файл на сервер

@@ -85,13 +85,7 @@ namespace OnlineStore.Infrastructure.Interfeices
         /// </summary>
         /// <param name="id">Id товара</param>
         /// <returns></returns>
-        Product GetProductById(int? id);
-
-        /// <summary>
-        /// Добавляем товар в базу
-        /// </summary>
-        /// <param name="emp">Товар для удаления</param>
-        void AddProduct(Product product);
+        Product GetProductById(int? id);       
 
         /// <summary>
         /// Удаляем товар из базы
@@ -103,7 +97,7 @@ namespace OnlineStore.Infrastructure.Interfeices
         /// Обновить информации о товаре
         /// </summary>
         /// <param name="id">id товара</param>
-        void UpdateInfoProduct(Product product);
+        void UpdateInfoOrAddProduct(Product product);
 
         /// <summary>
         /// Добавить файл на сервер

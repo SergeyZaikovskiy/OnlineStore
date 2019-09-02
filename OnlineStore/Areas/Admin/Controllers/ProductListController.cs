@@ -177,10 +177,11 @@ namespace OnlineStore.Areas.Admin.Controllers
         [Authorize(Roles = Domain.Entities.UserEntities.User.RoleAdmin)]
         public async Task<IActionResult> Edit(int? idProduct, int? idImage)
         {
-            ProductViewModel productViewModel = new ProductViewModel();
-            //было
-            //ProductViewModel productViewModel;
+           
+            //emp_view_model.Positions = new SelectList(positions, "id", "Name", emp_view_model.Position.id);
 
+            ProductViewModel productViewModel;
+           
             if (idProduct != null)
             {
                 if (idProduct > 0)
@@ -192,13 +193,13 @@ namespace OnlineStore.Areas.Admin.Controllers
                 }//товар уже есть в каталоге
                 else
                 {
-                    //productViewModel = new ProductViewModel();
-                    //productViewModel.id = 0;
+                    productViewModel = new ProductViewModel();
+                    productViewModel.Id = 0;
                 }//новый товар, с временным  ID=0, товар уже есть в представлении, но еще нет в базе
 
                 if (idImage != null)
                 {
-                    //productViewModel.Image = productData.GetFileById(Convert.ToInt32(idImage));
+                    productViewModel.Image = productData.GetFileById(Convert.ToInt32(idImage));
                 }//присвоить новое изображение
             }//уже существующий товар
             else
@@ -206,18 +207,19 @@ namespace OnlineStore.Areas.Admin.Controllers
                 productViewModel = new ProductViewModel();
             }//новый товар
 
+            var sections = await productData.GetSections().ToListAsync();
+            var selectedSection = productViewModel.Section != null ? productViewModel.Section.id : 1;
 
-             //Пока передаем пустой как заглушку
-            ProductFilter productFilter = new ProductFilter();
+            var categories = await productData.GetCategories(null).ToListAsync();
+            var selectedCategory = productViewModel.Category != null ? productViewModel.Category.id : 1;
+
+            var brands = await productData.GetBrands(null).ToListAsync();
+            var selectedBrand = productViewModel.Brand != null ? productViewModel.Brand.id : 1;
 
 
-            productViewModel.Sections = await productData.GetSections().AsNoTracking().ToListAsync();//добавляем список секций
-
-
-            productViewModel.Brands = await productData.GetBrands(productFilter).AsNoTracking().ToListAsync();//добавляем список брендов           
-
-
-            productViewModel.Categories = await productData.GetCategories(productFilter).AsNoTracking().ToListAsync();//добавляем категории
+            productViewModel.Sections = new SelectList(sections, "id", "Name", selectedSection);
+            productViewModel.Categories = new SelectList(categories, "id", "Name", selectedCategory);
+            productViewModel.Brands = new SelectList(brands, "id", "Name", selectedBrand);
 
             return View(productViewModel);
         }
@@ -232,15 +234,9 @@ namespace OnlineStore.Areas.Admin.Controllers
         public IActionResult Edit(ProductViewModel productView)
         {
             if (!ModelState.IsValid) return View(productView);
-
-            var product = productView.CreateProduct();
-
-            //Если ID у товара уже есть, то делаем изменения в базе, если ID нет, то добавляем в базу новый товар
-            //if (productView.id > 0) { productData.UpdateInfoProduct(product); }
-            //else { productData.AddProduct(product); }
-
+            var product = productView.CreateProduct();                        
+            productData.UpdateInfoOrAddProduct(product);           
             return RedirectToAction("Index");
-
         }
 
         /// <summary>

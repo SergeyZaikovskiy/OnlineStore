@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using OnlineStore.Domain.Entities.ProductsEntities;
 using System;
 using System.Collections.Generic;
@@ -43,13 +44,13 @@ namespace OnlineStore.ViewModels
         public decimal Price { get; set; }
 
         [Display(Name = "Секции")]
-        public IEnumerable<Section> Sections { get; set; }
+        public SelectList Sections { get; set; }
 
         [Display(Name = "Бренды")]
-        public IEnumerable<Brand> Brands { get; set; }
+        public SelectList Brands { get; set; }
 
         [Display(Name = "Категории")]
-        public IEnumerable<Category> Categories{ get; set; }
+        public SelectList Categories{ get; set; }
 
     }
 }

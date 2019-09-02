@@ -16,6 +16,7 @@ using OnlineStore.Domain.SortsEntities;
 using OnlineStore.ViewModels.Common;
 using SmartBreadcrumbs.Attributes;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace OnlineStore.Areas.Admin.Controllers
 {
@@ -170,10 +171,11 @@ namespace OnlineStore.Areas.Admin.Controllers
             {
                 //если Сотрудник пустой (новый)
                 emp_view_model = new EmployeeItemViewModel();
-                emp_view_model.Position = new Position { id = 1 };
+                emp_view_model.Position = new Position { id=1};
             }
 
-            emp_view_model.Positions = await Employees.GetAllPositions().AsNoTracking().ToListAsync();
+            var positions = await Employees.GetAllPositions().AsNoTracking().ToListAsync();
+            emp_view_model.Positions = new SelectList(positions, "id", "Name", emp_view_model.Position.id);
 
             return View(emp_view_model);
         }

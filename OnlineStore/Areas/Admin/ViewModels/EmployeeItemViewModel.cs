@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using OnlineStore.Domain.Entities.EmployeesEntities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+
 
 namespace OnlineStore.Areas.Admin.ViewModels
 {   
@@ -39,8 +41,7 @@ namespace OnlineStore.Areas.Admin.ViewModels
         public Position Position { get; set; }
 
         [Display(Name = "Должность")]
-        public IEnumerable<Position> Positions { get; set; }
-
+        public SelectList Positions { get; set; }
 
     }
 }
