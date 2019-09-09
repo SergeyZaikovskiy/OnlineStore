@@ -51,8 +51,8 @@ namespace OnlineStore.Infrastructure.Implementations
             if (!String.IsNullOrEmpty(employeeFilter.Patronimic))
                 employee = employee.Where(emp => emp.Patronimic.Contains(employeeFilter.Patronimic));
 
-            if (employeeFilter.Positions != null && employeeFilter.Positions.Count>0)
-                employee = employee.Where(emp => employeeFilter.Positions.Contains(emp.PositionId));         
+            if (employeeFilter.ChosenPositions != null && employeeFilter.ChosenPositions.Count>0)
+                employee = employee.Where(emp => employeeFilter.ChosenPositions.Contains(emp.PositionId));         
 
             return employee;
         }

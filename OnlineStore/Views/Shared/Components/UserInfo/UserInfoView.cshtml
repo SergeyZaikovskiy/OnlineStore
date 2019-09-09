@@ -3,7 +3,7 @@
         <li><a asp-controller="Profile" asp-action="Index"><i class="fa fa-crosshairs"></i>@User.Identity.Name</a></li>
         @if (User.IsInRole("Administrator"))
         {
-            <li><a asp-area="Admin" asp-controller="Home" asp-action="Index"><i class="fa fa-key"></i> Область администратора</a></li>
+            <li><a asp-area="Admin" asp-controller="HomeAdmin" asp-action="Index"><i class="fa fa-key"></i> Область администратора</a></li>
         }        
         <li><a asp-controller="Profile" asp-action="Orders"><i class="fa fa-crosshairs"></i> Заказы</a></li>
         <li><a asp-controller="Cart" asp-action="Details"><i class="fa fa-shopping-cart"></i>Корзина</a></li>

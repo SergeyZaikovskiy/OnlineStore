@@ -14,21 +14,21 @@
     routedata.Add("name", Model.employeeFilter.Name);
     routedata.Add("surname", Model.employeeFilter.SurName);
     routedata.Add("patronimic", Model.employeeFilter.Patronimic);
-    routedata.Add("jsonPositions", Html.Raw(Json.Serialize(Model.employeeFilter.Positions)).ToString());
+    routedata.Add("jsonPositions", Html.Raw(Json.Serialize(Model.employeeFilter.ChosenPositions)).ToString());
 }@*Для сохранения фильтров при пагинации и сортировки*@
 
 <h2>@ViewData["Title"]</h2>
 
 <br />
 <div>
-    <a asp-controller="Home" asp-action="Index" class="btn btn-default">Назад</a>
+    <a asp-controller="HomeAdmin" asp-action="Index" class="btn btn-default">Назад</a>
 </div>
 
 <br />
 <a asp-controller="Employee" asp-action="Edit" class="btn btn-default">Добавить сотрудника</a>
 <hr />
 
-@*ФОРМА СОРТИРОВКИ И ВЫБОРКИ СОТРУДНИКОВ ПО ПАРАМАТРАМ*@
+@*ФОРМА СОРТИРОВКИ И ВЫБОРКИ СОТРУДНИКОВ ПО ПАРАМЕТРАМ*@
 <form asp-controller="Employee" asp-action="Index" asp-area="Admin" asp-route-sortvalue="@Model.SortViewModel.Current" asp-route-needchangesort="false">
     <ul class="list-inline">
         <li>

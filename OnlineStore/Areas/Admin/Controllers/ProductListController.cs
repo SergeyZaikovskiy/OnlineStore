@@ -44,7 +44,7 @@ namespace OnlineStore.Areas.Admin.Controllers
         /// Страница с перечнем товаров
         /// </summary>
         /// <returns></returns>
-        [Breadcrumb("Список товаров", FromAction = "Index", FromController = typeof(HomeController))]
+        [Breadcrumb("Список товаров", AreaName = "Admin", FromAction = "Index", FromController = typeof(HomeAdminController))]
         public async Task<IActionResult> Index(string Name, List<int> Brands, string JsonBrands, int? SecID, int? CatID, decimal? MinP, decimal? MaxP,
             string sortValue = SortEntityForProducts.NameAsc, int page = 1, bool needChangeSort = true)
         {
@@ -157,6 +157,7 @@ namespace OnlineStore.Areas.Admin.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize(Roles = Domain.Entities.UserEntities.User.RoleAdmin)]
+        [Breadcrumb("Подробно", FromAction = "Index", FromController = typeof(HomeAdminController))]
         public async Task<IActionResult> Details(int id)
         {
             //ProductViewModel productViewModel = new ProductViewModel();
@@ -175,6 +176,7 @@ namespace OnlineStore.Areas.Admin.Controllers
         /// <param name="id">id товара</param>
         /// <returns></returns>
         [Authorize(Roles = Domain.Entities.UserEntities.User.RoleAdmin)]
+        [Breadcrumb("Редактировать", FromAction = "Index", FromController = typeof(HomeAdminController))]
         public async Task<IActionResult> Edit(int? idProduct, int? idImage)
         {
            
@@ -310,6 +312,11 @@ namespace OnlineStore.Areas.Admin.Controllers
         //}
 
 
+         /// <summary>
+         /// Метод сохранения сортировки
+         /// </summary>
+         /// <param name="currentSortValue"></param>
+         /// <returns></returns>
         private string SaveSort(string currentSortValue)
         {
             if (currentSortValue == SortEntityForProducts.NameAsc) { currentSortValue = SortEntityForProducts.NameDes; }

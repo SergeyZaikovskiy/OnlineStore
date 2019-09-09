@@ -50,8 +50,7 @@
             }
             else
             {
-            <div class="tab-pane fade" id="@Model[i].Section.Name">        
-
+            <div class="tab-pane fade" id="@Model[i].Section.Name">     
                 @foreach (var prod in Model[i].Products)
                 {
                     <div class="col-sm-3">
@@ -60,7 +59,7 @@
                                 <div class="productinfo text-center">
                                     <img src="@prod.Image.Path" alt="@prod.Name" />
                                     <h2>@prod.Price.ToString("C")</h2>
-                                    <p>>@prod.Name</p>
+                                    <p>@prod.Name</p>
                                     <p>@prod.Brand.Name</p>
                                     <a asp-controller="Cart" asp-action="AddtoCart" asp-route-id="@prod.Id"
                                        class="btn btn-default add-to-cart">

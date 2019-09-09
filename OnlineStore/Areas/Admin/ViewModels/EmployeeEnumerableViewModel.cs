@@ -10,9 +10,8 @@ namespace OnlineStore.Areas.Admin.ViewModels
 {
     
     /// <summary>
- /// Модель представления сотрудников с сортировкой
+ /// Модель представления сотрудников с сортировкой, пагинацией и фильтром
  /// </summary>
-
     public class EmployeeEnumerableViewModel
     {
         public IEnumerable<EmployeeItemViewModel> employees { get; set; }
@@ -20,7 +19,6 @@ namespace OnlineStore.Areas.Admin.ViewModels
         public List<PositionViewModel> PositionModels { get; set; }
         public SortViewModelForEmployees SortViewModel { get; set; }
         public PageViewModel PageViewModel { get; set; }
-
         public EmployeeFilter employeeFilter { get; set; }
 
     }

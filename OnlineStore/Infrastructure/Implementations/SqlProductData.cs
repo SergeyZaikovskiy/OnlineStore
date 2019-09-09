@@ -168,6 +168,7 @@ namespace OnlineStore.Infrastructure.Implementations
             return db.Products
                  .Include(pr => pr.Brand)
                  .Include(pr => pr.Section)
+                 .Include(pr=>pr.Category)
                  .Include(pr => pr.FileModel)
                  .FirstOrDefault(pr => pr.id == id);
         }

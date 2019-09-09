@@ -12,6 +12,6 @@ namespace OnlineStore.Domain.Entities.EmployeesEntities
         public string Name { get; set; }
         public string SurName { get; set; }
         public string Patronimic { get; set; }
-        public List<int>  Positions { get; set; }
+        public List<int>  ChosenPositions { get; set; }
     }
 }

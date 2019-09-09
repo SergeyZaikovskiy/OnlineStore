@@ -45,7 +45,7 @@ namespace OnlineStore.Areas.Admin.Controllers
         /// <param name="page">Номер страницы</param>
         /// <param name="needChangeSort">Нужно ли менять сортировку или просто сохранить текущую</param>
         /// <returns></returns>
-         [Breadcrumb("Список сотрудников", FromAction = "Index", FromController = typeof(HomeController))]
+        [Breadcrumb("Сотрудники", AreaName = "Admin", FromAction = "Index", FromController = typeof(HomeAdminController))]
         public async Task<IActionResult> Index(string name, string surname, string patronimic, List<int> positions, string jsonPositions,
              string sortValue = SortEntityForEmployee.SurnameAsc, int page = 1, bool needChangeSort = true)
         {
@@ -64,7 +64,7 @@ namespace OnlineStore.Areas.Admin.Controllers
             {
                 Name = name, SurName = surname,
                 Patronimic = patronimic,
-                Positions = posList
+                ChosenPositions = posList
             };
 
             var employees = Employees.GetAllEmp(filter);
@@ -157,6 +157,7 @@ namespace OnlineStore.Areas.Admin.Controllers
         /// <param name="id">Id сотрудника</param>
         /// <returns></returns>
         [Authorize(Roles = Domain.Entities.UserEntities.User.RoleAdmin)]
+        [Breadcrumb("Редактировать", FromAction = "Index", FromController = typeof(HomeAdminController))]
         public async Task<IActionResult> Edit(int? id)
         {
             EmployeeItemViewModel emp_view_model;
@@ -217,6 +218,7 @@ namespace OnlineStore.Areas.Admin.Controllers
         /// </summary>
         /// <param name="id">Id сотрудника</param>
         /// <returns></returns>
+        [Breadcrumb("Подробно", FromAction = "Index", FromController = typeof(HomeAdminController))]
         public async Task<IActionResult> Details(int id)
         {
             EmployeeItemViewModel emp_view_model = new EmployeeItemViewModel();
@@ -227,6 +229,11 @@ namespace OnlineStore.Areas.Admin.Controllers
             return View(emp_view_model);
         }
 
+        /// <summary>
+        /// Метод сохранения сортировки
+        /// </summary>
+        /// <param name="currentSortValue"></param>
+        /// <returns></returns>
         private string SaveSort(string currentSortValue)
         {
             if (currentSortValue == SortEntityForEmployee.NameAsc) { currentSortValue = SortEntityForEmployee.NameDes; }

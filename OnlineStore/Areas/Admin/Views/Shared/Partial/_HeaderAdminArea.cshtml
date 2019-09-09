@@ -1,17 +1,21 @@
 ﻿
     <div class="header-top">
         <div class="container">
-            <div class="row">
-                <div>
+            <ul class="list-inline" >
+                <li>
                     <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                        <img src="~/images/admin/logo.png" width="20" height="20" />
+                        <img src="~/images/admin/logo.png" width="40" height="40" />
                     </a>
-                </div>
-                <div>
-                    <p><a asp-area="Admin" asp-controller="Home" asp-action="Index">Область администратора</a></p>
-                </div>
-                <div>
-                    <breadcrumb class="breadcrumbs"></breadcrumb>
-                </div>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="Home" asp-area="">Главная</a>
+                </li>
+            </ul>           
+        </div>
+        <br />
+        <div class="container">
+            <div>
+                <breadcrumb class="breadcrumbs"></breadcrumb>
             </div>
+        </div>
     </div>
